@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://0ufd38qvjowd"]
+
+[ext_resource type="Texture2D" uid="uid://dg5muuqqcdq2i" path="res://tile/tile-sprite.png" id="1_su6p1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xm2m"]
+size = Vector2(32, 32)
+
+[node name="Tile" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_repeat = 2
+texture = ExtResource("1_su6p1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0xm2m")
