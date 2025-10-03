@@ -46,7 +46,18 @@ static func vectors_to_cardinal_direction_pair(
 	if vectorA - vectorB == Vector2.RIGHT:
 		return [CardinalDirection.Right, CardinalDirection.Left];
 	return [];
-		
+
+static func c_to_s(c: CardinalDirection):
+	match c:
+		Main.CardinalDirection.Up:
+			return "up";
+		Main.CardinalDirection.Down:
+			return "down";
+		Main.CardinalDirection.Left:
+			return "left";
+		Main.CardinalDirection.Right:
+			return "right";
+
 class GridNode:
 	var parent: GridNode;
 	var index_2d: Vector2;
@@ -73,8 +84,8 @@ static func generate_level(parent: Node, room_scene: PackedScene, size: Vector2,
 	);
 	for node in grid_graph:
 		var room: Room = room_scene.instantiate();
-		room.position.x = 9 * 32 * node.index_2d.x;
-		room.position.y = 9 * 32 * node.index_2d.y;
+		room.position.x = 8 * 32 * node.index_2d.x;
+		room.position.y = 8 * 32 * node.index_2d.y;
 		parent.add_child(room);
 		for exit in node.exits:
 			room.toggle_wall(exit);
@@ -91,43 +102,41 @@ static func generate_grid_via_digger_algorithm(
 	# setup all cardinal directions to check
 	var grid_node_neighbors: Array[GridNode] = current_node.make_array_of_grid_node_neighbors();
 	# remove closed node neigbors to determine remaining open nodes
-	for cardinal_direction in ALL_CARDINAL_DIRECTIONS:
-		# convert cardinal direction to vector
-		var cardinal_direction_vector = cardinal_direction_to_vector(cardinal_direction);
-		var open_node_size = grid_node_neighbors.size();
-		grid_node_neighbors = grid_node_neighbors.filter(func (open_node):
-			return !(open_node.index_2d == current_node.index_2d + cardinal_direction_vector or 
-				(open_node.index_2d.x < 0 or open_node.index_2d.x > size.x - 1) or
-				(open_node.index_2d.y < 0 or open_node.index_2d.y > size.y - 1))
-		).filter(func (open_node):
-			for node in nodes:
-				if node.index_2d == open_node.index_2d:
-					return false;
-			return true;
-		);
-		# add random variation
-		grid_node_neighbors.shuffle();
-		# iterate open nodes, add to nodes graph, call function recursively
-		for grid_node_neighbor in grid_node_neighbors:
-			# check that node is still open
-			var is_node_open = true;
-			for node in nodes:
-				if node.index_2d == grid_node_neighbor.index_2d:
-					is_node_open = false;
-			if !is_node_open:
-				continue;
-			# Covnert vector back to cardinal
-			var cardinal_direction_between_nodes = vectors_to_cardinal_direction_pair(
-				grid_node_neighbor.index_2d,
-				current_node.index_2d
-			)[0];
-			var inverse_cardinal_direction_between_nodes = vectors_to_cardinal_direction_pair(
-				grid_node_neighbor.index_2d,
-				current_node.index_2d
-			)[1]
-			current_node.exits.append(cardinal_direction_between_nodes);
-			grid_node_neighbor.exits.append(inverse_cardinal_direction_between_nodes);
-			grid_node_neighbor.parent = current_node;
-			nodes.append(grid_node_neighbor);
-			generate_grid_via_digger_algorithm(size, nodes, grid_node_neighbor);
+	grid_node_neighbors = grid_node_neighbors.filter(func (open_node):
+		return !(
+			(open_node.index_2d.x < 0 or open_node.index_2d.x > size.x - 1) or
+			(open_node.index_2d.y < 0 or open_node.index_2d.y > size.y - 1)
+		)
+	).filter(func (open_node):
+		for node in nodes:
+			if node.index_2d == open_node.index_2d:
+				return false;
+		return true;
+	);
+	# add random variation
+	grid_node_neighbors.shuffle();
+	# iterate open nodes, add to nodes graph, call function recursively
+	for grid_node_neighbor in grid_node_neighbors:
+		# check that node is still open
+		var is_node_open = true;
+		for node in nodes:
+			if node.index_2d == grid_node_neighbor.index_2d:
+				is_node_open = false;
+		if !is_node_open:
+			continue;
+		# Covnert vector back to cardinal
+		var cardinal_direction_between_nodes = vectors_to_cardinal_direction_pair(
+			grid_node_neighbor.index_2d,
+			current_node.index_2d
+		)[0];
+		var inverse_cardinal_direction_between_nodes = vectors_to_cardinal_direction_pair(
+			grid_node_neighbor.index_2d,
+			current_node.index_2d
+		)[1];
+		print(current_node.index_2d, "->", grid_node_neighbor.index_2d, " (", c_to_s(cardinal_direction_between_nodes), ")");
+		current_node.exits.append(cardinal_direction_between_nodes);
+		grid_node_neighbor.exits.append(inverse_cardinal_direction_between_nodes);
+		grid_node_neighbor.parent = current_node;
+		nodes.append(grid_node_neighbor);
+		generate_grid_via_digger_algorithm(size, nodes, grid_node_neighbor);
 	return nodes;
