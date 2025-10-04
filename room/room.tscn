@@ -15,94 +15,76 @@ right_wall = NodePath("Right")
 [node name="Tile" parent="Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, -128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile2" parent="Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(-96, -128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile3" parent="Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(-64, -128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile4" parent="Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(-32, -128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile5" parent="Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(0, -128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile6" parent="Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(32, -128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile7" parent="Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(64, -128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile8" parent="Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(96, -128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile9" parent="Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, -128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Bottom" type="Node2D" parent="."]
 
 [node name="Tile" parent="Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, 128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile2" parent="Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(-96, 128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile3" parent="Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(-64, 128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile4" parent="Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(-32, 128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile5" parent="Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(0, 128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile6" parent="Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(32, 128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile7" parent="Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(64, 128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile8" parent="Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(96, 128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile9" parent="Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Left" type="Node2D" parent="."]
 position = Vector2(0, 32)
@@ -110,47 +92,38 @@ position = Vector2(0, 32)
 [node name="Tile" parent="Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, -160)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile2" parent="Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, -128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile3" parent="Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, -96)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile4" parent="Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, -64)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile5" parent="Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, -32)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile6" parent="Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, 0)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile7" parent="Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, 32)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile8" parent="Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, 64)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile9" parent="Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, 96)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Right" type="Node2D" parent="."]
 position = Vector2(0, 32)
@@ -158,44 +131,35 @@ position = Vector2(0, 32)
 [node name="Tile" parent="Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, -160)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile2" parent="Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, -128)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile3" parent="Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, -96)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile4" parent="Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, -64)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile5" parent="Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, -32)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile6" parent="Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 0)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile7" parent="Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 32)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile8" parent="Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 64)
 collision_layer = 2
-collision_mask = 0
 
 [node name="Tile9" parent="Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 96)
 collision_layer = 2
-collision_mask = 0

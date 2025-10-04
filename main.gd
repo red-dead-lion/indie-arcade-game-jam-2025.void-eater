@@ -84,8 +84,8 @@ static func generate_level(parent: Node, room_scene: PackedScene, size: Vector2,
 	);
 	for node in grid_graph:
 		var room: Room = room_scene.instantiate();
-		room.position.x = 8 * 32 * node.index_2d.x;
-		room.position.y = 8 * 32 * node.index_2d.y;
+		room.position.x = 9 * 32 * node.index_2d.x;
+		room.position.y = 9 * 32 * node.index_2d.y;
 		parent.add_child(room);
 		for exit in node.exits:
 			room.toggle_wall(exit);
@@ -133,7 +133,6 @@ static func generate_grid_via_digger_algorithm(
 			grid_node_neighbor.index_2d,
 			current_node.index_2d
 		)[1];
-		print(current_node.index_2d, "->", grid_node_neighbor.index_2d, " (", c_to_s(cardinal_direction_between_nodes), ")");
 		current_node.exits.append(cardinal_direction_between_nodes);
 		grid_node_neighbor.exits.append(inverse_cardinal_direction_between_nodes);
 		grid_node_neighbor.parent = current_node;

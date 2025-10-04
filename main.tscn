@@ -1,18 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://sqqqjuxqc0s0"]
+[gd_scene load_steps=5 format=3 uid="uid://sqqqjuxqc0s0"]
 
 [ext_resource type="Script" uid="uid://b3mieq3s0e6eo" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://c6qj00pv2p5fg" path="res://player/player.tscn" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://bjdpcaovwot51" path="res://Rooms.gd" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://romrxlvm0yyq" path="res://room/room.tscn" id="3_h2yge"]
 
 [node name="Main" type="Node2D" node_paths=PackedStringArray("level_root")]
 script = ExtResource("1_1bvp3")
-level_root = NodePath(".")
+level_root = NodePath("Rooms")
 room_scene = ExtResource("3_h2yge")
 size = Vector2(5, 5)
 
+[node name="Rooms" type="Node2D" parent="."]
+script = ExtResource("3_1bvp3")
+
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(576, 512)
+position = Vector2(576, 576)
 zoom = Vector2(0.45, 0.45)
 
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
 position = Vector2(256, 256)
+floor_stop_on_slope = false
