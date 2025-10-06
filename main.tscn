@@ -9,14 +9,14 @@
 script = ExtResource("1_1bvp3")
 level_root = NodePath("Rooms")
 room_scene = ExtResource("3_h2yge")
-size = Vector2(5, 5)
+size = Vector2(5, 3)
 
 [node name="Rooms" type="Node2D" parent="."]
 script = ExtResource("3_1bvp3")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(576, 576)
-zoom = Vector2(0.45, 0.45)
+position = Vector2(576, 288)
+zoom = Vector2(0.705, 0.705)
 
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
 position = Vector2(256, 256)

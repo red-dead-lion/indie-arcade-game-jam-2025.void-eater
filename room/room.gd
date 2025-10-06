@@ -8,11 +8,15 @@ extends Node2D
 
 var suck_up_timer = 1.0;
 var c_suck_up_timer = 0.0;
+var alarm_timer = 5.0;
+var c_alarm_timer = 0.0;
 
-var is_being_sucked_up = false;
+var is_alarming_tiles = false;
 
 func _physics_process(delta: float) -> void:
-	if is_being_sucked_up:
+	if is_alarming_tiles:
+		c_alarm_timer += delta;
+	if c_alarm_timer > alarm_timer:
 		c_suck_up_timer += delta;
 		rotation += delta * 5;
 		if c_suck_up_timer > suck_up_timer:
@@ -31,4 +35,8 @@ func toggle_wall(direction: Main.CardinalDirection)->void:
 			remove_child(right_wall);
 	
 func destroy_room()->void:
-	is_being_sucked_up = true;
+	is_alarming_tiles = true;
+	for wall in get_children():
+		for tile in wall.get_children():
+			if tile is Tile:
+				tile.begin_alert();

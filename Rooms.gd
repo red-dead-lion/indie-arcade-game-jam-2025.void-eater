@@ -1,7 +1,7 @@
 class_name Rooms;
 extends Node2D;
 
-var destroy_room_timer = 2.0;
+var destroy_room_timer = 6.0;
 var c_destroy_room_timer = 0.0;
 
 func _process(delta: float) -> void:
@@ -10,4 +10,3 @@ func _process(delta: float) -> void:
 		var room: Room = get_children()[randi() % get_child_count()];
 		room.destroy_room();
 		c_destroy_room_timer = 0;
-		print('pop');
