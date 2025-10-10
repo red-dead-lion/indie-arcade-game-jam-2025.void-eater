@@ -1,165 +1,166 @@
-[gd_scene load_steps=3 format=3 uid="uid://romrxlvm0yyq"]
+[gd_scene load_steps=4 format=3 uid="uid://romrxlvm0yyq"]
 
 [ext_resource type="Script" uid="uid://dn21is1tlphd5" path="res://room/room.gd" id="1_j33j0"]
 [ext_resource type="PackedScene" uid="uid://0ufd38qvjowd" path="res://tile/tile.tscn" id="1_ppkfq"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_j33j0"]
+properties/0/path = NodePath(".:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:scale")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:position")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:removed_walls")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:c_suck_up_timer")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:c_alarm_timer")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+
 [node name="Room" type="Node2D" node_paths=PackedStringArray("top_wall", "bottom_wall", "left_wall", "right_wall")]
 script = ExtResource("1_j33j0")
-top_wall = NodePath("Top")
-bottom_wall = NodePath("Bottom")
-left_wall = NodePath("Left")
-right_wall = NodePath("Right")
+top_wall = NodePath("Wall_Top")
+bottom_wall = NodePath("Wall_Bottom")
+left_wall = NodePath("Wall_Left")
+right_wall = NodePath("Wall_Right")
 
-[node name="Top" type="Node2D" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_j33j0")
 
-[node name="Tile" parent="Top" instance=ExtResource("1_ppkfq")]
+[node name="Wall_Top_Spawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://0ufd38qvjowd")
+spawn_path = NodePath("../Wall_Top")
+
+[node name="Wall_Top" type="Node2D" parent="."]
+
+[node name="Tile" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, -128)
-collision_layer = 2
 
-[node name="Tile2" parent="Top" instance=ExtResource("1_ppkfq")]
+[node name="Tile2" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(-96, -128)
-collision_layer = 2
 
-[node name="Tile3" parent="Top" instance=ExtResource("1_ppkfq")]
+[node name="Tile3" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(-64, -128)
-collision_layer = 2
 
-[node name="Tile4" parent="Top" instance=ExtResource("1_ppkfq")]
+[node name="Tile4" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(-32, -128)
-collision_layer = 2
 
-[node name="Tile5" parent="Top" instance=ExtResource("1_ppkfq")]
+[node name="Tile5" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(0, -128)
-collision_layer = 2
 
-[node name="Tile6" parent="Top" instance=ExtResource("1_ppkfq")]
+[node name="Tile6" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(32, -128)
-collision_layer = 2
 
-[node name="Tile7" parent="Top" instance=ExtResource("1_ppkfq")]
+[node name="Tile7" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(64, -128)
-collision_layer = 2
 
-[node name="Tile8" parent="Top" instance=ExtResource("1_ppkfq")]
+[node name="Tile8" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(96, -128)
-collision_layer = 2
 
-[node name="Tile9" parent="Top" instance=ExtResource("1_ppkfq")]
+[node name="Tile9" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, -128)
-collision_layer = 2
 
-[node name="Bottom" type="Node2D" parent="."]
+[node name="Wall_Bottom_Spawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://0ufd38qvjowd")
+spawn_path = NodePath("../Wall_Bottom")
 
-[node name="Tile" parent="Bottom" instance=ExtResource("1_ppkfq")]
+[node name="Wall_Bottom" type="Node2D" parent="."]
+
+[node name="Tile" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, 128)
-collision_layer = 2
 
-[node name="Tile2" parent="Bottom" instance=ExtResource("1_ppkfq")]
+[node name="Tile2" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(-96, 128)
-collision_layer = 2
 
-[node name="Tile3" parent="Bottom" instance=ExtResource("1_ppkfq")]
+[node name="Tile3" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(-64, 128)
-collision_layer = 2
 
-[node name="Tile4" parent="Bottom" instance=ExtResource("1_ppkfq")]
+[node name="Tile4" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(-32, 128)
-collision_layer = 2
 
-[node name="Tile5" parent="Bottom" instance=ExtResource("1_ppkfq")]
+[node name="Tile5" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(0, 128)
-collision_layer = 2
 
-[node name="Tile6" parent="Bottom" instance=ExtResource("1_ppkfq")]
+[node name="Tile6" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(32, 128)
-collision_layer = 2
 
-[node name="Tile7" parent="Bottom" instance=ExtResource("1_ppkfq")]
+[node name="Tile7" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(64, 128)
-collision_layer = 2
 
-[node name="Tile8" parent="Bottom" instance=ExtResource("1_ppkfq")]
+[node name="Tile8" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(96, 128)
-collision_layer = 2
 
-[node name="Tile9" parent="Bottom" instance=ExtResource("1_ppkfq")]
+[node name="Tile9" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 128)
-collision_layer = 2
 
-[node name="Left" type="Node2D" parent="."]
-position = Vector2(0, 32)
+[node name="Wall_Left_Spawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://0ufd38qvjowd")
+spawn_path = NodePath("../Wall_Left")
 
-[node name="Tile" parent="Left" instance=ExtResource("1_ppkfq")]
-position = Vector2(-128, -160)
-collision_layer = 2
+[node name="Wall_Left" type="Node2D" parent="."]
 
-[node name="Tile2" parent="Left" instance=ExtResource("1_ppkfq")]
+[node name="Tile" parent="Wall_Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, -128)
-collision_layer = 2
 
-[node name="Tile3" parent="Left" instance=ExtResource("1_ppkfq")]
+[node name="Tile2" parent="Wall_Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, -96)
-collision_layer = 2
 
-[node name="Tile4" parent="Left" instance=ExtResource("1_ppkfq")]
+[node name="Tile3" parent="Wall_Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, -64)
-collision_layer = 2
 
-[node name="Tile5" parent="Left" instance=ExtResource("1_ppkfq")]
+[node name="Tile4" parent="Wall_Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, -32)
-collision_layer = 2
 
-[node name="Tile6" parent="Left" instance=ExtResource("1_ppkfq")]
+[node name="Tile5" parent="Wall_Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, 0)
-collision_layer = 2
 
-[node name="Tile7" parent="Left" instance=ExtResource("1_ppkfq")]
+[node name="Tile6" parent="Wall_Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, 32)
-collision_layer = 2
 
-[node name="Tile8" parent="Left" instance=ExtResource("1_ppkfq")]
+[node name="Tile7" parent="Wall_Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, 64)
-collision_layer = 2
 
-[node name="Tile9" parent="Left" instance=ExtResource("1_ppkfq")]
+[node name="Tile8" parent="Wall_Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, 96)
-collision_layer = 2
 
-[node name="Right" type="Node2D" parent="."]
-position = Vector2(0, 32)
+[node name="Tile9" parent="Wall_Left" instance=ExtResource("1_ppkfq")]
+position = Vector2(-128, 128)
 
-[node name="Tile" parent="Right" instance=ExtResource("1_ppkfq")]
-position = Vector2(128, -160)
-collision_layer = 2
+[node name="Wall_Right_Spawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://0ufd38qvjowd")
+spawn_path = NodePath("../Wall_Right")
 
-[node name="Tile2" parent="Right" instance=ExtResource("1_ppkfq")]
+[node name="Wall_Right" type="Node2D" parent="."]
+
+[node name="Tile" parent="Wall_Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, -128)
-collision_layer = 2
 
-[node name="Tile3" parent="Right" instance=ExtResource("1_ppkfq")]
+[node name="Tile2" parent="Wall_Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, -96)
-collision_layer = 2
 
-[node name="Tile4" parent="Right" instance=ExtResource("1_ppkfq")]
+[node name="Tile3" parent="Wall_Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, -64)
-collision_layer = 2
 
-[node name="Tile5" parent="Right" instance=ExtResource("1_ppkfq")]
+[node name="Tile4" parent="Wall_Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, -32)
-collision_layer = 2
 
-[node name="Tile6" parent="Right" instance=ExtResource("1_ppkfq")]
+[node name="Tile5" parent="Wall_Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 0)
-collision_layer = 2
 
-[node name="Tile7" parent="Right" instance=ExtResource("1_ppkfq")]
+[node name="Tile6" parent="Wall_Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 32)
-collision_layer = 2
 
-[node name="Tile8" parent="Right" instance=ExtResource("1_ppkfq")]
+[node name="Tile7" parent="Wall_Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 64)
-collision_layer = 2
 
-[node name="Tile9" parent="Right" instance=ExtResource("1_ppkfq")]
+[node name="Tile8" parent="Wall_Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 96)
-collision_layer = 2
+
+[node name="Tile9" parent="Wall_Right" instance=ExtResource("1_ppkfq")]
+position = Vector2(128, 128)

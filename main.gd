@@ -6,6 +6,8 @@ extends Node2D
 @export var size: Vector2;
 @export var start_position: Vector2;
 
+static var instance: Main;
+
 enum CardinalDirection {
 	Up = 0,
 	Down = 1,
@@ -35,8 +37,6 @@ static func vectors_to_cardinal_direction_pair(
 	vectorA: Vector2,
 	vectorB: Vector2
 )->Array[CardinalDirection]:
-	var cardinal_direction_between_nodes: CardinalDirection;
-	var inverse_cardinal_direction_between_nodes: CardinalDirection;
 	if vectorA - vectorB == Vector2.UP:
 		return [CardinalDirection.Up,CardinalDirection.Down];
 	if vectorA - vectorB == Vector2.DOWN:
@@ -74,21 +74,27 @@ class GridNode:
 			GridNode.new(index_2d + Vector2(0, 1), self),
 		];
 
+var has_generated_level = false;
+
 func _ready()->void:
+	instance = self;
+
+func create_level_from_properties()->void:
 	generate_level(level_root, room_scene, size, start_position);
 
 static func generate_level(parent: Node, room_scene: PackedScene, size: Vector2, start_pos: Vector2)->void:
+	print('generate');
 	var grid_graph = generate_grid_via_digger_algorithm(
 		size,
 		[GridNode.new(start_pos)],
 	);
 	for node in grid_graph:
 		var room: Room = room_scene.instantiate();
-		room.position.x = 9 * 32 * node.index_2d.x;
+		room.position.x = 9 * 32 * node.index_2d.x + 128;
 		room.position.y = 9 * 32 * node.index_2d.y;
-		parent.add_child(room);
+		parent.add_child(room, true);
 		for exit in node.exits:
-			room.toggle_wall(exit);
+			room.remove_wall(exit);
 		
 static func generate_grid_via_digger_algorithm(
 	size: Vector2 = Vector2(3,3),
@@ -97,8 +103,6 @@ static func generate_grid_via_digger_algorithm(
 )->Array[GridNode]:
 	if current_node == null:
 		current_node = nodes[0];
-	# get open_node_neighbors
-	var current_node_open_neighbors = [];
 	# setup all cardinal directions to check
 	var grid_node_neighbors: Array[GridNode] = current_node.make_array_of_grid_node_neighbors();
 	# remove closed node neigbors to determine remaining open nodes

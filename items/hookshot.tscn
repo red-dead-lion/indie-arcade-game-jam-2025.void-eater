@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy6d0unis2aje"]
+
+[ext_resource type="Script" uid="uid://c202fw2ih2i1f" path="res://items/hookshot.gd" id="1_hfgxd"]
+[ext_resource type="Texture2D" uid="uid://br1sxhgr42nob" path="res://items/hookshot.png" id="1_jtyu6"]
+
+[sub_resource type="Curve" id="Curve_hfgxd"]
+_data = [Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hfgxd"]
+size = Vector2(11.3137, 11.3137)
+
+[node name="Hookshot" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_hfgxd")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 20)
+width = 3.0
+width_curve = SubResource("Curve_hfgxd")
+default_color = Color(0.180005, 0.180005, 0.180005, 1)
+antialiased = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -0.785398
+texture = ExtResource("1_jtyu6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-8.9407e-08, 1)
+rotation = 0.785398
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_hfgxd")
+
+[node name="MaxShootTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="MaxShootTimer" to="." method="_on_max_shoot_timer_timeout"]

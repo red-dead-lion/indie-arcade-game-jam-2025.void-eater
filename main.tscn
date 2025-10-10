@@ -1,23 +1,68 @@
-[gd_scene load_steps=5 format=3 uid="uid://sqqqjuxqc0s0"]
+[gd_scene load_steps=10 format=3 uid="uid://sqqqjuxqc0s0"]
 
 [ext_resource type="Script" uid="uid://b3mieq3s0e6eo" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://c6qj00pv2p5fg" path="res://player/player.tscn" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://bjdpcaovwot51" path="res://Rooms.gd" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://romrxlvm0yyq" path="res://room/room.tscn" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://ddpsgwqxi64h8" path="res://controllers/network_controller.gd" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://cg8g45agcaabs" path="res://controllers/players_controller.gd" id="4_7mycd"]
+[ext_resource type="Script" uid="uid://cdmmnhvqrv0oq" path="res://spawn_box_timer.gd" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://b76bpd6blsjr2" path="res://items/item_box.tscn" id="8_5vw27"]
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("level_root")]
+[sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
+font_size = 75
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("level_root")]
 script = ExtResource("1_1bvp3")
-level_root = NodePath("Rooms")
+level_root = NodePath("RoomSpawner")
 room_scene = ExtResource("3_h2yge")
-size = Vector2(5, 3)
+size = Vector2(6, 6)
 
-[node name="Rooms" type="Node2D" parent="."]
+[node name="UI" type="VBoxContainer" parent="."]
+z_index = 5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -43.0
+offset_top = -11.5
+offset_right = 43.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeldItemLabel" type="Label" parent="UI"]
+layout_mode = 2
+text = "No Item"
+label_settings = SubResource("LabelSettings_5vw27")
+
+[node name="NetworkController" type="Node" parent="."]
+script = ExtResource("3_lquwl")
+
+[node name="PlayersSpawner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("rooms_root")]
+_spawnable_scenes = PackedStringArray("uid://c6qj00pv2p5fg")
+spawn_path = NodePath(".")
+script = ExtResource("4_7mycd")
+player_scene = ExtResource("1_ig7tw")
+rooms_root = NodePath("../RoomSpawner")
+
+[node name="RoomSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://romrxlvm0yyq")
+spawn_path = NodePath(".")
 script = ExtResource("3_1bvp3")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(576, 288)
-zoom = Vector2(0.705, 0.705)
+[node name="BoxesSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://b76bpd6blsjr2")
+spawn_path = NodePath(".")
 
-[node name="Player" parent="." instance=ExtResource("1_ig7tw")]
-position = Vector2(256, 256)
-floor_stop_on_slope = false
+[node name="SpawnBoxTimer" type="Timer" parent="." node_paths=PackedStringArray("boxes_root", "rooms_root")]
+wait_time = 5.0
+script = ExtResource("7_272bh")
+box_scene = ExtResource("8_5vw27")
+boxes_root = NodePath("../BoxesSpawner")
+rooms_root = NodePath("../RoomSpawner")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(850, 720)
+zoom = Vector2(0.52, 0.52)
+
+[connection signal="timeout" from="SpawnBoxTimer" to="SpawnBoxTimer" method="_on_timeout"]

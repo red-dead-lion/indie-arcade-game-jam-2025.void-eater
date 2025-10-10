@@ -1,14 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://0ufd38qvjowd"]
+[gd_scene load_steps=5 format=3 uid="uid://0ufd38qvjowd"]
 
 [ext_resource type="Script" uid="uid://ld5s6db67nqi" path="res://tile/tile.gd" id="1_btt4l"]
-[ext_resource type="Texture2D" uid="uid://dg5muuqqcdq2i" path="res://tile/tile-sprite.png" id="1_su6p1"]
+[ext_resource type="Texture2D" uid="uid://dg5muuqqcdq2i" path="res://tile/tile_sprite.png" id="1_su6p1"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_btt4l"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Sprite2D:modulate")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xm2m"]
+custom_solver_bias = 1.0
 size = Vector2(32, 32)
 
 [node name="Tile" type="StaticBody2D"]
-collision_mask = 0
+collision_layer = 2
 script = ExtResource("1_btt4l")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_btt4l")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_repeat = 2
@@ -18,6 +30,5 @@ texture = ExtResource("1_su6p1")
 shape = SubResource("RectangleShape2D_0xm2m")
 
 [node name="AlertToBeDestroyedTimer" type="Timer" parent="."]
-wait_time = 0.5
 
 [connection signal="timeout" from="AlertToBeDestroyedTimer" to="." method="_on_alert_to_be_destroyed_timer_timeout"]

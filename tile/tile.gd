@@ -7,6 +7,8 @@ func begin_alert()->void:
 	$AlertToBeDestroyedTimer.start();
 
 func _on_alert_to_be_destroyed_timer_timeout() -> void:
+	if !get_tree().get_multiplayer().is_server():
+		return;
 	$AlertToBeDestroyedTimer.wait_time = $AlertToBeDestroyedTimer.wait_time * 0.9
 	is_on_alert = !is_on_alert;
 	if $AlertToBeDestroyedTimer.wait_time < 0.05 or is_on_alert:

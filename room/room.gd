@@ -1,19 +1,33 @@
 class_name Room;
 extends Node2D
 
-@export var top_wall: Node2D;
-@export var bottom_wall: Node2D;
-@export var left_wall: Node2D;
-@export var right_wall: Node2D;
+@export var top_wall: Node;
+@export var bottom_wall: Node;
+@export var left_wall: Node;
+@export var right_wall: Node;
 
 var suck_up_timer = 1.0;
-var c_suck_up_timer = 0.0;
+@export var c_suck_up_timer = 0.0;
 var alarm_timer = 5.0;
-var c_alarm_timer = 0.0;
+@export var c_alarm_timer = 0.0;
 
 var is_alarming_tiles = false;
 
+@export var removed_walls: Array = [];
+
+@export var server_id = 1;
+
+func _enter_tree() -> void:
+	set_multiplayer_authority(server_id, true);
+	
+func _ready() -> void:
+	if !get_tree().get_multiplayer().is_server():
+		for w in removed_walls:
+			remove_wall(w);
+
 func _physics_process(delta: float) -> void:
+	if !get_tree().get_multiplayer().is_server():
+		return;
 	if is_alarming_tiles:
 		c_alarm_timer += delta;
 	if c_alarm_timer > alarm_timer:
@@ -23,16 +37,22 @@ func _physics_process(delta: float) -> void:
 			queue_free();
 		scale = lerp(Vector2.ONE, Vector2.ZERO, c_suck_up_timer / suck_up_timer);
 
-func toggle_wall(direction: Main.CardinalDirection)->void:
+func remove_wall(direction: Main.CardinalDirection)->void:
+	if !removed_walls.has(direction):
+		removed_walls.append(direction);
 	match direction:
 		Main.CardinalDirection.Up:
-			remove_child(top_wall);
+			for c in top_wall.get_children():
+				top_wall.remove_child(c);
 		Main.CardinalDirection.Down:
-			remove_child(bottom_wall);
+			for c in bottom_wall.get_children():
+				bottom_wall.remove_child(c);
 		Main.CardinalDirection.Left:
-			remove_child(left_wall);
+			for c in left_wall.get_children():
+				left_wall.remove_child(c);
 		Main.CardinalDirection.Right:
-			remove_child(right_wall);
+			for c in right_wall.get_children():
+				right_wall.remove_child(c);
 	
 func destroy_room()->void:
 	is_alarming_tiles = true;
