@@ -28,7 +28,6 @@ func _physics_process(delta: float) -> void:
 		if $Sprite2D.scale.x == -1:
 			position = position + Vector2.RIGHT * 5;
 		elif $Sprite2D.scale.x == 1:
-			print('zzz');
 			position = position + Vector2.LEFT * 5;
 	if is_on_wall_only() and !$RayCast2D.is_colliding() and $Sprite2D.scale.x == -1:
 		if Input.is_action_pressed("ui_left"):
@@ -74,11 +73,20 @@ func _physics_process(delta: float) -> void:
 		if held_item != null:
 			match held_item.type:
 				ItemBox.Items.Hookshot:
-					var hookshot = Hookshot._create_instance(self, get_viewport().get_camera_2d().get_global_mouse_position())
-					get_tree().root.add_child(hookshot, true);
-					held_item.qty -= 1;
-					if held_item.qty <= 0:
-						remove_item();
+					remote_create_hookshot.rpc_id(
+						1,
+						get_path(),
+						get_viewport().get_camera_2d().get_global_mouse_position(),
+					);
+				ItemBox.Items.Dynamite:
+					remote_create_dynamite.rpc_id(
+						1,
+						get_path(),
+						get_viewport().get_camera_2d().get_global_mouse_position(),
+					);
+		held_item.qty -= 1;
+		if held_item.qty <= 0:
+			remove_item();
 	velocity += movement_impetus;
 	velocity.x = clamp(velocity.x, -movement_speed, movement_speed);
 	velocity.y = clamp(velocity.y, -jump_speed, jump_speed / 2.0);
@@ -94,6 +102,22 @@ func _physics_process(delta: float) -> void:
 			velocity = -before_collide_velocity;
 
 # Methods
+@rpc("call_local")
+func remote_create_dynamite(shooter_path: NodePath, target: Vector2)->void:
+	var hookshot = Dynamite._create_instance(
+		get_node(shooter_path),
+		target,
+	);
+	get_node("/root/Game/MiscSpawner").add_child(hookshot, true);
+
+@rpc("call_local")
+func remote_create_hookshot(shooter_path: NodePath, target: Vector2)->void:
+	var hookshot = Hookshot._create_instance(
+		get_node(shooter_path),
+		target,
+	);
+	get_node("/root/Game/MiscSpawner").add_child(hookshot, true);
+
 @rpc("any_peer", "call_local")
 func remote_update_velocity(collider_name: String, new_velocity: Vector2):
 	get_parent().get_node(collider_name).velocity = new_velocity;

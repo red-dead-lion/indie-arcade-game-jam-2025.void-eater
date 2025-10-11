@@ -2,7 +2,8 @@ class_name ItemBox;
 extends CharacterBody2D
 
 enum Items {
-	Hookshot
+	Hookshot,
+	Dynamite
 }
 
 class Item:
@@ -28,8 +29,13 @@ func _enter_tree() -> void:
 
 func _on_item_collect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:
-		var item: Item = Item.new(Items.Hookshot, "hookshot", "", 10);
-		body.pickup_item(item);
+		match randi() % 2:
+			0:
+				var item: Item = Item.new(Items.Hookshot, "hookshot", "", 10);
+				body.pickup_item(item);
+			1:
+				var item: Item = Item.new(Items.Dynamite, "dynamite", "", 1);
+				body.pickup_item(item);
 		_net_is_destroyed = true;
 		queue_free();
 

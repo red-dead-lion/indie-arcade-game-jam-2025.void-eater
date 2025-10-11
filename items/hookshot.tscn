@@ -1,7 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://cy6d0unis2aje"]
+[gd_scene load_steps=6 format=3 uid="uid://cy6d0unis2aje"]
 
 [ext_resource type="Script" uid="uid://c202fw2ih2i1f" path="res://items/hookshot.gd" id="1_hfgxd"]
 [ext_resource type="Texture2D" uid="uid://br1sxhgr42nob" path="res://items/hookshot.png" id="1_jtyu6"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hfgxd"]
+properties/0/path = NodePath("Line2D:points")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [sub_resource type="Curve" id="Curve_hfgxd"]
 _data = [Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -14,6 +25,9 @@ size = Vector2(11.3137, 11.3137)
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_hfgxd")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hfgxd")
 
 [node name="Line2D" type="Line2D" parent="."]
 points = PackedVector2Array(0, 0, 0, 20)
