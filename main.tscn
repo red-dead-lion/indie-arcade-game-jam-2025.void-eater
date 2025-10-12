@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://sqqqjuxqc0s0"]
+[gd_scene load_steps=10 format=3 uid="uid://sqqqjuxqc0s0"]
 
 [ext_resource type="Script" uid="uid://b3mieq3s0e6eo" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://c6qj00pv2p5fg" path="res://player/player.tscn" id="1_ig7tw"]
@@ -8,13 +8,9 @@
 [ext_resource type="Script" uid="uid://cg8g45agcaabs" path="res://controllers/players_controller.gd" id="4_7mycd"]
 [ext_resource type="Script" uid="uid://cdmmnhvqrv0oq" path="res://spawn_box_timer.gd" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://b76bpd6blsjr2" path="res://items/item_box.tscn" id="8_5vw27"]
-[ext_resource type="Texture2D" uid="uid://dc38rxvix157q" path="res://items/dynamite.png" id="9_kek77"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
 font_size = 75
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kek77"]
-size = Vector2(5, 13)
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("level_root")]
 script = ExtResource("1_1bvp3")
@@ -59,7 +55,7 @@ _spawnable_scenes = PackedStringArray("uid://b76bpd6blsjr2")
 spawn_path = NodePath(".")
 
 [node name="MiscSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cy6d0unis2aje")
+_spawnable_scenes = PackedStringArray("uid://cy6d0unis2aje", "uid://dr2tvgdgdt3o2")
 spawn_path = NodePath(".")
 
 [node name="SpawnBoxTimer" type="Timer" parent="." node_paths=PackedStringArray("boxes_root", "rooms_root")]
@@ -72,15 +68,5 @@ rooms_root = NodePath("../RoomSpawner")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(850, 720)
 zoom = Vector2(0.52, 0.52)
-
-[node name="Dynamite" type="CharacterBody2D" parent="."]
-position = Vector2(168, 162)
-
-[node name="Sprite2D" type="Sprite2D" parent="Dynamite"]
-texture = ExtResource("9_kek77")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Dynamite"]
-position = Vector2(0.5, 1.5)
-shape = SubResource("RectangleShape2D_kek77")
 
 [connection signal="timeout" from="SpawnBoxTimer" to="SpawnBoxTimer" method="_on_timeout"]

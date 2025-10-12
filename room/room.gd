@@ -15,10 +15,9 @@ var is_alarming_tiles = false;
 
 @export var removed_walls: Array = [];
 
-@export var server_id = 1;
 
 func _enter_tree() -> void:
-	set_multiplayer_authority(server_id, true);
+	set_multiplayer_authority(1, true);
 	
 func _ready() -> void:
 	if !get_tree().get_multiplayer().is_server():

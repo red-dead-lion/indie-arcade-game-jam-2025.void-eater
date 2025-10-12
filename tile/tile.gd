@@ -3,6 +3,11 @@ extends StaticBody2D
 
 var is_on_alert = false;
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(1, true);
+	request_ready();
+	reparent(get_parent());
+
 func begin_alert()->void:
 	$AlertToBeDestroyedTimer.start();
 
@@ -15,4 +20,7 @@ func _on_alert_to_be_destroyed_timer_timeout() -> void:
 		$Sprite2D.modulate = Color(1.0, 0.0, 0.0);
 	else:
 		$Sprite2D.modulate = Color(1.0, 1.0, 1.0);
-	
+
+@rpc("call_local")
+func remote_request_queue_free():
+	queue_free();

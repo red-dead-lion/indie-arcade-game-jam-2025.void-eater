@@ -1,0 +1,102 @@
+[gd_scene load_steps=10 format=3 uid="uid://dr2tvgdgdt3o2"]
+
+[ext_resource type="Script" uid="uid://d26whysj2dse7" path="res://items/dynamite.gd" id="1_bu101"]
+[ext_resource type="Texture2D" uid="uid://dc38rxvix157q" path="res://items/dynamite.png" id="2_jrwe8"]
+[ext_resource type="Texture2D" uid="uid://de2pqeiwlxlqs" path="res://items/smoke.png" id="3_jrwe8"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jrwe8"]
+properties/0/path = NodePath("Smoke:emitting")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Explosion:emitting")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:position")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kek77"]
+size = Vector2(1.25, 5.25)
+
+[sub_resource type="Curve" id="Curve_bu101"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.164, 0.0178268), 0.0707415, 0.0707415, 0, 0, Vector2(0.172, 1), 0.0, 0.0, 0, 0, Vector2(0.748, 0.49236), -2.75891, -2.75891, 0, 0, Vector2(0.984, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Gradient" id="Gradient_jrwe8"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.501961)
+
+[sub_resource type="Curve" id="Curve_dphpn"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.1, 1), 0.0, 0.0, 0, 0, Vector2(0.336, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3hrff"]
+
+[node name="Dynamite" type="CharacterBody2D"]
+scale = Vector2(2, 2)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_bu101")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_jrwe8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_jrwe8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.125, 0.125)
+shape = SubResource("RectangleShape2D_kek77")
+
+[node name="Smoke" type="CPUParticles2D" parent="."]
+z_index = -1
+emitting = false
+amount = 128
+texture = ExtResource("3_jrwe8")
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 128.0
+direction = Vector2(0, -1)
+spread = 180.0
+gravity = Vector2(0, -100)
+initial_velocity_min = 25.0
+initial_velocity_max = 50.0
+angular_velocity_max = 270.0
+damping_min = 1.0
+damping_max = 15.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_bu101")
+color_ramp = SubResource("Gradient_jrwe8")
+
+[node name="Explosion" type="CPUParticles2D" parent="."]
+z_index = -2
+emitting = false
+amount = 1
+texture = ExtResource("3_jrwe8")
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+direction = Vector2(0, -1)
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 75.0
+angular_velocity_min = 243.53
+angular_velocity_max = 375.4
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_dphpn")
+
+[node name="ExplosionCastShape" type="ShapeCast2D" parent="."]
+scale = Vector2(14, 14)
+shape = SubResource("CircleShape2D_3hrff")
+target_position = Vector2(0, 0)
+max_results = 16
+collision_mask = 3
+
+[node name="ExplodeAfter" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="finished" from="Smoke" to="." method="_on_smoke_finished"]
+[connection signal="timeout" from="ExplodeAfter" to="." method="_on_explode_after_timeout"]

@@ -84,9 +84,9 @@ func _physics_process(delta: float) -> void:
 						get_path(),
 						get_viewport().get_camera_2d().get_global_mouse_position(),
 					);
-		held_item.qty -= 1;
-		if held_item.qty <= 0:
-			remove_item();
+			held_item.qty -= 1;
+			if held_item.qty <= 0:
+				remove_item();
 	velocity += movement_impetus;
 	velocity.x = clamp(velocity.x, -movement_speed, movement_speed);
 	velocity.y = clamp(velocity.y, -jump_speed, jump_speed / 2.0);
@@ -106,7 +106,6 @@ func _physics_process(delta: float) -> void:
 func remote_create_dynamite(shooter_path: NodePath, target: Vector2)->void:
 	var hookshot = Dynamite._create_instance(
 		get_node(shooter_path),
-		target,
 	);
 	get_node("/root/Game/MiscSpawner").add_child(hookshot, true);
 
