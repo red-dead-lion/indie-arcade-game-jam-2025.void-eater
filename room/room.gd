@@ -15,14 +15,8 @@ var is_alarming_tiles = false;
 
 @export var removed_walls: Array = [];
 
-
 func _enter_tree() -> void:
 	set_multiplayer_authority(1, true);
-	
-func _ready() -> void:
-	if !get_tree().get_multiplayer().is_server():
-		for w in removed_walls:
-			remove_wall(w);
 
 func _physics_process(delta: float) -> void:
 	if !get_tree().get_multiplayer().is_server():
@@ -52,10 +46,14 @@ func remove_wall(direction: Main.CardinalDirection)->void:
 		Main.CardinalDirection.Right:
 			for c in right_wall.get_children():
 				right_wall.remove_child(c);
-	
+
 func destroy_room()->void:
 	is_alarming_tiles = true;
 	for wall in get_children():
 		for tile in wall.get_children():
 			if tile is Tile:
 				tile.begin_alert();
+
+func _on_multiplayer_synchronizer_synchronized() -> void:
+	for w in removed_walls:
+		remove_wall(w);

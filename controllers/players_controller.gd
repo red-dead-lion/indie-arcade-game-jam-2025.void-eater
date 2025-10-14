@@ -19,11 +19,3 @@ func spawn_player(id: int)->void:
 			randi() % rooms_root.get_child_count()
 		).global_position
 	);
-	
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_home"):
-		NetworkController.instance.start_server();
-		Main.instance.create_level_from_properties();
-		spawn_player(1);
-	if Input.is_action_just_pressed("ui_end"):
-		NetworkController.instance.start_client();

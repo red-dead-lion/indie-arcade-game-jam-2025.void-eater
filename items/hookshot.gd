@@ -11,15 +11,15 @@ static var factory_scene_path: String = "res://items/hookshot.tscn";
 func _enter_tree() -> void:
 	set_multiplayer_authority(1);
 
-static func _create_instance(shooter: Player, target_global_position: Vector2)->Hookshot:
+static func _create_instance(_shooter: Player, target_global_position: Vector2)->Hookshot:
 	var hookshot: Hookshot = load(factory_scene_path).instantiate();
-	hookshot.shooter = shooter;
-	hookshot.target_global_direction = (target_global_position - shooter.global_position).normalized();
-	hookshot.global_position = shooter.global_position + hookshot.target_global_direction * 15;
-	hookshot.original_shooter_position = shooter.global_position;
+	hookshot.shooter = _shooter;
+	hookshot.target_global_direction = (target_global_position - _shooter.global_position).normalized();
+	hookshot.global_position = _shooter.global_position + hookshot.target_global_direction * 15;
+	hookshot.original_shooter_position = _shooter.global_position;
 	return hookshot;
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if !is_multiplayer_authority():
 		return;
 	$Line2D.points[1] = shooter.global_position - position;

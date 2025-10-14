@@ -43,7 +43,6 @@ texture = ExtResource("1_jtyu6")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-8.9407e-08, 1)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_hfgxd")
 
 [node name="MaxShootTimer" type="Timer" parent="."]

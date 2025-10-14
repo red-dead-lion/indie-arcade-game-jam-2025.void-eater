@@ -6,7 +6,7 @@ var is_started = false;
 @export var rooms_root: Node;
 
 func _enter_tree() -> void:
-	get_tree().get_multiplayer().peer_connected.connect(func(id)->void:
+	get_tree().get_multiplayer().peer_connected.connect(func(_id)->void:
 		if !get_tree().get_multiplayer().is_server() and !is_started:
 			return;
 		start();

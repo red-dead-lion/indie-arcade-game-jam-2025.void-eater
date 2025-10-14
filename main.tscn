@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://sqqqjuxqc0s0"]
+[gd_scene load_steps=14 format=3 uid="uid://sqqqjuxqc0s0"]
 
 [ext_resource type="Script" uid="uid://b3mieq3s0e6eo" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://c6qj00pv2p5fg" path="res://player/player.tscn" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://bjdpcaovwot51" path="res://Rooms.gd" id="3_1bvp3"]
+[ext_resource type="Script" uid="uid://bjdpcaovwot51" path="res://rooms.gd" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://romrxlvm0yyq" path="res://room/room.tscn" id="3_h2yge"]
+[ext_resource type="Texture2D" uid="uid://br1sxhgr42nob" path="res://items/hookshot.png" id="3_kek77"]
 [ext_resource type="Script" uid="uid://ddpsgwqxi64h8" path="res://controllers/network_controller.gd" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://tpoeuwk3cwoi" path="res://ui/connection_ui_controller.gd" id="4_4c57u"]
 [ext_resource type="Script" uid="uid://cg8g45agcaabs" path="res://controllers/players_controller.gd" id="4_7mycd"]
 [ext_resource type="Script" uid="uid://cdmmnhvqrv0oq" path="res://spawn_box_timer.gd" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://b76bpd6blsjr2" path="res://items/item_box.tscn" id="8_5vw27"]
@@ -12,28 +14,155 @@
 [sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
 font_size = 75
 
+[sub_resource type="LabelSettings" id="LabelSettings_kek77"]
+font_size = 20
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kek77"]
+properties/0/path = NodePath("UI/ConnectUI/Waiting/Label:text")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="Game" type="Node2D" node_paths=PackedStringArray("level_root")]
 script = ExtResource("1_1bvp3")
 level_root = NodePath("RoomSpawner")
 room_scene = ExtResource("3_h2yge")
 size = Vector2(6, 6)
 
-[node name="UI" type="VBoxContainer" parent="."]
+[node name="UI" type="Control" parent="."]
 z_index = 5
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -43.0
-offset_top = -11.5
-offset_right = 43.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
+custom_minimum_size = Vector2(900, 900)
+layout_mode = 3
+anchors_preset = 0
+offset_top = -130.0
+offset_right = 1700.0
+offset_bottom = 1674.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
 
-[node name="HeldItemLabel" type="Label" parent="UI"]
+[node name="GameUI" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -225.0
+offset_right = 225.0
+offset_bottom = 103.0
+grow_horizontal = 2
+
+[node name="HeldItem" type="HBoxContainer" parent="UI/GameUI"]
+layout_mode = 2
+offset_right = 400.0
+offset_bottom = 103.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="HeldItemLabel" type="Label" parent="UI/GameUI/HeldItem"]
 layout_mode = 2
 text = "No Item"
 label_settings = SubResource("LabelSettings_5vw27")
+
+[node name="HeldItemQty" type="Label" parent="UI/GameUI/HeldItem"]
+layout_mode = 2
+text = "(99)"
+label_settings = SubResource("LabelSettings_kek77")
+
+[node name="HeldItemIcon" type="TextureRect" parent="UI/GameUI/HeldItem"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("3_kek77")
+stretch_mode = 4
+
+[node name="ConnectUI" type="CenterContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -302.0
+offset_right = -136.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+script = ExtResource("4_4c57u")
+
+[node name="Settings" type="VBoxContainer" parent="UI/ConnectUI"]
+layout_mode = 2
+
+[node name="Titlecard" type="Label" parent="UI/ConnectUI/Settings"]
+layout_mode = 2
+text = "Enter Game Details"
+
+[node name="ConnectionFeedback" type="Label" parent="UI/ConnectUI/Settings"]
+layout_mode = 2
+
+[node name="IpAddrContainer" type="HBoxContainer" parent="UI/ConnectUI/Settings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/ConnectUI/Settings/IpAddrContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "IP Address"
+
+[node name="TextEdit" type="TextEdit" parent="UI/ConnectUI/Settings/IpAddrContainer"]
+custom_minimum_size = Vector2(190, 35)
+layout_mode = 2
+text = "localhost"
+placeholder_text = "Enter IP Address"
+
+[node name="PortContainer" type="HBoxContainer" parent="UI/ConnectUI/Settings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/ConnectUI/Settings/PortContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Port"
+
+[node name="TextEdit" type="TextEdit" parent="UI/ConnectUI/Settings/PortContainer"]
+custom_minimum_size = Vector2(190, 35)
+layout_mode = 2
+text = "7777"
+placeholder_text = "Enter Port (1025 - 65535)"
+
+[node name="PlayerCountContainer" type="HBoxContainer" parent="UI/ConnectUI/Settings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/ConnectUI/Settings/PlayerCountContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Player Count"
+
+[node name="SpinBox" type="SpinBox" parent="UI/ConnectUI/Settings/PlayerCountContainer"]
+layout_mode = 2
+min_value = 2.0
+max_value = 4.0
+value = 2.0
+
+[node name="Host" type="Button" parent="UI/ConnectUI/Settings"]
+layout_mode = 2
+text = "Create Host Locally"
+
+[node name="Join" type="Button" parent="UI/ConnectUI/Settings"]
+layout_mode = 2
+text = "Attempt To Join"
+
+[node name="Waiting" type="VBoxContainer" parent="UI/ConnectUI"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/ConnectUI/Waiting"]
+layout_mode = 2
+text = "Waiting for players to connect... (0/4)"
+
+[node name="CancelButton" type="Button" parent="UI/ConnectUI/Waiting"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_kek77")
 
 [node name="NetworkController" type="Node" parent="."]
 script = ExtResource("3_lquwl")
@@ -69,4 +198,8 @@ rooms_root = NodePath("../RoomSpawner")
 position = Vector2(850, 720)
 zoom = Vector2(0.52, 0.52)
 
+[connection signal="value_changed" from="UI/ConnectUI/Settings/PlayerCountContainer/SpinBox" to="UI/ConnectUI" method="_on_player_count_spin_box_value_changed"]
+[connection signal="button_down" from="UI/ConnectUI/Settings/Host" to="UI/ConnectUI" method="_on_host_button_down"]
+[connection signal="button_down" from="UI/ConnectUI/Settings/Join" to="UI/ConnectUI" method="_on_join_button_down"]
+[connection signal="button_down" from="UI/ConnectUI/Waiting/CancelButton" to="UI/ConnectUI" method="_on_cancel_button_button_down"]
 [connection signal="timeout" from="SpawnBoxTimer" to="SpawnBoxTimer" method="_on_timeout"]

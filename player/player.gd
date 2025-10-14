@@ -3,7 +3,7 @@ extends CharacterBody2D;
 
 # Settings
 var movement_speed = 500;
-var jump_speed = 1500;
+var jump_speed = 2000;
 var wall_jump_impetus = 1000;
 
 # Timers
@@ -12,8 +12,8 @@ var walljump_stickiness_timer = 0.266;
 var c_walljump_stickiness_timer = 0;
 
 @rpc("any_peer", "call_local")
-func remote_update_position(global_position: Vector2)->void:
-	self.global_position = global_position;
+func remote_update_position(_global_position: Vector2)->void:
+	self.global_position = _global_position;
 
 func _enter_tree()->void:
 	set_multiplayer_authority(name.to_int(), true);
@@ -82,14 +82,16 @@ func _physics_process(delta: float) -> void:
 					remote_create_dynamite.rpc_id(
 						1,
 						get_path(),
-						get_viewport().get_camera_2d().get_global_mouse_position(),
 					);
 			held_item.qty -= 1;
+			$"/root/Game/UI/GameUI/HeldItem/HeldItemQty".text = var_to_str(held_item.qty);
 			if held_item.qty <= 0:
 				remove_item();
 	velocity += movement_impetus;
-	velocity.x = clamp(velocity.x, -movement_speed, movement_speed);
-	velocity.y = clamp(velocity.y, -jump_speed, jump_speed / 2.0);
+	if velocity.x > movement_speed or velocity.x < -movement_speed:
+		velocity.x *= 0.96;
+	if velocity.y > movement_speed or velocity.y < -movement_speed:
+		velocity.y *= 0.96;
 	var before_collide_velocity = velocity;
 	move_and_slide();
 	for n in get_slide_collision_count():
@@ -103,19 +105,23 @@ func _physics_process(delta: float) -> void:
 
 # Methods
 @rpc("call_local")
-func remote_create_dynamite(shooter_path: NodePath, target: Vector2)->void:
+func remote_create_dynamite(shooter_path: NodePath)->void:
 	var hookshot = Dynamite._create_instance(
 		get_node(shooter_path),
 	);
 	get_node("/root/Game/MiscSpawner").add_child(hookshot, true);
 
+var in_progress_hookshot: Hookshot;
+
 @rpc("call_local")
 func remote_create_hookshot(shooter_path: NodePath, target: Vector2)->void:
-	var hookshot = Hookshot._create_instance(
+	if in_progress_hookshot != null:
+		in_progress_hookshot.queue_free();
+	in_progress_hookshot = Hookshot._create_instance(
 		get_node(shooter_path),
 		target,
 	);
-	get_node("/root/Game/MiscSpawner").add_child(hookshot, true);
+	get_node("/root/Game/MiscSpawner").add_child(in_progress_hookshot, true);
 
 @rpc("any_peer", "call_local")
 func remote_update_velocity(collider_name: String, new_velocity: Vector2):
@@ -124,9 +130,13 @@ func remote_update_velocity(collider_name: String, new_velocity: Vector2):
 var held_item: ItemBox.Item:
 	set(new_held_item):
 		if new_held_item == null:
-			$"/root/Game/UI/HeldItemLabel".text = "No Item";
+			$"/root/Game/UI/GameUI/HeldItem/HeldItemLabel".text = "No Item";
+			$"/root/Game/UI/GameUI/HeldItem/HeldItemIcon".texture = null;
+			$"/root/Game/UI/GameUI/HeldItem/HeldItemQty".text = ""
 		else:
-			$"/root/Game/UI/HeldItemLabel".text = new_held_item.name;
+			$"/root/Game/UI/GameUI/HeldItem/HeldItemLabel".text = new_held_item.name;
+			$"/root/Game/UI/GameUI/HeldItem/HeldItemIcon".texture = load(new_held_item.icon_path);
+			$"/root/Game/UI/GameUI/HeldItem/HeldItemQty".text = var_to_str(new_held_item.qty);
 		held_item = new_held_item;
 
 func pickup_item(item: ItemBox.Item):

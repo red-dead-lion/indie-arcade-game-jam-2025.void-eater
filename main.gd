@@ -62,9 +62,9 @@ class GridNode:
 	var parent: GridNode;
 	var index_2d: Vector2;
 	var exits: Array[CardinalDirection];
-	func _init(index_2d: Vector2, parent: GridNode = null):
-		self.index_2d = index_2d;
-		self.parent = parent;
+	func _init(_index_2d: Vector2, _parent: GridNode = null):
+		self.index_2d = _index_2d;
+		self.parent = _parent;
 		
 	func make_array_of_grid_node_neighbors()->Array[GridNode]:
 		return [
@@ -76,20 +76,22 @@ class GridNode:
 
 var has_generated_level = false;
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(1);
+
 func _ready()->void:
 	instance = self;
 
 func create_level_from_properties()->void:
 	generate_level(level_root, room_scene, size, start_position);
 
-static func generate_level(parent: Node, room_scene: PackedScene, size: Vector2, start_pos: Vector2)->void:
-	print('generate');
+static func generate_level(parent: Node, _room_scene: PackedScene, _size: Vector2, start_pos: Vector2)->void:
 	var grid_graph = generate_grid_via_digger_algorithm(
-		size,
+		_size,
 		[GridNode.new(start_pos)],
 	);
 	for node in grid_graph:
-		var room: Room = room_scene.instantiate();
+		var room: Room = _room_scene.instantiate();
 		room.position.x = 9 * 32 * node.index_2d.x + 128;
 		room.position.y = 9 * 32 * node.index_2d.y;
 		parent.add_child(room, true);
@@ -97,7 +99,7 @@ static func generate_level(parent: Node, room_scene: PackedScene, size: Vector2,
 			room.remove_wall(exit);
 		
 static func generate_grid_via_digger_algorithm(
-	size: Vector2 = Vector2(3,3),
+	_size: Vector2 = Vector2(3,3),
 	nodes: Array[GridNode] = [GridNode.new(Vector2(0,0))],
 	current_node: GridNode = null
 )->Array[GridNode]:
@@ -108,8 +110,8 @@ static func generate_grid_via_digger_algorithm(
 	# remove closed node neigbors to determine remaining open nodes
 	grid_node_neighbors = grid_node_neighbors.filter(func (open_node):
 		return !(
-			(open_node.index_2d.x < 0 or open_node.index_2d.x > size.x - 1) or
-			(open_node.index_2d.y < 0 or open_node.index_2d.y > size.y - 1)
+			(open_node.index_2d.x < 0 or open_node.index_2d.x > _size.x - 1) or
+			(open_node.index_2d.y < 0 or open_node.index_2d.y > _size.y - 1)
 		)
 	).filter(func (open_node):
 		for node in nodes:
@@ -141,5 +143,5 @@ static func generate_grid_via_digger_algorithm(
 		grid_node_neighbor.exits.append(inverse_cardinal_direction_between_nodes);
 		grid_node_neighbor.parent = current_node;
 		nodes.append(grid_node_neighbor);
-		generate_grid_via_digger_algorithm(size, nodes, grid_node_neighbor);
+		generate_grid_via_digger_algorithm(_size, nodes, grid_node_neighbor);
 	return nodes;
