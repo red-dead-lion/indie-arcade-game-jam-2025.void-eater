@@ -1,7 +1,6 @@
 class_name NetworkController;
 extends Node;
 
-static var peer: ENetMultiplayerPeer;
 static var instance: NetworkController;
 var clients_required: int = 2;
 
@@ -12,7 +11,7 @@ func _ready()->void:
 	instance = self;
 
 func start_server()->bool:
-	peer = ENetMultiplayerPeer.new();
+	var peer = ENetMultiplayerPeer.new();
 	var error = peer.create_server(
 		int($"/root/Game/UI/ConnectUI/Settings/PortContainer/TextEdit".text)
 	);
@@ -37,7 +36,7 @@ func start_server()->bool:
 	return true;
 
 func start_client()->bool:
-	peer = ENetMultiplayerPeer.new();
+	var peer = ENetMultiplayerPeer.new();
 	var error = peer.create_client(
 		$"/root/Game/UI/ConnectUI/Settings/IpAddrContainer/TextEdit".text,
 		str_to_var(

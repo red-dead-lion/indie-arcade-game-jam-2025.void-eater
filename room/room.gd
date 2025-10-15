@@ -16,7 +16,7 @@ var is_alarming_tiles = false;
 @export var removed_walls: Array = [];
 
 func _enter_tree() -> void:
-	set_multiplayer_authority(1, true);
+	set_multiplayer_authority(1);
 
 func _physics_process(delta: float) -> void:
 	if !get_tree().get_multiplayer().is_server():
@@ -30,20 +30,20 @@ func _physics_process(delta: float) -> void:
 			queue_free();
 		scale = lerp(Vector2.ONE, Vector2.ZERO, c_suck_up_timer / suck_up_timer);
 
-func remove_wall(direction: Main.CardinalDirection)->void:
+func remove_wall(direction: CardinalUtilities.Direction)->void:
 	if !removed_walls.has(direction):
 		removed_walls.append(direction);
 	match direction:
-		Main.CardinalDirection.Up:
+		CardinalUtilities.Direction.Up:
 			for c in top_wall.get_children():
 				top_wall.remove_child(c);
-		Main.CardinalDirection.Down:
+		CardinalUtilities.Direction.Down:
 			for c in bottom_wall.get_children():
 				bottom_wall.remove_child(c);
-		Main.CardinalDirection.Left:
+		CardinalUtilities.Direction.Left:
 			for c in left_wall.get_children():
 				left_wall.remove_child(c);
-		Main.CardinalDirection.Right:
+		CardinalUtilities.Direction.Right:
 			for c in right_wall.get_children():
 				right_wall.remove_child(c);
 
