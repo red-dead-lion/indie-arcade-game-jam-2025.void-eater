@@ -1,15 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://sqqqjuxqc0s0"]
+[gd_scene load_steps=15 format=3 uid="uid://sqqqjuxqc0s0"]
 
 [ext_resource type="Script" uid="uid://b3mieq3s0e6eo" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://c6qj00pv2p5fg" path="res://player/player.tscn" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://bjdpcaovwot51" path="res://rooms.gd" id="3_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://romrxlvm0yyq" path="res://room/room.tscn" id="3_h2yge"]
-[ext_resource type="Texture2D" uid="uid://br1sxhgr42nob" path="res://items/hookshot.png" id="3_kek77"]
-[ext_resource type="Script" uid="uid://ddpsgwqxi64h8" path="res://controllers/network_controller.gd" id="3_lquwl"]
-[ext_resource type="Script" uid="uid://tpoeuwk3cwoi" path="res://ui/connection_ui_controller.gd" id="4_4c57u"]
-[ext_resource type="Script" uid="uid://cg8g45agcaabs" path="res://controllers/players_controller.gd" id="4_7mycd"]
-[ext_resource type="Script" uid="uid://cdmmnhvqrv0oq" path="res://spawn_box_timer.gd" id="7_272bh"]
-[ext_resource type="PackedScene" uid="uid://b76bpd6blsjr2" path="res://items/item_box.tscn" id="8_5vw27"]
+[ext_resource type="Script" uid="uid://bjdpcaovwot51" path="res://rooms/rooms.gd" id="3_1bvp3"]
+[ext_resource type="Script" uid="uid://cnxqreh7fm8kc" path="res://controllers/ui/game_ui_controller.gd" id="3_4c57u"]
+[ext_resource type="PackedScene" uid="uid://romrxlvm0yyq" path="res://rooms/room/room.tscn" id="3_h2yge"]
+[ext_resource type="Texture2D" uid="uid://br1sxhgr42nob" path="res://items/hookshot/hookshot.png" id="3_kek77"]
+[ext_resource type="Script" uid="uid://ddpsgwqxi64h8" path="res://controllers/network/network_controller.gd" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://tpoeuwk3cwoi" path="res://controllers/ui/lobby_ui_controller.gd" id="4_4c57u"]
+[ext_resource type="Script" uid="uid://cdmmnhvqrv0oq" path="res://items/box/item_box_spawn_timer.gd" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://b76bpd6blsjr2" path="res://items/box/item_box.tscn" id="8_5vw27"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
 font_size = 75
@@ -21,6 +21,30 @@ font_size = 20
 properties/0/path = NodePath("UI/ConnectUI/Waiting/Label:text")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+
+[sub_resource type="GDScript" id="GDScript_kek77"]
+script/source = "class_name NetworkPlayersController;
+extends MultiplayerSpawner
+
+@export var player_scene: PackedScene;
+@export var rooms_root: Node;
+static var instance: NetworkPlayersController;
+
+func _ready()->void:
+	instance = self;
+	
+func spawn_player(id: int)->void:
+	if !get_tree().get_multiplayer().is_server():
+		return;
+	var player = player_scene.instantiate();
+	player.name = str(id);
+	get_node(spawn_path).add_child(player, true);
+	player.remote_update_position.rpc(
+		rooms_root.get_child(
+			randi() % rooms_root.get_child_count()
+		).global_position
+	);
+"
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("level_root")]
 script = ExtResource("1_1bvp3")
@@ -39,7 +63,7 @@ offset_bottom = 1674.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="GameUI" type="Control" parent="UI"]
+[node name="GameUI" type="Control" parent="UI" node_paths=PackedStringArray("held_item_name_label", "held_item_qty_label", "held_item_icon")]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -48,6 +72,10 @@ offset_left = -225.0
 offset_right = 225.0
 offset_bottom = 103.0
 grow_horizontal = 2
+script = ExtResource("3_4c57u")
+held_item_name_label = NodePath("HeldItem/HeldItemLabel")
+held_item_qty_label = NodePath("HeldItem/HeldItemQty")
+held_item_icon = NodePath("HeldItem/HeldItemIcon")
 
 [node name="HeldItem" type="HBoxContainer" parent="UI/GameUI"]
 layout_mode = 2
@@ -73,7 +101,7 @@ size_flags_vertical = 4
 texture = ExtResource("3_kek77")
 stretch_mode = 4
 
-[node name="ConnectUI" type="CenterContainer" parent="UI"]
+[node name="ConnectUI" type="CenterContainer" parent="UI" node_paths=PackedStringArray("connection_feedback_label", "port_text_edit", "address_text_edit", "waiting_label", "settings_ui_container_node", "waiting_ui_container_node")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -88,6 +116,12 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(3, 3)
 script = ExtResource("4_4c57u")
+connection_feedback_label = NodePath("Settings/ConnectionFeedback")
+port_text_edit = NodePath("Settings/PortContainer/TextEdit")
+address_text_edit = NodePath("Settings/IpAddrContainer/TextEdit")
+waiting_label = NodePath("Waiting/Label")
+settings_ui_container_node = NodePath("Settings")
+waiting_ui_container_node = NodePath("Waiting")
 
 [node name="Settings" type="VBoxContainer" parent="UI/ConnectUI"]
 layout_mode = 2
@@ -164,13 +198,15 @@ text = "Cancel"
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_kek77")
 
-[node name="NetworkController" type="Node" parent="."]
+[node name="NetworkController" type="Node" parent="." node_paths=PackedStringArray("players_root_node", "rooms_root_node")]
 script = ExtResource("3_lquwl")
+players_root_node = NodePath("../PlayersSpawner")
+rooms_root_node = NodePath("../RoomSpawner")
 
 [node name="PlayersSpawner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("rooms_root")]
 _spawnable_scenes = PackedStringArray("uid://c6qj00pv2p5fg")
 spawn_path = NodePath(".")
-script = ExtResource("4_7mycd")
+script = SubResource("GDScript_kek77")
 player_scene = ExtResource("1_ig7tw")
 rooms_root = NodePath("../RoomSpawner")
 

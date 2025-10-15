@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cy6d0unis2aje"]
 
-[ext_resource type="Script" uid="uid://c202fw2ih2i1f" path="res://items/hookshot.gd" id="1_hfgxd"]
-[ext_resource type="Texture2D" uid="uid://br1sxhgr42nob" path="res://items/hookshot.png" id="1_jtyu6"]
+[ext_resource type="Script" uid="uid://c202fw2ih2i1f" path="res://items/hookshot/hookshot.gd" id="1_hfgxd"]
+[ext_resource type="Texture2D" uid="uid://br1sxhgr42nob" path="res://items/hookshot/hookshot.png" id="1_jtyu6"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hfgxd"]
 properties/0/path = NodePath("Line2D:points")
@@ -21,10 +21,13 @@ point_count = 1
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hfgxd"]
 size = Vector2(11.3137, 11.3137)
 
-[node name="Hookshot" type="CharacterBody2D"]
+[node name="Hookshot" type="CharacterBody2D" node_paths=PackedStringArray("rope_line_2d", "sprite", "shoot_timer")]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_hfgxd")
+rope_line_2d = NodePath("Line2D")
+sprite = NodePath("Sprite2D")
+shoot_timer = NodePath("MaxShootTimer")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_hfgxd")

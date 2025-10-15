@@ -1,19 +1,17 @@
+class_name ItemBoxSpawnTimer;
 extends Timer
 
-var is_started = false;
+# Settings
 @export var box_scene: PackedScene;
 @export var boxes_root: Node;
 @export var rooms_root: Node;
 
-func _enter_tree() -> void:
-	get_tree().get_multiplayer().peer_connected.connect(func(_id)->void:
-		if !get_tree().get_multiplayer().is_server() and !is_started:
-			return;
-		start();
-	);
+# Properties
+var is_started = false;
 
+# Triggers
 func _on_timeout() -> void:
-	if !get_tree().get_multiplayer().is_server():
+	if !multiplayer.is_server():
 		return;
 	var box = box_scene.instantiate();
 	boxes_root.add_child(box, true);
@@ -21,3 +19,11 @@ func _on_timeout() -> void:
 	if room is Room:
 		box.position = room.position;
 			
+
+# Lifecycle
+func _enter_tree() -> void:
+	multiplayer.peer_connected.connect(func(_id)->void:
+		if !multiplayer.is_server() and !is_started:
+			return;
+		start();
+	);

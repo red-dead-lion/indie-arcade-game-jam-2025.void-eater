@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://dr2tvgdgdt3o2"]
 
-[ext_resource type="Script" uid="uid://d26whysj2dse7" path="res://items/dynamite.gd" id="1_bu101"]
-[ext_resource type="Texture2D" uid="uid://dc38rxvix157q" path="res://items/dynamite.png" id="2_jrwe8"]
-[ext_resource type="Texture2D" uid="uid://de2pqeiwlxlqs" path="res://items/smoke.png" id="3_jrwe8"]
+[ext_resource type="Script" uid="uid://d26whysj2dse7" path="res://items/dynamite/dynamite.gd" id="1_bu101"]
+[ext_resource type="Texture2D" uid="uid://dc38rxvix157q" path="res://items/dynamite/dynamite.png" id="2_jrwe8"]
+[ext_resource type="Texture2D" uid="uid://de2pqeiwlxlqs" path="res://items/dynamite/smoke.png" id="3_jrwe8"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jrwe8"]
 properties/0/path = NodePath("Smoke:emitting")
@@ -34,16 +34,21 @@ point_count = 3
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3hrff"]
 
-[node name="Dynamite" type="CharacterBody2D"]
-scale = Vector2(2, 2)
+[node name="Dynamite" type="CharacterBody2D" node_paths=PackedStringArray("smoke_particles", "explosion_particles", "sprite", "explosion_shape_cast")]
+scale = Vector2(1.4, 1.4)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_bu101")
+smoke_particles = NodePath("Smoke")
+explosion_particles = NodePath("Explosion")
+sprite = NodePath("Sprite2D")
+explosion_shape_cast = NodePath("ExplosionCastShape")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_jrwe8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
 texture = ExtResource("2_jrwe8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -98,6 +103,7 @@ max_results = 16
 collision_mask = 3
 
 [node name="ExplodeAfter" type="Timer" parent="."]
+wait_time = 2.0
 one_shot = true
 autostart = true
 

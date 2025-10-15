@@ -1,20 +1,37 @@
 class_name Player;
 extends CharacterBody2D;
 
-# Settings
-var movement_speed = 500;
-var jump_speed = 2000;
-var wall_jump_impetus = 1000;
+# Static
+static var factory_scene_path = "res://player/player.tscn";
 
-# Timers
+static func _create_instance(id: int, players_root_ndoe: Node, rooms_root_node: Node)->void:
+	var player = load(factory_scene_path).instantiate();
+	player.name = str(id);
+	players_root_ndoe.add_child(player);
+	player.remote_update_position.rpc(
+		rooms_root_node.get_child(
+			randi() % rooms_root_node.get_child_count()
+		).global_position
+	);
+
+# Settings
+@export var movement_speed = 500;
+@export var jump_speed = 2000;
+@export var wall_jump_impetus = 1000;
+
+# Properties
+var in_progress_hookshot: Hookshot;
 var walljump_lr_fromdir: Vector2;
+var held_item: ItemUtils.Item:
+	set(new_held_item):
+		GameUIController.instance.held_item = new_held_item
+		held_item = new_held_item;
+		
+# Timers
 var walljump_stickiness_timer = 0.266;
 var c_walljump_stickiness_timer = 0;
 
-@rpc("any_peer", "call_local")
-func remote_update_position(_global_position: Vector2)->void:
-	self.global_position = _global_position;
-
+# Lifecycle
 func _enter_tree()->void:
 	set_multiplayer_authority(name.to_int(), true);
 
@@ -72,19 +89,19 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("use_item"):
 		if held_item != null:
 			match held_item.type:
-				ItemBox.Items.Hookshot:
+				ItemUtils.ItemType.Hookshot:
 					remote_create_hookshot.rpc_id(
 						1,
 						get_path(),
 						get_viewport().get_camera_2d().get_global_mouse_position(),
 					);
-				ItemBox.Items.Dynamite:
+				ItemUtils.ItemType.Dynamite:
 					remote_create_dynamite.rpc_id(
 						1,
 						get_path(),
 					);
 			held_item.qty -= 1;
-			$"/root/Game/UI/GameUI/HeldItem/HeldItemQty".text = var_to_str(held_item.qty);
+			GameUIController.instance.held_item_qty_label.text = str(held_item.qty);
 			if held_item.qty <= 0:
 				remove_item();
 	velocity += movement_impetus;
@@ -104,14 +121,24 @@ func _physics_process(delta: float) -> void:
 			velocity = -before_collide_velocity;
 
 # Methods
-@rpc("call_local")
-func remote_create_dynamite(shooter_path: NodePath)->void:
-	var hookshot = Dynamite._create_instance(
-		get_node(shooter_path),
-	);
-	get_node("/root/Game/MiscSpawner").add_child(hookshot, true);
+func pickup_item(item: ItemUtils.Item):
+	if !is_multiplayer_authority():
+		return;
+	held_item = item;
+	
+func remove_item():
+	if !is_multiplayer_authority():
+		return;
+	held_item = null;
+	
+# Network
+@rpc("any_peer", "call_local")
+func remote_update_position(_global_position: Vector2)->void:
+	self.global_position = _global_position;
 
-var in_progress_hookshot: Hookshot;
+@rpc("any_peer", "call_local")
+func remote_update_velocity(collider_name: String, new_velocity: Vector2):
+	get_parent().get_node(collider_name).velocity = new_velocity;
 
 @rpc("call_local")
 func remote_create_hookshot(shooter_path: NodePath, target: Vector2)->void:
@@ -122,29 +149,10 @@ func remote_create_hookshot(shooter_path: NodePath, target: Vector2)->void:
 		target,
 	);
 	get_node("/root/Game/MiscSpawner").add_child(in_progress_hookshot, true);
-
-@rpc("any_peer", "call_local")
-func remote_update_velocity(collider_name: String, new_velocity: Vector2):
-	get_parent().get_node(collider_name).velocity = new_velocity;
-
-var held_item: ItemBox.Item:
-	set(new_held_item):
-		if new_held_item == null:
-			$"/root/Game/UI/GameUI/HeldItem/HeldItemLabel".text = "No Item";
-			$"/root/Game/UI/GameUI/HeldItem/HeldItemIcon".texture = null;
-			$"/root/Game/UI/GameUI/HeldItem/HeldItemQty".text = ""
-		else:
-			$"/root/Game/UI/GameUI/HeldItem/HeldItemLabel".text = new_held_item.name;
-			$"/root/Game/UI/GameUI/HeldItem/HeldItemIcon".texture = load(new_held_item.icon_path);
-			$"/root/Game/UI/GameUI/HeldItem/HeldItemQty".text = var_to_str(new_held_item.qty);
-		held_item = new_held_item;
-
-func pickup_item(item: ItemBox.Item):
-	if !is_multiplayer_authority():
-		return;
-	held_item = item;
 	
-func remove_item():
-	if !is_multiplayer_authority():
-		return;
-	held_item = null;
+@rpc("call_local")
+func remote_create_dynamite(shooter_path: NodePath)->void:
+	var hookshot = Dynamite._create_instance(
+		get_node(shooter_path),
+	);
+	get_node("/root/Game/MiscSpawner").add_child(hookshot, true);

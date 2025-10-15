@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cm4hb75sqdr12"
-path="res://.godot/imported/uzi.png-8d7e2fd16a9f6ceaff72a5e402c5eff6.ctex"
+uid="uid://dc38rxvix157q"
+path="res://.godot/imported/dynamite.png-2454c30d311b0577ed9a328406ae96ad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/uzi.png"
-dest_files=["res://.godot/imported/uzi.png-8d7e2fd16a9f6ceaff72a5e402c5eff6.ctex"]
+source_file="res://items/dynamite/dynamite.png"
+dest_files=["res://.godot/imported/dynamite.png-2454c30d311b0577ed9a328406ae96ad.ctex"]
 
 [params]
 

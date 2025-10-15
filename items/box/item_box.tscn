@@ -1,15 +1,12 @@
 [gd_scene load_steps=6 format=3 uid="uid://b76bpd6blsjr2"]
 
-[ext_resource type="Texture2D" uid="uid://b7r8yhwxcvlei" path="res://items/item_box.png" id="1_8g6ug"]
-[ext_resource type="Script" uid="uid://dw1hh6s36v6a8" path="res://items/item_box.gd" id="1_u8ndx"]
+[ext_resource type="Texture2D" uid="uid://b7r8yhwxcvlei" path="res://items/box/item_box.png" id="1_8g6ug"]
+[ext_resource type="Script" uid="uid://dw1hh6s36v6a8" path="res://items/box/item_box.gd" id="1_u8ndx"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_u8ndx"]
-properties/0/path = NodePath(".:_net_is_destroyed")
+properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath(".:position")
-properties/1/spawn = true
-properties/1/replication_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vw27"]
 size = Vector2(32, 32)

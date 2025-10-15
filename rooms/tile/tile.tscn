@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://0ufd38qvjowd"]
 
-[ext_resource type="Script" uid="uid://ld5s6db67nqi" path="res://tile/tile.gd" id="1_btt4l"]
-[ext_resource type="Texture2D" uid="uid://dg5muuqqcdq2i" path="res://tile/tile_sprite.png" id="1_su6p1"]
+[ext_resource type="Script" uid="uid://ld5s6db67nqi" path="res://rooms/tile/tile.gd" id="1_btt4l"]
+[ext_resource type="Texture2D" uid="uid://dg5muuqqcdq2i" path="res://rooms/tile/tile_sprite.png" id="1_su6p1"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_btt4l"]
 properties/0/path = NodePath(".:position")

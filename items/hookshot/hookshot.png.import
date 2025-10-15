@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de2pqeiwlxlqs"
-path="res://.godot/imported/smoke.png-11d394b3868abd750a51a07b00cb9b77.ctex"
+uid="uid://br1sxhgr42nob"
+path="res://.godot/imported/hookshot.png-e9928fa3695393f9cd47c6dc0c5c2299.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/smoke.png"
-dest_files=["res://.godot/imported/smoke.png-11d394b3868abd750a51a07b00cb9b77.ctex"]
+source_file="res://items/hookshot/hookshot.png"
+dest_files=["res://.godot/imported/hookshot.png-e9928fa3695393f9cd47c6dc0c5c2299.ctex"]
 
 [params]
 

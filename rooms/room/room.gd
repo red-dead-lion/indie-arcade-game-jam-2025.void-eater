@@ -1,25 +1,30 @@
 class_name Room;
-extends Node2D
+extends Node2D;
 
+# Settings
 @export var top_wall: Node;
 @export var bottom_wall: Node;
 @export var left_wall: Node;
 @export var right_wall: Node;
+@export var removed_walls: Array = [];
 
+# Properties
+var is_alarming_tiles = false;
+
+# Timers
 var suck_up_timer = 1.0;
 @export var c_suck_up_timer = 0.0;
 var alarm_timer = 5.0;
 @export var c_alarm_timer = 0.0;
 
-var is_alarming_tiles = false;
+# Triggers
+func _on_multiplayer_synchronizer_synchronized() -> void:
+	for w in removed_walls:
+		remove_wall(w);
 
-@export var removed_walls: Array = [];
-
-func _enter_tree() -> void:
-	set_multiplayer_authority(1);
-
+# Lifecycle
 func _physics_process(delta: float) -> void:
-	if !get_tree().get_multiplayer().is_server():
+	if !multiplayer.is_server():
 		return;
 	if is_alarming_tiles:
 		c_alarm_timer += delta;
@@ -30,6 +35,7 @@ func _physics_process(delta: float) -> void:
 			queue_free();
 		scale = lerp(Vector2.ONE, Vector2.ZERO, c_suck_up_timer / suck_up_timer);
 
+# Methods
 func remove_wall(direction: CardinalUtilities.Direction)->void:
 	if !removed_walls.has(direction):
 		removed_walls.append(direction);
@@ -53,7 +59,3 @@ func destroy_room()->void:
 		for tile in wall.get_children():
 			if tile is Tile:
 				tile.begin_alert();
-
-func _on_multiplayer_synchronizer_synchronized() -> void:
-	for w in removed_walls:
-		remove_wall(w);

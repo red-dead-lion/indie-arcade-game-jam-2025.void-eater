@@ -13,7 +13,6 @@ config_version=5
 config/name="Void-Eater"
 run/main_scene="uid://sqqqjuxqc0s0"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
 
 [display]
 

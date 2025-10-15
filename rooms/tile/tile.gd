@@ -1,18 +1,12 @@
 class_name Tile;
 extends StaticBody2D
 
+# Properties
 var is_on_alert = false;
 
-func _enter_tree() -> void:
-	set_multiplayer_authority(1, true);
-	request_ready();
-	reparent(get_parent());
-
-func begin_alert()->void:
-	$AlertToBeDestroyedTimer.start();
-
+# Triggers
 func _on_alert_to_be_destroyed_timer_timeout() -> void:
-	if !get_tree().get_multiplayer().is_server():
+	if !multiplayer.is_server():
 		return;
 	$AlertToBeDestroyedTimer.wait_time = $AlertToBeDestroyedTimer.wait_time * 0.9
 	is_on_alert = !is_on_alert;
@@ -21,6 +15,17 @@ func _on_alert_to_be_destroyed_timer_timeout() -> void:
 	else:
 		$Sprite2D.modulate = Color(1.0, 1.0, 1.0);
 
+# Lifecycle
+func _enter_tree() -> void:
+	set_multiplayer_authority(1, true);
+	request_ready();
+	reparent(get_parent());
+
+# Methods
+func begin_alert()->void:
+	$AlertToBeDestroyedTimer.start();
+
+# Networking
 @rpc("call_local")
 func remote_request_queue_free():
 	queue_free();

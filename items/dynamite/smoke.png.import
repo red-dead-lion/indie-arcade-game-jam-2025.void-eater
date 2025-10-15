@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://br1sxhgr42nob"
-path="res://.godot/imported/hookshot.png-ecd1d474fc9b4acb59b5f44a16d27163.ctex"
+uid="uid://de2pqeiwlxlqs"
+path="res://.godot/imported/smoke.png-1a0b4f6238232179e3aaa34bc6c9fd9d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/hookshot.png"
-dest_files=["res://.godot/imported/hookshot.png-ecd1d474fc9b4acb59b5f44a16d27163.ctex"]
+source_file="res://items/dynamite/smoke.png"
+dest_files=["res://.godot/imported/smoke.png-1a0b4f6238232179e3aaa34bc6c9fd9d.ctex"]
 
 [params]
 
