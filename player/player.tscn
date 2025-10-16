@@ -16,6 +16,9 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("Sprite2D:scale")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+properties/4/path = NodePath(".:held_item_sprite_path")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rkbax"]
 custom_solver_bias = 1.0
@@ -33,9 +36,15 @@ replication_config = SubResource("SceneReplicationConfig_rkbax")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_oul6g")
 
+[node name="HeldItemSprite2D" type="Sprite2D" parent="."]
+position = Vector2(11, 7)
+scale = Vector2(2, 2)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_rkbax")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(0, 64)
 collision_mask = 2
+
+[connection signal="synchronized" from="MultiplayerSynchronizer" to="." method="_on_multiplayer_synchrnoizer_synchrnoized"]

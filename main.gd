@@ -1,8 +1,11 @@
 class_name Main;
 extends Node2D;
 
+# Settings
 @export var level_root: Node;
+@export var void_root: Node;
 @export var room_scene: PackedScene;
+@export var void_scene: PackedScene;
 @export var size: Vector2;
 @export var start_position: Vector2;
 
@@ -11,8 +14,10 @@ const SERVER_ID = 1;
 static var instance: Main;
 
 static func generate_level(
-	parent: Node,
+	rooms_parent: Node,
 	_room_scene: PackedScene,
+	void_parent: Node,
+	_void_scene: PackedScene,
 	_size: Vector2,
 	start_pos: Vector2
 )->void:
@@ -20,11 +25,15 @@ static func generate_level(
 		_size,
 		[DiggerLevelGenerationUtilities.Cell.new(start_pos)],
 	);
+	var the_void = _void_scene.instantiate();
+	void_parent.add_child(the_void, true);
 	for node in grid_graph:
 		var room: Room = _room_scene.instantiate();
-		room.position.x = 8 * 32 * node.index_2d.x + 128;
-		room.position.y = 8 * 32 * node.index_2d.y;
-		parent.add_child(room, true);
+		room.position.x = 9 * 32 * node.index_2d.x + 130;
+		room.position.y = 9 * 32 * node.index_2d.y;
+		room.alarm_started.connect(the_void._on_room_alarm_started);
+		room.sucked_up.connect(the_void._on_room_sucked_up);
+		rooms_parent.add_child(room, true);
 		for exit in node.exits:
 			room.remove_wall(exit);
 
@@ -34,7 +43,4 @@ func _ready()->void:
 
 # Methods
 func create_level_from_properties()->void:
-	generate_level(level_root, room_scene, size, start_position);
-
-
-		
+	generate_level(level_root, room_scene, void_root, void_scene, size, start_position);

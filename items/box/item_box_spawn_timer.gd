@@ -11,7 +11,7 @@ var is_started = false;
 
 # Triggers
 func _on_timeout() -> void:
-	if !multiplayer.is_server():
+	if !multiplayer.is_server() or rooms_root.get_child_count() == 0:
 		return;
 	var box = box_scene.instantiate();
 	boxes_root.add_child(box, true);

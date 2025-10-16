@@ -8,7 +8,7 @@ var is_on_alert = false;
 func _on_alert_to_be_destroyed_timer_timeout() -> void:
 	if !multiplayer.is_server():
 		return;
-	$AlertToBeDestroyedTimer.wait_time = $AlertToBeDestroyedTimer.wait_time * 0.9
+	$AlertToBeDestroyedTimer.wait_time = $AlertToBeDestroyedTimer.wait_time * 0.82
 	is_on_alert = !is_on_alert;
 	if $AlertToBeDestroyedTimer.wait_time < 0.05 or is_on_alert:
 		$Sprite2D.modulate = Color(1.0, 0.0, 0.0);
@@ -23,6 +23,7 @@ func _enter_tree() -> void:
 
 # Methods
 func begin_alert()->void:
+	$Sprite2D.modulate = Color(1.0, 0.0, 0.0);
 	$AlertToBeDestroyedTimer.start();
 
 # Networking

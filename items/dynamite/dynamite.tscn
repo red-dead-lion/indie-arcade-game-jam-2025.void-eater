@@ -33,6 +33,7 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.1, 1), 0.0, 0.0, 0, 0, Vector2
 point_count = 3
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3hrff"]
+radius = 20.0
 
 [node name="Dynamite" type="CharacterBody2D" node_paths=PackedStringArray("smoke_particles", "explosion_particles", "sprite", "explosion_shape_cast")]
 scale = Vector2(1.4, 1.4)

@@ -16,9 +16,9 @@ config/features=PackedStringArray("4.4", "GL Compatibility")
 
 [display]
 
-window/size/viewport_width=900
-window/size/viewport_height=900
-window/size/resizable=false
+window/size/viewport_width=896
+window/size/viewport_height=896
+window/stretch/mode="viewport"
 
 [input]
 
@@ -40,5 +40,7 @@ use_item={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=2
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.249411, 0.208126, 0.307047, 1)

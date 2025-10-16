@@ -14,15 +14,18 @@ var is_alarming_tiles = false;
 # Timers
 var suck_up_timer = 1.0;
 @export var c_suck_up_timer = 0.0;
-var alarm_timer = 5.0;
+var alarm_timer = 6.0;
 @export var c_alarm_timer = 0.0;
+
+# Signals
+signal alarm_started(room: Room);
+signal sucked_up(room: Room);
 
 # Triggers
 func _on_multiplayer_synchronizer_synchronized() -> void:
 	for w in removed_walls:
 		remove_wall(w);
 
-# Lifecycle
 func _physics_process(delta: float) -> void:
 	if !multiplayer.is_server():
 		return;
@@ -32,6 +35,7 @@ func _physics_process(delta: float) -> void:
 		c_suck_up_timer += delta;
 		rotation += delta * 5;
 		if c_suck_up_timer > suck_up_timer:
+			sucked_up.emit(self);
 			queue_free();
 		scale = lerp(Vector2.ONE, Vector2.ZERO, c_suck_up_timer / suck_up_timer);
 
@@ -59,3 +63,4 @@ func destroy_room()->void:
 		for tile in wall.get_children():
 			if tile is Tile:
 				tile.begin_alert();
+				alarm_started.emit(self);

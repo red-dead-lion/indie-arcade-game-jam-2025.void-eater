@@ -25,3 +25,8 @@ var held_item: ItemUtils.Item:
 # Lifecycle
 func _ready()->void:
 	instance = self;
+	
+# Network
+@rpc('any_peer', 'call_local')
+func RPC_show_game_ui()->void:
+	visible = true;

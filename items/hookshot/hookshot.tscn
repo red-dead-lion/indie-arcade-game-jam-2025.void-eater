@@ -36,7 +36,6 @@ replication_config = SubResource("SceneReplicationConfig_hfgxd")
 points = PackedVector2Array(0, 0, 0, 20)
 width = 3.0
 width_curve = SubResource("Curve_hfgxd")
-default_color = Color(0.180005, 0.180005, 0.180005, 1)
 antialiased = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

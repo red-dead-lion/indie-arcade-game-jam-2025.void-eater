@@ -4,23 +4,30 @@ extends CharacterBody2D;
 # Triggers
 func _on_item_collect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:
+		var item: ItemUtils.Item = null;
 		match randi() % ItemUtils.ItemType.keys().size():
 			ItemUtils.ItemType.Hookshot:
-				var item: ItemUtils.Item = ItemUtils.Item.new(
+				item = ItemUtils.Item.new(
 					ItemUtils.ItemType.Hookshot,
-					"hookshot",
+					"Hookshot",
 					"res://items/hookshot/hookshot.png",
-					10
+					5
 				);
-				body.pickup_item(item);
 			ItemUtils.ItemType.Dynamite:
-				var item: ItemUtils.Item = ItemUtils.Item.new(
+				item = ItemUtils.Item.new(
 					ItemUtils.ItemType.Dynamite,
-					"dynamite",
+					"Dynamite",
 					"res://items/dynamite/dynamite.png",
 					1
 				);
-				body.pickup_item(item);
+			ItemUtils.ItemType.Uzi:
+				item = ItemUtils.Item.new(
+					ItemUtils.ItemType.Uzi,
+					"Uzi",
+					"res://items/uzi/uzi.png",
+					99
+				);
+		body.pickup_item(item);
 		RPC_remove_item_box();
 
 # Lifecycle

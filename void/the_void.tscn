@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://b83o6b262s5y0"]
+
+[ext_resource type="Script" uid="uid://cuow7b5cx8yfb" path="res://void/the_void.gd" id="1_dpb4o"]
+[ext_resource type="Texture2D" uid="uid://dl8dviea7nmbc" path="res://void/void.png" id="2_1fpy5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dg77c"]
+radius = 126.301
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_dpb4o"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:scale")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="TheVoid" type="Area2D"]
+script = ExtResource("1_dpb4o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dg77c")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -3
+texture = ExtResource("2_1fpy5")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_dpb4o")

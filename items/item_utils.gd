@@ -3,7 +3,8 @@ extends Node;
 
 enum ItemType {
 	Hookshot,
-	Dynamite
+	Dynamite,
+	Uzi,
 };
 
 class Item:

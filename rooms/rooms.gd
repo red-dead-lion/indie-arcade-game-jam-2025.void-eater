@@ -2,8 +2,8 @@ class_name Rooms;
 extends MultiplayerSpawner;
 
 # Timers
-var destroy_room_timer = 6.0;
-var c_destroy_room_timer = 0.0;
+var destroy_room_timer = 10.0;
+var c_destroy_room_timer = 5.0;
 
 # Lifecycle
 func _process(delta: float) -> void:

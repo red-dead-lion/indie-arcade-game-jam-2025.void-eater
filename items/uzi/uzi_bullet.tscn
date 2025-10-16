@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://cvoohmcx2yfuj"]
+
+[ext_resource type="Script" uid="uid://bclverq2kxhfv" path="res://items/uzi/uzi_bullet.gd" id="1_0eve7"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hfgxd"]
+properties/0/path = NodePath("Line2D:points")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1shap"]
+radius = 3.0
+
+[sub_resource type="Gradient" id="Gradient_q7cb1"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[node name="UziShot" type="Area2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_0eve7")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hfgxd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(50, 0)
+shape = SubResource("CircleShape2D_1shap")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 50, 0)
+width = 2.0
+gradient = SubResource("Gradient_q7cb1")
+end_cap_mode = 2
+round_precision = 32
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
