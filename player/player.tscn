@@ -19,12 +19,16 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath(".:held_item_sprite_path")
 properties/4/spawn = true
 properties/4/replication_mode = 1
+properties/5/path = NodePath("HeldItemSprite2D:rotation")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rkbax"]
 custom_solver_bias = 1.0
 radius = 14.0357
 
 [node name="Player" type="CharacterBody2D"]
+scale = Vector2(1.5, 1.5)
 collision_mask = 3
 platform_on_leave = 2
 platform_floor_layers = 4294967294

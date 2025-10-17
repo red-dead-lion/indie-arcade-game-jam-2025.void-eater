@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dg5muuqqcdq2i"
-path="res://.godot/imported/tile_sprite.png-de5c923b8e607f6ef6b121c1b5a7397c.ctex"
+uid="uid://p61p2qefbsfd"
+path="res://.godot/imported/parallax-space-backgound.png-32f7df47227c6e7a19182a5507ffb6fd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://rooms/tile/tile_sprite.png"
-dest_files=["res://.godot/imported/tile_sprite.png-de5c923b8e607f6ef6b121c1b5a7397c.ctex"]
+source_file="res://rooms/parallax-space-backgound.png"
+dest_files=["res://.godot/imported/parallax-space-backgound.png-32f7df47227c6e7a19182a5507ffb6fd.ctex"]
 
 [params]
 

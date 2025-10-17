@@ -15,6 +15,7 @@ size = Vector2(32, 32)
 radius = 31.0
 
 [node name="ItemBox" type="CharacterBody2D"]
+scale = Vector2(1.5, 1.5)
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("1_u8ndx")

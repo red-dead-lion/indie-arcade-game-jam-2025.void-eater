@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://romrxlvm0yyq"]
+[gd_scene load_steps=5 format=3 uid="uid://romrxlvm0yyq"]
 
 [ext_resource type="Script" uid="uid://dn21is1tlphd5" path="res://rooms/room/room.gd" id="1_j33j0"]
-[ext_resource type="PackedScene" uid="uid://0ufd38qvjowd" path="res://rooms/tile/tile.tscn" id="1_ppkfq"]
+[ext_resource type="PackedScene" uid="uid://0ufd38qvjowd" path="res://rooms/room/wall_tiles/tile.tscn" id="1_ppkfq"]
+[ext_resource type="PackedScene" uid="uid://c13twowluqx04" path="res://rooms/room/bg_tiles/bg_tile.tscn" id="3_8gwub"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_j33j0"]
 properties/0/path = NodePath(".:rotation")
@@ -16,19 +17,23 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath(".:removed_walls")
 properties/3/spawn = true
 properties/3/replication_mode = 1
-properties/4/path = NodePath(".:c_suck_up_timer")
+properties/4/path = NodePath(".:c_alarm_timer")
 properties/4/spawn = true
 properties/4/replication_mode = 1
-properties/5/path = NodePath(".:c_alarm_timer")
+properties/5/path = NodePath(".:c_room_suck_up_timer")
 properties/5/spawn = true
 properties/5/replication_mode = 1
+properties/6/path = NodePath(".:c_suck_up_tiles_timer")
+properties/6/spawn = true
+properties/6/replication_mode = 1
 
-[node name="Room" type="Node2D" node_paths=PackedStringArray("top_wall", "bottom_wall", "left_wall", "right_wall")]
+[node name="Room" type="Node2D" node_paths=PackedStringArray("top_wall", "bottom_wall", "left_wall", "right_wall", "bg_tiles_root")]
 script = ExtResource("1_j33j0")
 top_wall = NodePath("Wall_Top")
 bottom_wall = NodePath("Wall_Bottom")
 left_wall = NodePath("Wall_Left")
 right_wall = NodePath("Wall_Right")
+bg_tiles_root = NodePath("Tiles")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_j33j0")
@@ -163,6 +168,254 @@ position = Vector2(64, 128)
 position = Vector2(96, 128)
 
 [node name="Tile9" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
+position = Vector2(128, 128)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://c13twowluqx04", "")
+spawn_path = NodePath("../Tiles")
+
+[node name="Tiles" type="Node2D" parent="."]
+
+[node name="Tile_1" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-128, -128)
+
+[node name="Tile_2" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-96, -128)
+
+[node name="Tile_3" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-64, -128)
+
+[node name="Tile_4" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-32, -128)
+
+[node name="Tile_5" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(0, -128)
+
+[node name="Tile_6" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(32, -128)
+
+[node name="Tile_7" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(64, -128)
+
+[node name="Tile_8" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(96, -128)
+
+[node name="Tile_9" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(128, -128)
+
+[node name="Tile_10" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-128, -96)
+
+[node name="Tile_11" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-96, -96)
+
+[node name="Tile_12" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-64, -96)
+
+[node name="Tile_13" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-32, -96)
+
+[node name="Tile_14" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(0, -96)
+
+[node name="Tile_15" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(32, -96)
+
+[node name="Tile_16" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(64, -96)
+
+[node name="Tile_17" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(96, -96)
+
+[node name="Tile_18" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(128, -96)
+
+[node name="Tile_19" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-128, -64)
+
+[node name="Tile_20" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-96, -64)
+
+[node name="Tile_21" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-64, -64)
+
+[node name="Tile_22" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-32, -64)
+
+[node name="Tile_23" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(0, -64)
+
+[node name="Tile_24" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(32, -64)
+
+[node name="Tile_25" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(64, -64)
+
+[node name="Tile_26" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(96, -64)
+
+[node name="Tile_27" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(128, -64)
+
+[node name="Tile_28" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-128, -32)
+
+[node name="Tile_29" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-96, -32)
+
+[node name="Tile_30" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-64, -32)
+
+[node name="Tile_31" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-32, -32)
+
+[node name="Tile_32" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(0, -32)
+
+[node name="Tile_33" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(32, -32)
+
+[node name="Tile_34" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(64, -32)
+
+[node name="Tile_35" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(96, -32)
+
+[node name="Tile_36" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(128, -32)
+
+[node name="Tile_37" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-128, 0)
+
+[node name="Tile_38" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-96, 0)
+
+[node name="Tile_39" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-64, 0)
+
+[node name="Tile_40" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-32, 0)
+
+[node name="Tile_41" parent="Tiles" instance=ExtResource("3_8gwub")]
+
+[node name="Tile_42" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(32, 0)
+
+[node name="Tile_43" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(64, 0)
+
+[node name="Tile_44" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(96, 0)
+
+[node name="Tile_45" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(128, 0)
+
+[node name="Tile_46" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-128, 32)
+
+[node name="Tile_47" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-96, 32)
+
+[node name="Tile_48" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-64, 32)
+
+[node name="Tile_49" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-32, 32)
+
+[node name="Tile_50" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(0, 32)
+
+[node name="Tile_51" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(32, 32)
+
+[node name="Tile_52" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(64, 32)
+
+[node name="Tile_53" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(96, 32)
+
+[node name="Tile_54" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(128, 32)
+
+[node name="Tile_55" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-128, 64)
+
+[node name="Tile_56" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-96, 64)
+
+[node name="Tile_57" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-64, 64)
+
+[node name="Tile_58" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-32, 64)
+
+[node name="Tile_59" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(0, 64)
+
+[node name="Tile_60" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(32, 64)
+
+[node name="Tile_61" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(64, 64)
+
+[node name="Tile_62" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(96, 64)
+
+[node name="Tile_63" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(128, 64)
+
+[node name="Tile_64" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-128, 96)
+
+[node name="Tile_65" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-96, 96)
+
+[node name="Tile_66" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-64, 96)
+
+[node name="Tile_67" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-32, 96)
+
+[node name="Tile_68" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(0, 96)
+
+[node name="Tile_69" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(32, 96)
+
+[node name="Tile_70" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(64, 96)
+
+[node name="Tile_71" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(96, 96)
+
+[node name="Tile_72" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(128, 96)
+
+[node name="Tile_73" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-128, 128)
+
+[node name="Tile_74" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-96, 128)
+
+[node name="Tile_75" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-64, 128)
+
+[node name="Tile_76" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(-32, 128)
+
+[node name="Tile_77" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(0, 128)
+
+[node name="Tile_78" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(32, 128)
+
+[node name="Tile_79" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(64, 128)
+
+[node name="Tile_80" parent="Tiles" instance=ExtResource("3_8gwub")]
+position = Vector2(96, 128)
+
+[node name="Tile_81" parent="Tiles" instance=ExtResource("3_8gwub")]
 position = Vector2(128, 128)
 
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="." method="_on_multiplayer_synchronizer_synchronized"]

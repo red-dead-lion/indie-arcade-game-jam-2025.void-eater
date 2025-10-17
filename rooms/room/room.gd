@@ -7,13 +7,17 @@ extends Node2D;
 @export var left_wall: Node;
 @export var right_wall: Node;
 @export var removed_walls: Array = [];
+@export var bg_tiles_root: Node;
 
 # Properties
 var is_alarming_tiles = false;
+var total_suck_up_time;
 
 # Timers
-var suck_up_timer = 1.0;
-@export var c_suck_up_timer = 0.0;
+var suck_up_tiles_timer = 0.05;
+@export var c_suck_up_tiles_timer = 0;
+var room_suck_up_timer = 2;
+@export var c_room_suck_up_timer = 0.0;
 var alarm_timer = 6.0;
 @export var c_alarm_timer = 0.0;
 
@@ -32,12 +36,26 @@ func _physics_process(delta: float) -> void:
 	if is_alarming_tiles:
 		c_alarm_timer += delta;
 	if c_alarm_timer > alarm_timer:
-		c_suck_up_timer += delta;
-		rotation += delta * 5;
-		if c_suck_up_timer > suck_up_timer:
-			sucked_up.emit(self);
-			queue_free();
-		scale = lerp(Vector2.ONE, Vector2.ZERO, c_suck_up_timer / suck_up_timer);
+		c_suck_up_tiles_timer += delta;
+		if bg_tiles_root.get_child_count() > 0 and c_suck_up_tiles_timer > suck_up_tiles_timer:
+			for n in randi_range(2, 4):
+				var bg_tile = bg_tiles_root.get_child(
+					randi() % bg_tiles_root.get_child_count()
+				);
+				if bg_tile is BGTile:
+					bg_tile.begin_suck(global_position, randf_range(0.05, 0.2));
+			c_suck_up_tiles_timer = 0;
+		if bg_tiles_root.get_child_count() == 0:
+			c_room_suck_up_timer += delta;
+			rotation += delta * 5;
+			if c_room_suck_up_timer > room_suck_up_timer:
+				sucked_up.emit(self);
+				queue_free();
+			scale = lerp(
+				Vector2.ONE,
+				Vector2.ZERO,
+				c_room_suck_up_timer / room_suck_up_timer
+			);
 
 # Methods
 func remove_wall(direction: CardinalUtilities.Direction)->void:

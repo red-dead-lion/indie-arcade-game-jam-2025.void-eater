@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c8lgwp3oodlhx"]
 
-[ext_resource type="Script" uid="uid://ld5s6db67nqi" path="res://rooms/tile/tile.gd" id="1_eabxk"]
+[ext_resource type="Script" uid="uid://ld5s6db67nqi" path="res://rooms/room/wall_tiles/tile.gd" id="1_eabxk"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_l71nj"]
 properties/0/path = NodePath(".:position")

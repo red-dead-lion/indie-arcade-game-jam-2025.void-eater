@@ -1,0 +1,22 @@
+[gd_scene load_steps=7 format=3 uid="uid://c13twowluqx04"]
+
+[ext_resource type="Texture2D" uid="uid://c6b8tj26k7ug3" path="res://rooms/room/bg_tiles/bg_tile_1.tres" id="1_fqpd3"]
+[ext_resource type="Script" uid="uid://s581nou5c1bl" path="res://rooms/room/bg_tiles/bg_tile.gd" id="2_rtppx"]
+[ext_resource type="Texture2D" uid="uid://cdetv21e8cehf" path="res://rooms/room/bg_tiles/bg_tile_2.tres" id="3_rqhm4"]
+[ext_resource type="Texture2D" uid="uid://sam75bqptadv" path="res://rooms/room/bg_tiles/bg_tile_3.tres" id="4_lm80m"]
+[ext_resource type="Texture2D" uid="uid://dvcsy1hhtgxnu" path="res://rooms/room/bg_tiles/bg_tile_4.tres" id="5_g0qfi"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rtppx"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Tile" type="Sprite2D"]
+z_index = -6
+scale = Vector2(2, 2)
+texture = ExtResource("1_fqpd3")
+script = ExtResource("2_rtppx")
+tile_textures = Array[Texture]([ExtResource("1_fqpd3"), ExtResource("3_rqhm4"), ExtResource("4_lm80m"), ExtResource("5_g0qfi")])
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_rtppx")

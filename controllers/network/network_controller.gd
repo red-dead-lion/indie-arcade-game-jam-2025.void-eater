@@ -28,13 +28,11 @@ func start_server()->bool:
 		return false;
 	multiplayer.multiplayer_peer = peer;
 	multiplayer.peer_connected.connect(func (_id)->void:
-		print('a ', multiplayer.get_peers().size() + 1, '/', NetworkController.instance.clients_required)
 		if (
 			NetworkController.instance.clients_required ==
 				multiplayer.get_peers().size() + 1
 			and multiplayer.is_server()
 		):
-			print('b - generating!')
 			Main.instance.create_level_from_properties();
 			Player._create_instance(Main.SERVER_ID, players_root_node, rooms_root_node);
 			for n in multiplayer.get_peers():
