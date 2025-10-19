@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b278kbq3tlywv"
-path="res://.godot/imported/parallax-space-big-planet.png-57c4349614ce545bc29ca0aa0c4ce766.ctex"
+uid="uid://bms5ptwur4bad"
+path="res://.godot/imported/the_blade.png-bebcfb1ebd6ed4eb23f4ef8243f18b28.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://rooms/parallax-space-big-planet.png"
-dest_files=["res://.godot/imported/parallax-space-big-planet.png-57c4349614ce545bc29ca0aa0c4ce766.ctex"]
+source_file="res://items/the-blade/the_blade.png"
+dest_files=["res://.godot/imported/the_blade.png-bebcfb1ebd6ed4eb23f4ef8243f18b28.ctex"]
 
 [params]
 

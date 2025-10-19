@@ -38,10 +38,6 @@ bg_tiles_root = NodePath("Tiles")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_j33j0")
 
-[node name="Wall_Left_Spawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://0ufd38qvjowd")
-spawn_path = NodePath("../Wall_Left")
-
 [node name="Wall_Left" type="Node2D" parent="."]
 
 [node name="Tile" parent="Wall_Left" instance=ExtResource("1_ppkfq")]
@@ -70,10 +66,6 @@ position = Vector2(-128, 96)
 
 [node name="Tile9" parent="Wall_Left" instance=ExtResource("1_ppkfq")]
 position = Vector2(-128, 128)
-
-[node name="Wall_Right_Spawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://0ufd38qvjowd")
-spawn_path = NodePath("../Wall_Right")
 
 [node name="Wall_Right" type="Node2D" parent="."]
 
@@ -104,14 +96,7 @@ position = Vector2(128, 96)
 [node name="Tile9" parent="Wall_Right" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 128)
 
-[node name="Wall_Top_Spawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://0ufd38qvjowd")
-spawn_path = NodePath("../Wall_Top")
-
 [node name="Wall_Top" type="Node2D" parent="."]
-
-[node name="Tile" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
-position = Vector2(-128, -128)
 
 [node name="Tile2" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(-96, -128)
@@ -134,17 +119,7 @@ position = Vector2(64, -128)
 [node name="Tile8" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
 position = Vector2(96, -128)
 
-[node name="Tile9" parent="Wall_Top" instance=ExtResource("1_ppkfq")]
-position = Vector2(128, -128)
-
-[node name="Wall_Bottom_Spawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://0ufd38qvjowd")
-spawn_path = NodePath("../Wall_Bottom")
-
 [node name="Wall_Bottom" type="Node2D" parent="."]
-
-[node name="Tile" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
-position = Vector2(-128, 128)
 
 [node name="Tile2" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(-96, 128)
@@ -167,12 +142,19 @@ position = Vector2(64, 128)
 [node name="Tile8" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
 position = Vector2(96, 128)
 
-[node name="Tile9" parent="Wall_Bottom" instance=ExtResource("1_ppkfq")]
+[node name="Wall_Corners" type="Node2D" parent="."]
+
+[node name="Tile" parent="Wall_Corners" instance=ExtResource("1_ppkfq")]
+position = Vector2(-128, 128)
+
+[node name="Tile9" parent="Wall_Corners" instance=ExtResource("1_ppkfq")]
 position = Vector2(128, 128)
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://c13twowluqx04", "")
-spawn_path = NodePath("../Tiles")
+[node name="Tile2" parent="Wall_Corners" instance=ExtResource("1_ppkfq")]
+position = Vector2(-128, -128)
+
+[node name="Tile10" parent="Wall_Corners" instance=ExtResource("1_ppkfq")]
+position = Vector2(128, -128)
 
 [node name="Tiles" type="Node2D" parent="."]
 

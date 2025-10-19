@@ -25,6 +25,9 @@ shape = SubResource("CircleShape2D_dg77c")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -3
+texture_filter = 1
+position = Vector2(-4.5, 0)
+scale = Vector2(9, 9)
 texture = ExtResource("2_1fpy5")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

@@ -7,12 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://romrxlvm0yyq" path="res://rooms/room/room.tscn" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://ddpsgwqxi64h8" path="res://controllers/network/network_controller.gd" id="3_lquwl"]
 [ext_resource type="Script" uid="uid://tpoeuwk3cwoi" path="res://controllers/ui/lobby_ui_controller.gd" id="4_4c57u"]
-[ext_resource type="Texture2D" uid="uid://p61p2qefbsfd" path="res://rooms/parallax-space-backgound.png" id="5_ycdy4"]
+[ext_resource type="Texture2D" uid="uid://p61p2qefbsfd" path="res://rooms/bg_space.png" id="5_ycdy4"]
 [ext_resource type="Script" uid="uid://cvp6urf317av7" path="res://scoll_right_ui_element.gd" id="6_2cqfq"]
 [ext_resource type="Texture2D" uid="uid://dl8dviea7nmbc" path="res://void/void.png" id="6_efxa6"]
-[ext_resource type="Texture2D" uid="uid://ua4puwgppaem" path="res://rooms/parallax-space-stars.png" id="6_vivmo"]
-[ext_resource type="Texture2D" uid="uid://b8in55rr2cq6" path="res://rooms/parallax-space-ring-planet.png" id="6_w48qg"]
-[ext_resource type="Texture2D" uid="uid://b278kbq3tlywv" path="res://rooms/parallax-space-big-planet.png" id="7_2cqfq"]
+[ext_resource type="Texture2D" uid="uid://ua4puwgppaem" path="res://rooms/bg_stars.png" id="6_vivmo"]
+[ext_resource type="Texture2D" uid="uid://b8in55rr2cq6" path="res://rooms/bg_planet_ring.png" id="6_w48qg"]
+[ext_resource type="Texture2D" uid="uid://b278kbq3tlywv" path="res://rooms/bg_planet.png" id="7_2cqfq"]
 [ext_resource type="Script" uid="uid://cdmmnhvqrv0oq" path="res://items/box/item_box_spawn_timer.gd" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://b76bpd6blsjr2" path="res://items/box/item_box.tscn" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://b83o6b262s5y0" path="res://void/the_void.tscn" id="11_efxa6"]
@@ -70,6 +70,83 @@ offset_bottom = 1804.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
+[node name="ScrollingBackground" type="Control" parent="UI"]
+anchors_preset = 0
+offset_left = 625.0
+offset_right = 665.0
+offset_bottom = 40.0
+
+[node name="Space_1" type="TextureRect" parent="UI/ScrollingBackground"]
+z_index = -11
+layout_mode = 0
+offset_left = -4657.0
+offset_top = -155.0
+offset_right = -4385.0
+offset_bottom = 5.0
+scale = Vector2(12, 12)
+texture = ExtResource("5_ycdy4")
+script = ExtResource("6_2cqfq")
+reset_after_x_position_reached = -1400.0
+scroll_speed = 25
+
+[node name="Space_2" type="TextureRect" parent="UI/ScrollingBackground"]
+z_index = -11
+layout_mode = 0
+offset_left = -1393.0
+offset_top = -155.0
+offset_right = -1121.0
+offset_bottom = 5.0
+scale = Vector2(12, 12)
+texture = ExtResource("5_ycdy4")
+script = ExtResource("6_2cqfq")
+reset_after_x_position_reached = 1871.0
+scroll_speed = 25
+
+[node name="Stars_1" type="TextureRect" parent="UI/ScrollingBackground"]
+z_index = -11
+layout_mode = 0
+offset_left = -4641.0
+offset_top = -155.0
+offset_right = -4369.0
+offset_bottom = 5.0
+scale = Vector2(12, 12)
+texture = ExtResource("6_vivmo")
+script = ExtResource("6_2cqfq")
+reset_after_x_position_reached = -1400.0
+
+[node name="Stars_2" type="TextureRect" parent="UI/ScrollingBackground"]
+z_index = -11
+layout_mode = 0
+offset_left = -1391.0
+offset_top = -155.0
+offset_right = -1119.0
+offset_bottom = 5.0
+scale = Vector2(12, 12)
+texture = ExtResource("6_vivmo")
+script = ExtResource("6_2cqfq")
+reset_after_x_position_reached = 1871.0
+
+[node name="Planet_A" type="TextureRect" parent="UI/ScrollingBackground"]
+z_index = -11
+layout_mode = 0
+offset_left = 335.0
+offset_top = 608.0
+offset_right = 423.0
+offset_bottom = 695.0
+scale = Vector2(12, 12)
+texture = ExtResource("7_2cqfq")
+
+[node name="Planet_B" type="TextureRect" parent="UI/ScrollingBackground"]
+z_index = -11
+layout_mode = 0
+offset_left = 407.0
+offset_top = 416.0
+offset_right = 458.0
+offset_bottom = 531.0
+rotation = 1.5708
+scale = Vector2(12, 12)
+texture = ExtResource("6_w48qg")
+
 [node name="GameUI" type="Control" parent="UI" node_paths=PackedStringArray("held_item_name_label", "held_item_qty_label", "held_item_icon")]
 visible = false
 layout_mode = 1
@@ -108,82 +185,6 @@ layout_mode = 2
 size_flags_vertical = 4
 stretch_mode = 4
 
-[node name="ScrollingBackground" type="Control" parent="UI/GameUI"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Space_1" type="TextureRect" parent="UI/GameUI/ScrollingBackground"]
-z_index = -11
-layout_mode = 0
-offset_left = -4657.0
-offset_top = -155.0
-offset_right = -4385.0
-offset_bottom = 5.0
-scale = Vector2(12, 12)
-texture = ExtResource("5_ycdy4")
-script = ExtResource("6_2cqfq")
-reset_after_x_position_reached = -1400.0
-scroll_speed = 25
-
-[node name="Space_2" type="TextureRect" parent="UI/GameUI/ScrollingBackground"]
-z_index = -11
-layout_mode = 0
-offset_left = -1393.0
-offset_top = -155.0
-offset_right = -1121.0
-offset_bottom = 5.0
-scale = Vector2(12, 12)
-texture = ExtResource("5_ycdy4")
-script = ExtResource("6_2cqfq")
-reset_after_x_position_reached = 1871.0
-scroll_speed = 25
-
-[node name="Stars_1" type="TextureRect" parent="UI/GameUI/ScrollingBackground"]
-z_index = -11
-layout_mode = 0
-offset_left = -4641.0
-offset_top = -155.0
-offset_right = -4369.0
-offset_bottom = 5.0
-scale = Vector2(12, 12)
-texture = ExtResource("6_vivmo")
-script = ExtResource("6_2cqfq")
-reset_after_x_position_reached = -1400.0
-
-[node name="Stars_2" type="TextureRect" parent="UI/GameUI/ScrollingBackground"]
-z_index = -11
-layout_mode = 0
-offset_left = -1391.0
-offset_top = -155.0
-offset_right = -1119.0
-offset_bottom = 5.0
-scale = Vector2(12, 12)
-texture = ExtResource("6_vivmo")
-script = ExtResource("6_2cqfq")
-reset_after_x_position_reached = 1871.0
-
-[node name="Planet_A" type="TextureRect" parent="UI/GameUI/ScrollingBackground"]
-z_index = -11
-layout_mode = 0
-offset_left = 335.0
-offset_top = 608.0
-offset_right = 423.0
-offset_bottom = 695.0
-scale = Vector2(12, 12)
-texture = ExtResource("7_2cqfq")
-
-[node name="Planet_B" type="TextureRect" parent="UI/GameUI/ScrollingBackground"]
-z_index = -11
-layout_mode = 0
-offset_left = 407.0
-offset_top = 416.0
-offset_right = 458.0
-offset_bottom = 531.0
-rotation = 1.5708
-scale = Vector2(12, 12)
-texture = ExtResource("6_w48qg")
-
 [node name="ConnectUI" type="CenterContainer" parent="UI" node_paths=PackedStringArray("connection_feedback_label", "port_text_edit", "address_text_edit", "waiting_label", "settings_ui_container_node", "waiting_ui_container_node")]
 layout_mode = 1
 anchors_preset = 8
@@ -210,9 +211,11 @@ waiting_ui_container_node = NodePath("Waiting")
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="UI/ConnectUI/Settings"]
+texture_filter = 1
+custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 texture = ExtResource("6_efxa6")
-stretch_mode = 3
+stretch_mode = 5
 
 [node name="Titlecard" type="Label" parent="UI/ConnectUI/Settings"]
 layout_mode = 2

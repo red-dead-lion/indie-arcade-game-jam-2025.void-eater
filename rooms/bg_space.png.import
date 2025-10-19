@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8in55rr2cq6"
-path="res://.godot/imported/parallax-space-ring-planet.png-8a65b553db2682114f815b6a01b5a4b7.ctex"
+uid="uid://p61p2qefbsfd"
+path="res://.godot/imported/bg_space.png-be9d6160c8ffb3e03e37422eb04607ff.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://rooms/parallax-space-ring-planet.png"
-dest_files=["res://.godot/imported/parallax-space-ring-planet.png-8a65b553db2682114f815b6a01b5a4b7.ctex"]
+source_file="res://rooms/bg_space.png"
+dest_files=["res://.godot/imported/bg_space.png-be9d6160c8ffb3e03e37422eb04607ff.ctex"]
 
 [params]
 
