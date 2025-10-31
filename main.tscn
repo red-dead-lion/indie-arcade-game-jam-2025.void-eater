@@ -163,7 +163,7 @@ held_item_qty_label = NodePath("HeldItem/HeldItemQty")
 held_item_icon = NodePath("HeldItem/HeldItemIcon")
 
 [node name="HeldItem" type="HBoxContainer" parent="UI/GameUI"]
-layout_mode = 2
+layout_mode = 0
 offset_right = 400.0
 offset_bottom = 103.0
 size_flags_horizontal = 4
@@ -311,7 +311,7 @@ _spawnable_scenes = PackedStringArray("uid://b76bpd6blsjr2")
 spawn_path = NodePath(".")
 
 [node name="MiscSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cy6d0unis2aje", "uid://dr2tvgdgdt3o2", "uid://b83o6b262s5y0", "uid://cvoohmcx2yfuj")
+_spawnable_scenes = PackedStringArray("uid://cy6d0unis2aje", "uid://dr2tvgdgdt3o2", "uid://b83o6b262s5y0", "uid://bouk6s85l00ek", "uid://cvoohmcx2yfuj")
 spawn_path = NodePath(".")
 
 [node name="SpawnBoxTimer" type="Timer" parent="." node_paths=PackedStringArray("boxes_root", "rooms_root")]

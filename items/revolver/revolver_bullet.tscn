@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cvoohmcx2yfuj"]
+[gd_scene load_steps=6 format=3 uid="uid://cvoohmcx2yfuj"]
 
 [ext_resource type="Script" uid="uid://bclverq2kxhfv" path="res://items/revolver/revolver_bullet.gd" id="1_chcjm"]
 
@@ -16,28 +16,38 @@ properties/2/replication_mode = 1
 [sub_resource type="CircleShape2D" id="CircleShape2D_1shap"]
 radius = 4.0
 
+[sub_resource type="Curve" id="Curve_chcjm"]
+_limits = [1.0, 1.01, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 1, Vector2(1, 1), 0.0, 0.0, 1, 0]
+point_count = 2
+
 [sub_resource type="Gradient" id="Gradient_q7cb1"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0, 0.6839827, 1)
+colors = PackedColorArray(1, 1, 1, 0.21568628, 1, 1, 1, 0.68084204, 1, 1, 1, 1)
 
 [node name="RevolverShot" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 3
+collision_mask = 2
 script = ExtResource("1_chcjm")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_hfgxd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(4, 0)
+position = Vector2(10, 0)
 shape = SubResource("CircleShape2D_1shap")
 
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(-12, 0)
+target_position = Vector2(33, 0)
+collision_mask = 3
+
 [node name="Line2D" type="Line2D" parent="."]
-points = PackedVector2Array(0, 0, 8, 0)
-width = 2.0
+position = Vector2(-12, 0)
+points = PackedVector2Array(0, 0, 24, 0)
+width = 4.0
+width_curve = SubResource("Curve_chcjm")
 gradient = SubResource("Gradient_q7cb1")
 begin_cap_mode = 2
 end_cap_mode = 2
 round_precision = 32
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(16, 0)

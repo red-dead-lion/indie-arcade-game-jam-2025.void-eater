@@ -5,7 +5,14 @@ extends CharacterBody2D;
 func _on_item_collect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:
 		var item: ItemUtils.Item = null;
-		match randi() % ItemUtils.ItemType.keys().size():
+		match ItemUtils.ItemType.Revolver:#randi() % ItemUtils.ItemType.keys().size():
+			ItemUtils.ItemType.Revolver:
+				item = ItemUtils.Item.new(
+					ItemUtils.ItemType.Revolver,
+					"Revolver",
+					"res://items/revolver/revolver.png",
+					12
+				);
 			ItemUtils.ItemType.Hookshot:
 				item = ItemUtils.Item.new(
 					ItemUtils.ItemType.Hookshot,

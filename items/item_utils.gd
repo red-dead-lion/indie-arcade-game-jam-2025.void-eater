@@ -5,6 +5,7 @@ enum ItemType {
 	Hookshot,
 	Dynamite,
 	Uzi,
+	Revolver,
 };
 
 class Item:

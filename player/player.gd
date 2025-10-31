@@ -35,7 +35,7 @@ var held_item: ItemUtils.Item:
 # Timers
 var walljump_stickiness_timer = 0.266;
 var c_walljump_stickiness_timer = 0;
-var uzi_shot_cooldown_timer = 0.1;
+var uzi_shot_cooldown_timer = 0.07;
 var c_uzi_shot_cooldown_timer = 0;
 
 # Triggers
@@ -116,6 +116,13 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("use_item"):
 		if held_item != null:
 			match held_item.type:
+				ItemUtils.ItemType.Revolver:
+					remote_create_revolver_shot.rpc_id(
+						1,
+						get_path(),
+						get_viewport().get_camera_2d().get_global_mouse_position(),
+					);
+					held_item.qty -= 1;
 				ItemUtils.ItemType.Hookshot:
 					remote_create_hookshot.rpc_id(
 						1,
@@ -193,6 +200,14 @@ func remote_create_dynamite(shooter_path: NodePath)->void:
 		get_node(shooter_path),
 	);
 	get_node("/root/Game/MiscSpawner").add_child(hookshot, true);
+
+@rpc("call_local")
+func remote_create_revolver_shot(shooter_path: NodePath, target: Vector2)->void:
+	var revolver_shot = RevolverShot._create_instance(
+		get_node(shooter_path),
+		target,
+	);
+	get_node("/root/Game/MiscSpawner").add_child(revolver_shot, true);
 
 @rpc("any_peer", "call_local")
 func RPC_update_held_item_sprite()->void:

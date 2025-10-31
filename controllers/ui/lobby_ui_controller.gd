@@ -52,13 +52,18 @@ func _ready()->void:
 
 # Methods
 func update_lobby_waiting_for_players_label()->void:
-	waiting_label.text = (
-		"Waiting for players to connect... ("
-			+ var_to_str(multiplayer.get_peers().size() + 1)
-			+ "/"
-			+ var_to_str(NetworkController.instance.clients_required)
-			+ ")"
-	);
+	if multiplayer.get_peers().size() > NetworkController.instance.clients_required:
+		waiting_label.text = (
+			"Spectator Mode"
+		);
+	else:
+		waiting_label.text = (
+			"Waiting for players to connect... ("
+				+ var_to_str(multiplayer.get_peers().size() + 1)
+				+ "/"
+				+ var_to_str(NetworkController.instance.clients_required)
+				+ ")"
+		);
 
 # Networking
 @rpc('any_peer', 'call_local')
