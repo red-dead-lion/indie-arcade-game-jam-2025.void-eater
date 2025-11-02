@@ -52,13 +52,17 @@ func spawn_player(id: int)->void:
 	);
 "
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("level_root", "void_root")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("level_root", "void_root", "players_spawner", "rooms_spawner", "boxes_spawner", "misc_spawner")]
 script = ExtResource("1_1bvp3")
 level_root = NodePath("RoomSpawner")
 void_root = NodePath("MiscSpawner")
 room_scene = ExtResource("3_h2yge")
 void_scene = ExtResource("11_efxa6")
 size = Vector2(6, 6)
+players_spawner = NodePath("PlayersSpawner")
+rooms_spawner = NodePath("RoomSpawner")
+boxes_spawner = NodePath("BoxesSpawner")
+misc_spawner = NodePath("MiscSpawner")
 
 [node name="UI" type="Control" parent="."]
 z_index = 5

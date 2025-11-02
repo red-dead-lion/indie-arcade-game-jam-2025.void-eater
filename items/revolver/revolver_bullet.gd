@@ -8,7 +8,7 @@ static func _create_instance(
 	_shooter: Player,
 	target_global_position: Vector2
 )->RevolverShot:
-	var revolver_shot: RevolverShot = load(factory_scene_path).instantiate();
+	var revolver_shot: RevolverShot = load(factory_scene_path).instantiate(true);
 	revolver_shot.global_position = _shooter.global_position;
 	revolver_shot.target_global_direction = (target_global_position - _shooter.global_position).normalized();
 	revolver_shot.shooter = _shooter;
@@ -28,8 +28,7 @@ var shooter: Player;
 func _ready()->void:
 	if !is_multiplayer_authority():
 		return;
-	shooter.remote_update_velocity.rpc(
-		shooter.name,
+	shooter.rpc_controller.RPC_set_velocity.rpc(
 		-target_global_direction * blowback
 	);
 
@@ -45,9 +44,8 @@ func _physics_process(_delta: float)->void:
 		bullet_forward_cast.get_collider() is Player and
 		bullet_forward_cast.get_collider() != shooter
 	):
-		bullet_forward_cast.get_collider().remote_update_velocity.rpc(
-			bullet_forward_cast.get_collider().name,
-			target_global_direction * shot_speed * impact_multiplier
+		bullet_forward_cast.get_collider().rpc_controller.RPC_set_velocity.rpc(
+			target_global_direction * shot_speed * impact_multiplier,
 		);
 		queue_free();
 	velocity = target_global_direction * shot_speed;

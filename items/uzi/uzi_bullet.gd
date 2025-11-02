@@ -26,10 +26,9 @@ func _on_body_entered(body: Node2D) -> void:
 		return;
 	if body != shooter:
 		if body is Player:
-			body.remote_update_velocity.rpc(
-				body.name,
-				target_global_direction * shot_speed * impact_multiplier
-			);
+			body.rpc_controller.RPC_set_velocity.rpc(
+				target_global_direction * shot_speed * impact_multiplier,
+			)
 		queue_free();
 		
 
@@ -38,9 +37,8 @@ func _ready()->void:
 	if !is_multiplayer_authority():
 		return;
 	rotation = target_global_direction.angle();
-	shooter.remote_update_velocity.rpc(
-		shooter.name,
-		-target_global_direction * blowback
+	shooter.rpc_controller.RPC_set_velocity.rpc(
+		-target_global_direction * blowback,
 	);
 
 func _physics_process(_delta: float)->void:

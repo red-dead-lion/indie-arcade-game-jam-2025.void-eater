@@ -28,5 +28,5 @@ func begin_alert()->void:
 
 # Networking
 @rpc("call_local")
-func remote_request_queue_free():
+func RPC_queue_free():
 	queue_free();

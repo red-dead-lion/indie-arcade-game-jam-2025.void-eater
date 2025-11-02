@@ -8,6 +8,10 @@ extends Node2D;
 @export var void_scene: PackedScene;
 @export var size: Vector2;
 @export var start_position: Vector2;
+@export var players_spawner: MultiplayerSpawner;
+@export var rooms_spawner: MultiplayerSpawner;
+@export var boxes_spawner: MultiplayerSpawner;
+@export var misc_spawner: MultiplayerSpawner;
 
 # Static
 const SERVER_ID = 1;

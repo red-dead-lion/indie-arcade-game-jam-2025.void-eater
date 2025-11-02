@@ -8,7 +8,7 @@ static func _create_instance(id: int, players_root_ndoe: Node, rooms_root_node: 
 	var player = load(factory_scene_path).instantiate();
 	player.name = str(id);
 	players_root_ndoe.add_child(player, true);
-	player.remote_update_position.rpc(
+	player.rpc_controller.RPC_set_position.rpc(
 		rooms_root_node.get_child(
 			randi() % rooms_root_node.get_child_count()
 		).global_position
@@ -19,6 +19,7 @@ static func _create_instance(id: int, players_root_ndoe: Node, rooms_root_node: 
 @export var jump_speed = 2000;
 @export var wall_jump_impetus = 1000;
 @export var held_item_sprite_path: String;
+@export var rpc_controller: PlayerRPCController;
 
 # Properties
 var in_progress_hookshot: Hookshot;
@@ -40,7 +41,11 @@ var c_uzi_shot_cooldown_timer = 0;
 
 # Triggers
 func _on_multiplayer_synchrnoizer_synchrnoized()->void:
-	RPC_update_held_item_sprite.rpc();
+	if held_item != null:
+		rpc_controller.RPC_update_held_item_sprite.rpc(
+			$HeldItemSprite2D,
+			load(held_item.icon_path)
+		);
 
 # Lifecycle
 func _enter_tree()->void:
@@ -106,34 +111,30 @@ func _physics_process(delta: float) -> void:
 				ItemUtils.ItemType.Uzi:
 					c_uzi_shot_cooldown_timer += delta;
 					if c_uzi_shot_cooldown_timer > uzi_shot_cooldown_timer:
-						remote_create_uzi_shot.rpc_id(
-							1,
-							get_path(),
+						rpc_controller.RPC_create_uzi_shot.rpc_id(
+							Main.SERVER_ID,
 							get_viewport().get_camera_2d().get_global_mouse_position(),
-						);
+						)
 						c_uzi_shot_cooldown_timer = 0;
 						held_item.qty -= 1;
 	if Input.is_action_just_pressed("use_item"):
 		if held_item != null:
 			match held_item.type:
 				ItemUtils.ItemType.Revolver:
-					remote_create_revolver_shot.rpc_id(
-						1,
-						get_path(),
+					rpc_controller.RPC_create_revolver_shot.rpc_id(
+						Main.SERVER_ID,
 						get_viewport().get_camera_2d().get_global_mouse_position(),
 					);
 					held_item.qty -= 1;
 				ItemUtils.ItemType.Hookshot:
-					remote_create_hookshot.rpc_id(
-						1,
-						get_path(),
+					rpc_controller.RPC_create_hookshot.rpc_id(
+						Main.SERVER_ID,
 						get_viewport().get_camera_2d().get_global_mouse_position(),
 					);
 					held_item.qty -= 1;
 				ItemUtils.ItemType.Dynamite:
-					remote_create_dynamite.rpc_id(
-						1,
-						get_path(),
+					rpc_controller.RPC_create_dynamite.rpc_id(
+						Main.SERVER_ID
 					);
 					held_item.qty -= 1;
 	if held_item != null:
@@ -150,8 +151,7 @@ func _physics_process(delta: float) -> void:
 	for n in get_slide_collision_count():
 		var collider = get_slide_collision(n).get_collider();
 		if collider is Player:
-			remote_update_velocity.rpc(
-				collider.name,
+			collider.rpc_controller.RPC_set_velocity.rpc(
 				before_collide_velocity
 			);
 			velocity = -before_collide_velocity;
@@ -166,52 +166,3 @@ func remove_item():
 	if !is_multiplayer_authority():
 		return;
 	held_item = null;
-	
-# Network
-@rpc("any_peer", "call_local")
-func remote_update_position(_global_position: Vector2)->void:
-	self.global_position = _global_position;
-
-@rpc("any_peer", "call_local")
-func remote_update_velocity(collider_name: String, new_velocity: Vector2):
-	get_parent().get_node(collider_name).velocity = new_velocity;
-
-@rpc("call_local")
-func remote_create_uzi_shot(shooter_path: NodePath, target: Vector2)->void:
-	var shot = UziShot._create_instance(
-		get_node(shooter_path),
-		target,
-	);
-	get_node("/root/Game/MiscSpawner").add_child(shot, true);
-
-@rpc("call_local")
-func remote_create_hookshot(shooter_path: NodePath, target: Vector2)->void:
-	if in_progress_hookshot != null:
-		in_progress_hookshot.queue_free();
-	in_progress_hookshot = Hookshot._create_instance(
-		get_node(shooter_path),
-		target,
-	);
-	get_node("/root/Game/MiscSpawner").add_child(in_progress_hookshot, true);
-	
-@rpc("call_local")
-func remote_create_dynamite(shooter_path: NodePath)->void:
-	var hookshot = Dynamite._create_instance(
-		get_node(shooter_path),
-	);
-	get_node("/root/Game/MiscSpawner").add_child(hookshot, true);
-
-@rpc("call_local")
-func remote_create_revolver_shot(shooter_path: NodePath, target: Vector2)->void:
-	var revolver_shot = RevolverShot._create_instance(
-		get_node(shooter_path),
-		target,
-	);
-	get_node("/root/Game/MiscSpawner").add_child(revolver_shot, true);
-
-@rpc("any_peer", "call_local")
-func RPC_update_held_item_sprite()->void:
-	if !held_item_sprite_path.is_empty():
-		$HeldItemSprite2D.texture = load(held_item_sprite_path);
-	else:
-		$HeldItemSprite2D.texture = null

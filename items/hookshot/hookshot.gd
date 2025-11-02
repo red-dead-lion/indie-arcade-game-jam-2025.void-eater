@@ -37,7 +37,11 @@ func _physics_process(_delta: float) -> void:
 	sprite.rotation = position.angle_to(shooter.global_position - global_position) + intrinsic_rotation;
 	if stuck_into_node != null:
 		if shooter is Player:
-			shooter.remote_update_velocity.rpc(shooter.name, (global_position - shooter.global_position).normalized() * 900 - get_gravity())
+			shooter.rpc_controller.RPC_set_velocity.rpc(
+				(
+					global_position - shooter.global_position
+				).normalized() * 900 - get_gravity()
+			);
 			if (global_position - shooter.global_position).length() < 50:
 				queue_free();
 		return;
@@ -51,4 +55,6 @@ func _physics_process(_delta: float) -> void:
 			shoot_timer.start();
 			stuck_into_node = collider;
 		if collider is Player:
-			collider.remote_update_velocity.rpc(collider.name, old_velcoity_ref);
+			collider.rpc_controller.RPC_set_velocity.rpc(
+				old_velcoity_ref,
+			);

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c6qj00pv2p5fg"]
+[gd_scene load_steps=6 format=3 uid="uid://c6qj00pv2p5fg"]
 
 [ext_resource type="Texture2D" uid="uid://ck737npky57wf" path="res://player/player_sprite.png" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://cbqhqd4lx1oci" path="res://player/player.gd" id="1_rkbax"]
+[ext_resource type="Script" uid="uid://bt6trn7ryw0jf" path="res://player/rpc/player_rpc_controller.gd" id="3_g1dw6"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rkbax"]
 properties/0/path = NodePath(".:position")
@@ -27,15 +28,20 @@ properties/5/replication_mode = 1
 custom_solver_bias = 1.0
 radius = 14.0357
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("rpc_controller")]
 scale = Vector2(1.5, 1.5)
 collision_mask = 3
 platform_on_leave = 2
 platform_floor_layers = 4294967294
 script = ExtResource("1_rkbax")
+rpc_controller = NodePath("RPCController")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_rkbax")
+
+[node name="RPCController" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("3_g1dw6")
+player = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_oul6g")
