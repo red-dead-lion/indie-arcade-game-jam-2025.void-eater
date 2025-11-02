@@ -57,12 +57,13 @@ func start_client()->bool:
 	return true;
 
 # Networking
-@rpc('any_peer')
+@rpc('any_peer', 'call_local')
 func RPC_cancel_connection()->void:
-	if multiplayer.get_remote_sender_id() == 1:
+	if multiplayer.get_remote_sender_id() == Main.SERVER_ID:
 		for n in multiplayer.get_peers():
 			multiplayer.multiplayer_peer.disconnect_peer(n);
 		multiplayer.multiplayer_peer.close();
+		multiplayer.multiplayer_peer = null
 	else:
 		multiplayer.multiplayer_peer.disconnect_peer.call_deferred(
 			multiplayer.get_remote_sender_id(),
