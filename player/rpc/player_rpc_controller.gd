@@ -57,7 +57,6 @@ func RPC_create_revolver_shot(
 
 @rpc("call_local")
 func RPC_update_held_item_sprite(
-	player_item_sprite2d_node: Sprite2D,
-	item_texture2d: Texture2D
+	item_texture2d_path: String
 )->void:
-	player_item_sprite2d_node.texture = item_texture2d;
+	player.held_item_sprite.texture = load(item_texture2d_path);

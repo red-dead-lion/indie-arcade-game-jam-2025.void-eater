@@ -22,6 +22,7 @@ static func _create_instance(id: int, players_root_ndoe: Node, rooms_root_node: 
 @export var rpc_controller: PlayerRPCController;
 
 # Properties
+@onready var held_item_sprite: Sprite2D = $HeldItemSprite2D;
 var in_progress_hookshot: Hookshot;
 var walljump_lr_fromdir: Vector2;
 var held_item: ItemUtils.Item:
@@ -32,20 +33,12 @@ var held_item: ItemUtils.Item:
 			held_item_sprite_path = new_held_item.icon_path;
 		else:
 			held_item_sprite_path = "";
-		
+
 # Timers
 var walljump_stickiness_timer = 0.266;
 var c_walljump_stickiness_timer = 0;
 var uzi_shot_cooldown_timer = 0.07;
 var c_uzi_shot_cooldown_timer = 0;
-
-# Triggers
-func _on_multiplayer_synchrnoizer_synchrnoized()->void:
-	if held_item != null:
-		rpc_controller.RPC_update_held_item_sprite.rpc(
-			$HeldItemSprite2D,
-			load(held_item.icon_path)
-		);
 
 # Lifecycle
 func _enter_tree()->void:
@@ -102,7 +95,11 @@ func _physics_process(delta: float) -> void:
 		velocity += Vector2.UP * jump_speed
 	if !is_on_floor():
 		movement_impetus += get_gravity();
-	$HeldItemSprite2D.rotation = (
+	if get_viewport().get_camera_2d().get_global_mouse_position().x < position.x:
+		held_item_sprite.scale.y = -2;
+	else:
+		held_item_sprite.scale.y = 2;
+	held_item_sprite.rotation = (
 		get_viewport().get_camera_2d().get_global_mouse_position() - position
 	).angle();
 	if Input.is_action_pressed("use_item"):
@@ -161,7 +158,10 @@ func pickup_item(item: ItemUtils.Item):
 	if !is_multiplayer_authority():
 		return;
 	held_item = item;
-	
+	rpc_controller.RPC_update_held_item_sprite.rpc(
+		held_item.icon_path
+	);
+
 func remove_item():
 	if !is_multiplayer_authority():
 		return;
