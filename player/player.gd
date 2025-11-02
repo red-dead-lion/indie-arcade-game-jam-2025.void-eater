@@ -23,6 +23,7 @@ static func _create_instance(id: int, players_root_ndoe: Node, rooms_root_node: 
 
 # Properties
 @onready var held_item_sprite: Sprite2D = $HeldItemSprite2D;
+var movement_impetus: Vector2;
 var in_progress_hookshot: Hookshot;
 var walljump_lr_fromdir: Vector2;
 var held_item: ItemUtils.Item:
@@ -47,54 +48,33 @@ func _enter_tree()->void:
 func _physics_process(delta: float) -> void:
 	if !is_multiplayer_authority():
 		return;
-	var movement_impetus = Vector2.ZERO;
-	rotation = 0;
-	if Input.is_action_pressed("ui_down") and is_on_wall(): 
-		c_walljump_stickiness_timer = 0;
-		if $Sprite2D.scale.x == -1:
-			position = position + Vector2.RIGHT * 5;
-		elif $Sprite2D.scale.x == 1:
-			position = position + Vector2.LEFT * 5;
-	if is_on_wall_only() and !$RayCast2D.is_colliding() and $Sprite2D.scale.x == -1:
-		if Input.is_action_pressed("ui_left"):
-			c_walljump_stickiness_timer = walljump_stickiness_timer;
-		rotation = -PI / 4;
-		velocity.y = clamp(velocity.y, -jump_speed, jump_speed / 8.0);
-		if Input.is_action_just_pressed("ui_accept"):
-			movement_impetus.x += wall_jump_impetus;
-			walljump_lr_fromdir = Vector2.LEFT;
-	if Input.is_action_pressed("ui_left") and velocity.x > -movement_speed:
-		c_walljump_stickiness_timer -= delta;
-		if is_on_wall_only():
-			if c_walljump_stickiness_timer <= 0:
-				$Sprite2D.scale.x = -1;
-				movement_impetus += Vector2.LEFT * movement_speed;
-		else:
-			$Sprite2D.scale.x = -1;
-			movement_impetus += Vector2.LEFT * movement_speed;
-	if is_on_wall_only() and !$RayCast2D.is_colliding() and $Sprite2D.scale.x == 1:
-		if Input.is_action_pressed("ui_right"):
-			c_walljump_stickiness_timer = walljump_stickiness_timer;
-		rotation = PI / 4;
-		velocity.y = clamp(velocity.y, -jump_speed, jump_speed / 8.0);
-		if Input.is_action_just_pressed("ui_accept"):
-			movement_impetus.x -= wall_jump_impetus;
-			walljump_lr_fromdir = Vector2.RIGHT;
-	if Input.is_action_pressed("ui_right") and velocity.x < movement_speed:
-		c_walljump_stickiness_timer -= delta;
-		if is_on_wall_only():	
-			if c_walljump_stickiness_timer <= 0:
-				$Sprite2D.scale.x = 1;
-				movement_impetus += Vector2.RIGHT * movement_speed;
-		else:
-			$Sprite2D.scale.x = 1;
-			movement_impetus += Vector2.RIGHT * movement_speed;
-	if !Input.is_action_pressed("ui_right") and !Input.is_action_pressed("ui_left"):
-		movement_impetus -= Vector2(velocity.x * 0.2, 0);
-	if Input.is_action_just_pressed("ui_accept") and (is_on_floor() or is_on_wall()):
-		velocity += Vector2.UP * jump_speed
-	if !is_on_floor():
-		movement_impetus += get_gravity();
+	handle_movement_input(delta);
+	handle_use_item_input(delta);
+	if held_item != null:
+		update_held_item_sprite();
+		GameUIController.instance.held_item_qty_label.text = str(held_item.qty);
+		if held_item.qty <= 0:
+			remove_item();
+	velocity += movement_impetus;
+	dampen_player_velocity();
+	var before_collide_velocity = velocity;
+	move_and_slide();
+	for n in get_slide_collision_count():
+		var collider = get_slide_collision(n).get_collider();
+		if collider is Player:
+			collider.rpc_controller.RPC_set_velocity.rpc(
+				before_collide_velocity
+			);
+			velocity = -before_collide_velocity;
+
+# Methods
+func dampen_player_velocity():
+	if velocity.x > movement_speed or velocity.x < -movement_speed:
+		velocity.x *= 0.96;
+	if velocity.y > movement_speed or velocity.y < -movement_speed:
+		velocity.y *= 0.96;
+
+func update_held_item_sprite():
 	if get_viewport().get_camera_2d().get_global_mouse_position().x < position.x:
 		held_item_sprite.scale.y = -2;
 	else:
@@ -102,6 +82,8 @@ func _physics_process(delta: float) -> void:
 	held_item_sprite.rotation = (
 		get_viewport().get_camera_2d().get_global_mouse_position() - position
 	).angle();
+
+func handle_use_item_input(delta):
 	if Input.is_action_pressed("use_item"):
 		if held_item != null:
 			match held_item.type:
@@ -134,26 +116,80 @@ func _physics_process(delta: float) -> void:
 						Main.SERVER_ID
 					);
 					held_item.qty -= 1;
-	if held_item != null:
-		GameUIController.instance.held_item_qty_label.text = str(held_item.qty);
-		if held_item.qty <= 0:
-			remove_item();
-	velocity += movement_impetus;
-	if velocity.x > movement_speed or velocity.x < -movement_speed:
-		velocity.x *= 0.96;
-	if velocity.y > movement_speed or velocity.y < -movement_speed:
-		velocity.y *= 0.96;
-	var before_collide_velocity = velocity;
-	move_and_slide();
-	for n in get_slide_collision_count():
-		var collider = get_slide_collision(n).get_collider();
-		if collider is Player:
-			collider.rpc_controller.RPC_set_velocity.rpc(
-				before_collide_velocity
-			);
-			velocity = -before_collide_velocity;
 
-# Methods
+func handle_drop_from_wall_input():
+	if Input.is_action_pressed("ui_down") and is_on_wall(): 
+		c_walljump_stickiness_timer = 0;
+		if $Sprite2D.scale.x == -1:
+			position = position + Vector2.RIGHT * 5;
+		elif $Sprite2D.scale.x == 1:
+			position = position + Vector2.LEFT * 5;
+
+enum HorizontalSpriteDirection {
+	LEFT = -1,
+	RIGHT = 1,
+}
+
+func handle_wall_jump_input(
+	for_action_input_label: String,
+	for_sprite_direction: HorizontalSpriteDirection,
+	on_wall_rotation: float
+):
+	if is_on_wall_only() and !$RayCast2D.is_colliding() and $Sprite2D.scale.x == for_sprite_direction:
+		if Input.is_action_pressed(for_action_input_label):
+			c_walljump_stickiness_timer = walljump_stickiness_timer;
+		rotation = on_wall_rotation;
+		velocity.y = clamp(velocity.y, -jump_speed, jump_speed / 8.0);
+		if Input.is_action_just_pressed("ui_accept"):
+			movement_impetus.x += wall_jump_impetus;
+			walljump_lr_fromdir = Vector2(for_sprite_direction, 0);
+
+func handle_stop_movement_input():
+	if !Input.is_action_pressed("ui_right") and !Input.is_action_pressed("ui_left"):
+		movement_impetus -= Vector2(velocity.x * 0.2, 0);
+		
+func handle_floor_jump_input():
+	if Input.is_action_just_pressed("ui_accept") and (is_on_floor() or is_on_wall()):
+		velocity += Vector2.UP * jump_speed
+	if !is_on_floor():
+		movement_impetus += get_gravity();
+
+func handle_horizontal_movement(
+	delta: float,
+	for_input_label: String,
+	horizontal_direction: HorizontalSpriteDirection,
+):
+	if Input.is_action_pressed(for_input_label):
+		c_walljump_stickiness_timer -= delta;
+		if is_on_wall_only():
+			if c_walljump_stickiness_timer <= 0:
+				$Sprite2D.scale.x = horizontal_direction;
+				movement_impetus += Vector2(horizontal_direction, 0) * movement_speed;
+		else:
+			$Sprite2D.scale.x = horizontal_direction;
+			movement_impetus += Vector2(horizontal_direction, 0) * movement_speed;
+
+func handle_movement_input(delta: float):
+	movement_impetus = Vector2.ZERO;
+	rotation = 0;
+	handle_drop_from_wall_input();
+	handle_wall_jump_input("ui_left", HorizontalSpriteDirection.LEFT, -PI / 4);
+	handle_wall_jump_input("ui_right", HorizontalSpriteDirection.RIGHT, PI / 4);
+	handle_floor_jump_input();
+	handle_stop_movement_input();
+	if velocity.x > -movement_speed:
+		handle_horizontal_movement(
+			delta,
+			"ui_left",
+			HorizontalSpriteDirection.LEFT
+		);
+	if velocity.x < movement_speed:
+		handle_horizontal_movement(
+			delta,
+			"ui_right",
+			HorizontalSpriteDirection.RIGHT
+		);
+
 func pickup_item(item: ItemUtils.Item):
 	if !is_multiplayer_authority():
 		return;
