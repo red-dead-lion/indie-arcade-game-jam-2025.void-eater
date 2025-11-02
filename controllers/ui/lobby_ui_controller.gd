@@ -32,6 +32,12 @@ func _on_host_button_down() -> void:
 		settings_ui_container_node.visible = false;
 		waiting_ui_container_node.visible = true;
 		update_lobby_waiting_for_players_label();
+		multiplayer.peer_connected.connect(func(_id)->void:
+			update_lobby_waiting_for_players_label();
+		);
+		multiplayer.peer_disconnected.connect(func(_id)->void:
+			update_lobby_waiting_for_players_label();
+		);
 	
 func _on_join_button_down() -> void:
 	if NetworkController.instance.start_client():
@@ -42,17 +48,14 @@ func _on_cancel_button_button_down() -> void:
 	NetworkController.instance.RPC_cancel_connection.rpc();
 	settings_ui_container_node.visible = true;
 	waiting_ui_container_node.visible = false;
-	
+
 # Lifecycle
 func _ready()->void:
 	instance = self;
-	multiplayer.peer_connected.connect(func(_id)->void:
-		update_lobby_waiting_for_players_label();
-	);
 
 # Methods
 func update_lobby_waiting_for_players_label()->void:
-	if multiplayer.get_peers().size() > NetworkController.instance.clients_required:
+	if multiplayer.get_peers().size() + 1 > NetworkController.instance.clients_required:
 		waiting_label.text = (
 			"Spectator Mode"
 		);

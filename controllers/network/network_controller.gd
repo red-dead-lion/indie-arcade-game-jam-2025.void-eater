@@ -33,6 +33,7 @@ func start_server()->bool:
 				multiplayer.get_peers().size() + 1
 			and multiplayer.is_server()
 		):
+			print('generate level');
 			Main.instance.create_level_from_properties();
 			Player._create_instance(Main.SERVER_ID, players_root_node, rooms_root_node);
 			for n in multiplayer.get_peers():
@@ -62,6 +63,10 @@ func RPC_cancel_connection()->void:
 	if multiplayer.get_remote_sender_id() == Main.SERVER_ID:
 		for n in multiplayer.get_peers():
 			multiplayer.multiplayer_peer.disconnect_peer(n);
+		for c in multiplayer.peer_connected.get_connections():
+			multiplayer.peer_connected.disconnect(c.callable);
+		for c in multiplayer.peer_disconnected.get_connections():
+			multiplayer.peer_disconnected.disconnect(c.callable);
 		multiplayer.multiplayer_peer.close();
 		multiplayer.multiplayer_peer = null
 	else:
