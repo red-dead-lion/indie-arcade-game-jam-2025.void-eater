@@ -29,18 +29,17 @@ func RPC_create_uzi_shot(
 @rpc("call_local")
 func RPC_create_hookshot(
 	target: Vector2,
-)->void:
-	if player.in_progress_hookshot != null:
-		player.in_progress_hookshot.queue_free();
-	player.in_progress_hookshot = Hookshot._create_instance(
+)->HookshotRope:
+	var hookshot_rope = HookshotRope._create_instance(
 		player,
 		target,
 	);
 	Main.instance.misc_spawner.add_child(player.in_progress_hookshot, true);
+	return hookshot_rope;
 	
 @rpc("call_local")
 func RPC_create_dynamite()->void:
-	var hookshot = Dynamite._create_instance(
+	var hookshot = DynamiteStick._create_instance(
 		player,
 	);
 	Main.instance.misc_spawner.add_child(hookshot, true);

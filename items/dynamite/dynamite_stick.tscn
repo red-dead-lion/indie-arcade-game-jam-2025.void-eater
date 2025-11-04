@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://dr2tvgdgdt3o2"]
 
-[ext_resource type="Script" uid="uid://d26whysj2dse7" path="res://items/dynamite/dynamite.gd" id="1_bu101"]
+[ext_resource type="Script" uid="uid://d26whysj2dse7" path="res://items/dynamite/dynamite_stick.gd" id="1_bu101"]
 [ext_resource type="Texture2D" uid="uid://dc38rxvix157q" path="res://items/dynamite/dynamite.png" id="2_jrwe8"]
 [ext_resource type="Texture2D" uid="uid://de2pqeiwlxlqs" path="res://items/dynamite/smoke.png" id="3_jrwe8"]
 [ext_resource type="PackedScene" uid="uid://1i262u1giw62" path="res://items/dynamite/countdown/countdown.tscn" id="4_6l747"]

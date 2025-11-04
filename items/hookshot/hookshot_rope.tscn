@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cy6d0unis2aje"]
 
-[ext_resource type="Script" uid="uid://c202fw2ih2i1f" path="res://items/hookshot/hookshot.gd" id="1_hfgxd"]
+[ext_resource type="Script" uid="uid://c202fw2ih2i1f" path="res://items/hookshot/hookshot_rope.gd" id="1_hfgxd"]
 [ext_resource type="Texture2D" uid="uid://br1sxhgr42nob" path="res://items/hookshot/hookshot.png" id="1_jtyu6"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hfgxd"]

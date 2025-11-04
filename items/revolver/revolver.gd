@@ -1,20 +1,15 @@
-class_name Hookshot;
+class_name Revolver;
 extends Area2D;
 
 static func create():
-	var hookshot_ref = {
-		"ref": null,
-	};
 	return ItemUtils.Item.new(
-		ItemUtils.ItemType.Hookshot,
-		"Hookshot",
-		"res://items/hookshot/hookshot.png",
-		12,
+		ItemUtils.ItemType.Revolver,
+		"Revovler",
+		"res://items/revolver/revolver.png",
+		6,
 		func(player: Player, _delta: float):
 			if Input.is_action_just_pressed("use_item"):
-				if hookshot_ref.ref != null:
-					hookshot_ref.ref.queue_free();
-				player.rpc_controller.RPC_create_hookshot.rpc_id(
+				player.rpc_controller.RPC_create_revolver_shot.rpc_id(
 					Main.SERVER_ID,
 					player.get_viewport().get_camera_2d().get_global_mouse_position(),
 				);

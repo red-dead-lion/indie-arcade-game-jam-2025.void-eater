@@ -7,33 +7,13 @@ func _on_item_collect_area_2d_body_entered(body: Node2D) -> void:
 		var item: ItemUtils.Item = null;
 		match randi() % ItemUtils.ItemType.keys().size():
 			ItemUtils.ItemType.Revolver:
-				item = ItemUtils.Item.new(
-					ItemUtils.ItemType.Revolver,
-					"Revolver",
-					"res://items/revolver/revolver.png",
-					6
-				);
+				Revolver.create();
 			ItemUtils.ItemType.Hookshot:
-				item = ItemUtils.Item.new(
-					ItemUtils.ItemType.Hookshot,
-					"Hookshot",
-					"res://items/hookshot/hookshot.png",
-					10
-				);
+				item = Hookshot.create();
 			ItemUtils.ItemType.Dynamite:
-				item = ItemUtils.Item.new(
-					ItemUtils.ItemType.Dynamite,
-					"Dynamite",
-					"res://items/dynamite/dynamite.png",
-					1
-				);
+				item = Dynamite.create();
 			ItemUtils.ItemType.Uzi:
-				item = ItemUtils.Item.new(
-					ItemUtils.ItemType.Uzi,
-					"Uzi",
-					"res://items/uzi/uzi.png",
-					30
-				);
+				item = Uzi.create();
 		body.pickup_item(item);
 		RPC_remove_item_box();
 
