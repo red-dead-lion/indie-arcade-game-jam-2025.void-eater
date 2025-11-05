@@ -2,7 +2,7 @@ class_name HookshotRope
 extends CharacterBody2D;
 
 # Static
-static var factory_scene_path: String = "res://items/hookshot/hookshot.tscn";
+static var factory_scene_path: String = "res://items/hookshot/hookshot_rope.tscn";
 
 static func _create_instance(_shooter: Player, target_global_position: Vector2)->HookshotRope:
 	var hookshot: HookshotRope = load(factory_scene_path).instantiate();

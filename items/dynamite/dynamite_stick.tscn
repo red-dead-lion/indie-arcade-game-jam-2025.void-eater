@@ -30,11 +30,11 @@ point_count = 5
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.501961)
 
 [sub_resource type="Curve" id="Curve_dphpn"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.1, 1), 0.0, 0.0, 0, 0, Vector2(0.336, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.12682927, 1), 0.0, 0.0, 0, 0, Vector2(0.336, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3hrff"]
-radius = 20.0
+radius = 12.0
 
 [node name="Dynamite" type="CharacterBody2D" node_paths=PackedStringArray("smoke_particles", "explosion_particles", "sprite", "explosion_shape_cast", "countdown_animation")]
 scale = Vector2(1.4, 1.4)
@@ -94,8 +94,8 @@ initial_velocity_min = 50.0
 initial_velocity_max = 75.0
 angular_velocity_min = 243.53
 angular_velocity_max = 375.4
-scale_amount_min = 20.0
-scale_amount_max = 20.0
+scale_amount_min = 12.0
+scale_amount_max = 12.0
 scale_amount_curve = SubResource("Curve_dphpn")
 
 [node name="ExplosionCastShape" type="ShapeCast2D" parent="."]
@@ -103,7 +103,7 @@ scale = Vector2(14, 14)
 shape = SubResource("CircleShape2D_3hrff")
 target_position = Vector2(0, 0)
 max_results = 16
-collision_mask = 3
+collision_mask = 11
 
 [node name="Countdown" parent="." instance=ExtResource("4_6l747")]
 position = Vector2(0, -30.714283)

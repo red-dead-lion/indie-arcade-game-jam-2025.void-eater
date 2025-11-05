@@ -2,7 +2,7 @@ class_name DynamiteStick;
 extends CharacterBody2D;
 
 # Static
-static var factory_scene_path: String = "res://items/dynamite/dynamite.tscn";
+static var factory_scene_path: String = "res://items/dynamite/dynamite_stick.tscn";
 
 static func _create_instance(shooter: Player)->DynamiteStick:
 	var dynamite: DynamiteStick = load(factory_scene_path).instantiate();
@@ -53,7 +53,9 @@ func _physics_process(delta: float) -> void:
 		var collision = explosion_shape_cast.get_collider(n);
 		if collision is Tile:
 			collision.RPC_queue_free.rpc();
-		if collision is Player and (
+		elif collision is BGTile:
+			collision.RPC_remove_tile.rpc();
+		elif collision is Player and (
 			c_apply_force_for_time_after_explosion_timer <
 			apply_force_for_time_after_explosion_timer
 		):

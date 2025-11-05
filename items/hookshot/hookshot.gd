@@ -2,9 +2,6 @@ class_name Hookshot;
 extends Area2D;
 
 static func create():
-	var hookshot_ref = {
-		"ref": null,
-	};
 	return ItemUtils.Item.new(
 		ItemUtils.ItemType.Hookshot,
 		"Hookshot",
@@ -12,8 +9,7 @@ static func create():
 		12,
 		func(player: Player, _delta: float):
 			if Input.is_action_just_pressed("use_item"):
-				if hookshot_ref.ref != null:
-					hookshot_ref.ref.queue_free();
+				print('making hookshot');
 				player.rpc_controller.RPC_create_hookshot.rpc_id(
 					Main.SERVER_ID,
 					player.get_viewport().get_camera_2d().get_global_mouse_position(),

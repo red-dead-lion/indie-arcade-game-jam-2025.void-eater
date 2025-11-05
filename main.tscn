@@ -315,7 +315,7 @@ _spawnable_scenes = PackedStringArray("uid://b76bpd6blsjr2")
 spawn_path = NodePath(".")
 
 [node name="MiscSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://b83o6b262s5y0", "uid://cy6d0unis2aje", "res://items/dynamite/dynamite_strick.tscn", "uid://bouk6s85l00ek", "uid://cvoohmcx2yfuj")
+_spawnable_scenes = PackedStringArray("uid://b83o6b262s5y0", "uid://cy6d0unis2aje", "uid://dr2tvgdgdt3o2", "uid://bouk6s85l00ek", "uid://cvoohmcx2yfuj")
 spawn_path = NodePath(".")
 
 [node name="SpawnBoxTimer" type="Timer" parent="." node_paths=PackedStringArray("boxes_root", "rooms_root")]

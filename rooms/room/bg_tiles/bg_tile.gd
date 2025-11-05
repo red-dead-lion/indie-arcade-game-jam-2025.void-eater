@@ -1,8 +1,11 @@
 class_name BGTile;
-extends Sprite2D
+extends StaticBody2D;
 
 # Settings
 @export var tile_textures: Array[Texture];
+
+# Properties
+@onready var sprite: Sprite2D = $Sprite2D;
 
 # Timers
 var tile_suck_up_timer = 0.2;
@@ -15,7 +18,7 @@ var target_position: Vector2;
 
 # Lifecycle
 func _ready() -> void:
-	texture = tile_textures.get(randi() % tile_textures.size())
+	sprite.texture = tile_textures.get(randi() % tile_textures.size())
 	tile_being_sucked_up_original_position = global_position;
 
 func _physics_process(delta: float) -> void:

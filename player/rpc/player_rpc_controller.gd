@@ -13,7 +13,7 @@ func RPC_set_position(
 @rpc("any_peer", "call_local")
 func RPC_set_velocity(
 	new_velocity: Vector2
-):
+)->void:
 	player.velocity = new_velocity;
 
 @rpc("call_local")
@@ -26,23 +26,28 @@ func RPC_create_uzi_shot(
 	);
 	Main.instance.misc_spawner.add_child(shot, true);
 
+var hookshot_ref_path: String = '';
+
 @rpc("call_local")
 func RPC_create_hookshot(
-	target: Vector2,
-)->HookshotRope:
+	target: Vector2
+)->void:
+	if hookshot_ref_path != '':
+		get_node(hookshot_ref_path).queue_free();
+		hookshot_ref_path = '';
 	var hookshot_rope = HookshotRope._create_instance(
 		player,
 		target,
 	);
-	Main.instance.misc_spawner.add_child(player.in_progress_hookshot, true);
-	return hookshot_rope;
+	hookshot_ref_path = hookshot_rope.get_path();
+	Main.instance.misc_spawner.add_child(hookshot_rope, true);
 	
 @rpc("call_local")
 func RPC_create_dynamite()->void:
-	var hookshot = DynamiteStick._create_instance(
+	var dynamite = DynamiteStick._create_instance(
 		player,
 	);
-	Main.instance.misc_spawner.add_child(hookshot, true);
+	Main.instance.misc_spawner.add_child(dynamite, true);
 
 @rpc("call_local")
 func RPC_create_revolver_shot(
@@ -58,4 +63,7 @@ func RPC_create_revolver_shot(
 func RPC_update_held_item_sprite(
 	item_texture2d_path: String
 )->void:
-	player.held_item_sprite.texture = load(item_texture2d_path);
+	if item_texture2d_path == '':
+		player.held_item_sprite.texture = null;
+	else:
+		player.held_item_sprite.texture = load(item_texture2d_path);

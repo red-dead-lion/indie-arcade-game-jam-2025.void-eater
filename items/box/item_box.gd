@@ -7,7 +7,7 @@ func _on_item_collect_area_2d_body_entered(body: Node2D) -> void:
 		var item: ItemUtils.Item = null;
 		match randi() % ItemUtils.ItemType.keys().size():
 			ItemUtils.ItemType.Revolver:
-				Revolver.create();
+				item = Revolver.create();
 			ItemUtils.ItemType.Hookshot:
 				item = Hookshot.create();
 			ItemUtils.ItemType.Dynamite:

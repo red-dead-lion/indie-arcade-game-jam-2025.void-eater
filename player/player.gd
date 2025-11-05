@@ -25,7 +25,6 @@ static func _create_instance(id: int, players_root_ndoe: Node, rooms_root_node: 
 @export var movement_speed = 500;
 @export var jump_speed = 2000;
 @export var wall_jump_impetus = 1000;
-@export var held_item_sprite_path: String;
 @export var rpc_controller: PlayerRPCController;
 
 # Properties
@@ -38,10 +37,6 @@ var held_item: ItemUtils.Item:
 	set(new_held_item):
 		GameUIController.instance.held_item = new_held_item
 		held_item = new_held_item;
-		if new_held_item != null:
-			held_item_sprite_path = new_held_item.icon_path;
-		else:
-			held_item_sprite_path = "";
 
 # Timers
 var walljump_stickiness_timer = 0.266;
@@ -174,3 +169,4 @@ func remove_item():
 	if !is_multiplayer_authority():
 		return;
 	held_item = null;
+	rpc_controller.RPC_update_held_item_sprite.rpc('');
