@@ -33,14 +33,17 @@ func RPC_create_hookshot(
 	target: Vector2
 )->void:
 	if hookshot_ref_path != '':
-		get_node(hookshot_ref_path).queue_free();
+		var hookshot_ref = get_node(hookshot_ref_path);
+		if hookshot_ref != null:
+			hookshot_ref.queue_free();
 		hookshot_ref_path = '';
 	var hookshot_rope = HookshotRope._create_instance(
 		player,
 		target,
 	);
-	hookshot_ref_path = hookshot_rope.get_path();
 	Main.instance.misc_spawner.add_child(hookshot_rope, true);
+	hookshot_ref_path = hookshot_rope.get_path();
+
 	
 @rpc("call_local")
 func RPC_create_dynamite()->void:
