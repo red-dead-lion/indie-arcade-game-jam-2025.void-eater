@@ -2,10 +2,11 @@ class_name ItemUtils;
 extends Node;
 
 enum ItemType {
-	Hookshot,
-	Dynamite,
-	Uzi,
-	Revolver,
+	Hookshot = 0,
+	Dynamite = 1,
+	Uzi = 2,
+	Revolver = 3,
+	GhostMode = 4,
 };
 
 class Item:

@@ -14,6 +14,8 @@ func _on_item_collect_area_2d_body_entered(body: Node2D) -> void:
 				item = Dynamite.create();
 			ItemUtils.ItemType.Uzi:
 				item = Uzi.create();
+			ItemUtils.ItemType.GhostMode:
+				item = GhostMode.create();
 		body.pickup_item(item);
 		RPC_remove_item_box();
 

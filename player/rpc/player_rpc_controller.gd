@@ -70,3 +70,4 @@ func RPC_update_held_item_sprite(
 		player.held_item_sprite.texture = null;
 	else:
 		player.held_item_sprite.texture = load(item_texture2d_path);
+		

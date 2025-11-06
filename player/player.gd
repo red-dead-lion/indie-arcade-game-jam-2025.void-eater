@@ -37,6 +37,7 @@ var held_item: ItemUtils.Item:
 	set(new_held_item):
 		GameUIController.instance.held_item = new_held_item
 		held_item = new_held_item;
+var input_enabled = true;
 
 # Timers
 var walljump_stickiness_timer = 0.266;
@@ -51,6 +52,7 @@ func _enter_tree()->void:
 func _physics_process(delta: float) -> void:
 	if !is_multiplayer_authority():
 		return;
+		
 	handle_movement_input(delta);
 	if held_item != null:
 		held_item.use.call(self, delta);
@@ -58,8 +60,17 @@ func _physics_process(delta: float) -> void:
 		GameUIController.instance.held_item_qty_label.text = str(held_item.qty);
 		if held_item.qty <= 0:
 			remove_item();
-	velocity += movement_impetus;
-	dampen_player_velocity();
+	if input_enabled:
+		velocity += movement_impetus;
+		dampen_player_velocity();
+		var params = PhysicsShapeQueryParameters2D.new();
+		params.shape = $CollisionShape2D.shape;
+		params.transform = global_transform;
+		params.margin = 0.001;
+		for shape in get_world_2d().direct_space_state.intersect_shape(params, 8):
+			if shape.collider.collision_layer & (1 << 1) != 0:
+				position -= Vector2.ONE * 8;
+
 	var before_collide_velocity = velocity;
 	move_and_slide();
 	handle_interaction_with_other_player_bodies(before_collide_velocity);
@@ -108,7 +119,7 @@ func handle_wall_jump_input(
 		rotation = on_wall_rotation;
 		velocity.y = clamp(velocity.y, -jump_speed, jump_speed / 8.0);
 		if Input.is_action_just_pressed("ui_accept"):
-			movement_impetus.x += wall_jump_impetus;
+			movement_impetus.x += wall_jump_impetus * -for_sprite_direction;
 			walljump_lr_fromdir = Vector2(for_sprite_direction, 0);
 
 func handle_stop_movement_input():

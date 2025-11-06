@@ -30,6 +30,7 @@ scale = Vector2(1.5, 1.5)
 collision_mask = 3
 platform_on_leave = 2
 platform_floor_layers = 4294967294
+safe_margin = 1.0
 script = ExtResource("1_rkbax")
 rpc_controller = NodePath("RPCController")
 
