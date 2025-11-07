@@ -72,3 +72,9 @@ func update_lobby_waiting_for_players_label()->void:
 @rpc('any_peer', 'call_local')
 func RPC_hide_lobby_ui()->void:
 	visible = false;
+
+@rpc('any_peer', 'call_local')
+func RPC_show_lobby_ui()->void:
+	visible = true;
+	settings_ui_container_node.visible = true;
+	waiting_ui_container_node.visible = false;

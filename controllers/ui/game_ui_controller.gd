@@ -30,3 +30,7 @@ func _ready()->void:
 @rpc('any_peer', 'call_local')
 func RPC_show_game_ui()->void:
 	visible = true;
+
+@rpc('any_peer', 'call_local')
+func RPC_hide_game_ui()->void:
+	visible = false;

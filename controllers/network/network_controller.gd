@@ -33,7 +33,6 @@ func start_server()->bool:
 				multiplayer.get_peers().size() + 1
 			and multiplayer.is_server()
 		):
-			print('generate level');
 			Main.instance.create_level_from_properties();
 			Player._create_instance(Main.SERVER_ID, players_root_node, rooms_root_node);
 			for n in multiplayer.get_peers():
@@ -57,19 +56,29 @@ func start_client()->bool:
 	multiplayer.multiplayer_peer = peer;
 	return true;
 
-# Networking
-@rpc('any_peer', 'call_local')
-func RPC_cancel_connection()->void:
-	if multiplayer.get_remote_sender_id() == Main.SERVER_ID:
-		for n in multiplayer.get_peers():
-			multiplayer.multiplayer_peer.disconnect_peer(n);
+func disconnect_all()->void:
+	for n in multiplayer.get_peers():
+		multiplayer.multiplayer_peer.disconnect_peer(n);
 		for c in multiplayer.peer_connected.get_connections():
 			multiplayer.peer_connected.disconnect(c.callable);
 		for c in multiplayer.peer_disconnected.get_connections():
 			multiplayer.peer_disconnected.disconnect(c.callable);
 		multiplayer.multiplayer_peer.close();
 		multiplayer.multiplayer_peer = null
+
+# Networking
+@rpc('any_peer', 'call_local')
+func RPC_cancel_connection()->void:
+	if multiplayer.get_remote_sender_id() == Main.SERVER_ID:
+		disconnect_all();
 	else:
 		multiplayer.multiplayer_peer.disconnect_peer.call_deferred(
 			multiplayer.get_remote_sender_id(),
 		);
+		
+@rpc('any_peer', 'call_local')
+func RPC_end_game_for_all():
+	LobbyUIController.instance.RPC_show_lobby_ui.rpc();
+	GameUIController.instance.RPC_hide_game_ui.rpc();
+	if multiplayer.is_server():
+		disconnect_all();

@@ -48,3 +48,13 @@ func _ready()->void:
 # Methods
 func create_level_from_properties()->void:
 	generate_level(level_root, room_scene, void_root, void_scene, size, start_position);
+
+func clear_level()->void:
+	for s in level_root.get_children():
+		s.queue_free();
+	for s in void_root.get_children():
+		s.queue_free();
+	
+	
+	
+	

@@ -74,8 +74,53 @@ func _physics_process(delta: float) -> void:
 	var before_collide_velocity = velocity;
 	move_and_slide();
 	handle_interaction_with_other_player_bodies(before_collide_velocity);
+	handle_is_out_of_bounds();
+	handle_check_for_victory();
 
 # Methods
+func handle_is_out_of_bounds():
+	if (position.x < -200 or
+		position.x > 1800 or
+		position.y < -200 or
+		position.y > 1800
+	):
+		print('OOB');
+		NetworkPlayersController.instance.RPC_add_killed_player_id.rpc(
+			multiplayer.get_unique_id()
+		);
+		queue_free();
+
+func handle_check_for_victory():
+	print(NetworkPlayersController
+			.instance
+			.killed_player_peer_ids
+			.size());
+	if (
+		NetworkPlayersController
+			.instance
+			.killed_player_peer_ids
+			.size() == multiplayer.get_peers().size()
+		and !NetworkPlayersController
+			.instance
+			.killed_player_peer_ids.has(
+				multiplayer.get_unique_id()
+			)
+	):
+		print(NetworkPlayersController
+			.instance
+			.killed_player_peer_ids
+			.size());
+		print(multiplayer.get_peers().size());
+		print(NetworkPlayersController	
+			.instance
+			.killed_player_peer_ids.has(
+				multiplayer.get_unique_id()
+			))
+		print('VICTORY! For id ', multiplayer.get_unique_id());
+		NetworkController.instance.RPC_end_game_for_all.rpc();
+		queue_free();
+		Main.instance.clear_level();
+		
 func handle_interaction_with_other_player_bodies(n_minus_one_velocity: Vector2):
 	for n in get_slide_collision_count():
 		var collider = get_slide_collision(n).get_collider();

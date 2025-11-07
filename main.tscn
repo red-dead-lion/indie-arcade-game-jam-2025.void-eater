@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://cdmmnhvqrv0oq" path="res://items/box/item_box_spawn_timer.gd" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://b76bpd6blsjr2" path="res://items/box/item_box.tscn" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://b83o6b262s5y0" path="res://void/the_void.tscn" id="11_efxa6"]
+[ext_resource type="Script" uid="uid://db0m0q0t4434j" path="res://controllers/network/network_player_controller.gd" id="13_yaehf"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
 font_size = 75
@@ -27,30 +28,9 @@ font_size = 20
 properties/0/path = NodePath("UI/ConnectUI/Waiting/Label:text")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-
-[sub_resource type="GDScript" id="GDScript_kek77"]
-script/source = "class_name NetworkPlayersController;
-extends MultiplayerSpawner
-
-@export var player_scene: PackedScene;
-@export var rooms_root: Node;
-static var instance: NetworkPlayersController;
-
-func _ready()->void:
-	instance = self;
-	
-func spawn_player(id: int)->void:
-	if !get_tree().get_multiplayer().is_server():
-		return;
-	var player = player_scene.instantiate();
-	player.name = str(id);
-	get_node(spawn_path).add_child(player, true);
-	player.remote_update_position.rpc(
-		rooms_root.get_child(
-			randi() % rooms_root.get_child_count()
-		).global_position
-	);
-"
+properties/1/path = NodePath("PlayersSpawner:killed_player_peer_ids")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("level_root", "void_root", "players_spawner", "rooms_spawner", "boxes_spawner", "misc_spawner")]
 script = ExtResource("1_1bvp3")
@@ -301,7 +281,7 @@ rooms_root_node = NodePath("../RoomSpawner")
 [node name="PlayersSpawner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("rooms_root")]
 _spawnable_scenes = PackedStringArray("uid://c6qj00pv2p5fg")
 spawn_path = NodePath(".")
-script = SubResource("GDScript_kek77")
+script = ExtResource("13_yaehf")
 player_scene = ExtResource("1_ig7tw")
 rooms_root = NodePath("../RoomSpawner")
 
