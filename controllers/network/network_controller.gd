@@ -40,6 +40,7 @@ func start_server()->bool:
 			LobbyUIController.instance.RPC_hide_lobby_ui.rpc();
 			GameUIController.instance.RPC_show_game_ui.rpc();
 	);
+	NetworkPlayersController.instance.killed_player_peer_ids = [];
 	return true;
 
 func start_client()->bool:
@@ -54,6 +55,7 @@ func start_client()->bool:
 		);
 		return false;
 	multiplayer.multiplayer_peer = peer;
+	NetworkPlayersController.instance.killed_player_peer_ids = [];
 	return true;
 
 func disconnect_all()->void:
@@ -67,7 +69,7 @@ func disconnect_all()->void:
 		multiplayer.multiplayer_peer = null
 
 # Networking
-@rpc('any_peer', 'call_local')
+@rpc('any_peer', 'call_local', 'reliable')
 func RPC_cancel_connection()->void:
 	if multiplayer.get_remote_sender_id() == Main.SERVER_ID:
 		disconnect_all();
@@ -76,9 +78,10 @@ func RPC_cancel_connection()->void:
 			multiplayer.get_remote_sender_id(),
 		);
 		
-@rpc('any_peer', 'call_local')
+@rpc('any_peer', 'call_local', 'reliable')
 func RPC_end_game_for_all():
 	LobbyUIController.instance.RPC_show_lobby_ui.rpc();
 	GameUIController.instance.RPC_hide_game_ui.rpc();
 	if multiplayer.is_server():
-		disconnect_all();
+		Main.instance.RPC_clear_level.rpc_id(Main.SERVER_ID);
+		call_deferred('disconnect_all');

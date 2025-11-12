@@ -1,5 +1,5 @@
 class_name LobbyUIController;
-extends CenterContainer;
+extends Control;
 
 # Static
 static var instance: LobbyUIController;
@@ -69,11 +69,11 @@ func update_lobby_waiting_for_players_label()->void:
 		);
 
 # Networking
-@rpc('any_peer', 'call_local')
+@rpc('any_peer', 'call_local', 'reliable')
 func RPC_hide_lobby_ui()->void:
 	visible = false;
 
-@rpc('any_peer', 'call_local')
+@rpc('any_peer', 'call_local',  'reliable')
 func RPC_show_lobby_ui()->void:
 	visible = true;
 	settings_ui_container_node.visible = true;

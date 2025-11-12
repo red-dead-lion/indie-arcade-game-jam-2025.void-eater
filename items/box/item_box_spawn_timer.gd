@@ -6,12 +6,8 @@ extends Timer
 @export var boxes_root: Node;
 @export var rooms_root: Node;
 
-# Properties
-var is_started = false;
-
 # Triggers
 func _on_timeout() -> void:
-	print()
 	if !multiplayer.is_server() or rooms_root.get_child_count() == 0:
 		return;
 	var box = box_scene.instantiate();
@@ -19,12 +15,3 @@ func _on_timeout() -> void:
 	var room = rooms_root.get_child(randi() % rooms_root.get_child_count());
 	if room is Room:
 		box.position = room.position;
-			
-
-# Lifecycle
-func _enter_tree() -> void:
-	multiplayer.peer_connected.connect(func(_id)->void:
-		if !multiplayer.is_server() and !is_started:
-			return;
-		start();
-	);

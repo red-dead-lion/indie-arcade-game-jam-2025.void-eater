@@ -70,4 +70,8 @@ func RPC_update_held_item_sprite(
 		player.held_item_sprite.texture = null;
 	else:
 		player.held_item_sprite.texture = load(item_texture2d_path);
-		
+
+@rpc("call_local", "reliable")
+func RPC_set_destroy_player(player_node: String)->void:
+	var _player: Player = get_node(player_node);
+	_player.queue_free();

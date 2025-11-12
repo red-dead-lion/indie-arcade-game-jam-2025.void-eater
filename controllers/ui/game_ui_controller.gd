@@ -21,7 +21,13 @@ var held_item: ItemUtils.Item:
 			held_item_icon.texture = load(new_held_item.icon_path);
 			held_item_qty_label.text = var_to_str(new_held_item.qty);
 		held_item = new_held_item;
-	
+
+func show_victory_message():
+	$VictoryMessage.visible = true;
+
+func hide_victory_message():
+	$VictoryMessage.visible = false;
+
 # Lifecycle
 func _ready()->void:
 	instance = self;

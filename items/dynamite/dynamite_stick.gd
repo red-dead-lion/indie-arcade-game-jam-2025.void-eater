@@ -34,7 +34,7 @@ func _on_smoke_finished() -> void:
 func _on_countdown_timer_tick_animation_complete() -> void:
 	explode_timer -= 1;
 	if explode_timer == 0:
-		explode();	
+		explode();
 	elif explode_timer == 1.0:
 		countdown_animation.play_countdown_label_red(var_to_str(explode_timer));
 	else:

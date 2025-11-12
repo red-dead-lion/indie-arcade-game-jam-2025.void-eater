@@ -9,7 +9,6 @@ static func create():
 		12,
 		func(player: Player, _delta: float):
 			if Input.is_action_just_pressed("use_item"):
-				print('making hookshot');
 				player.rpc_controller.RPC_create_hookshot.rpc_id(
 					Main.SERVER_ID,
 					player.get_viewport().get_camera_2d().get_global_mouse_position(),

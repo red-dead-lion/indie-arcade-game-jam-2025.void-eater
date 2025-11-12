@@ -13,7 +13,6 @@ signal on_timer_tick_animation_complete();
 # Triggers
 
 func _on_countdown_animation_finished(_anim_name: StringName) -> void:
-	print('anim finished');
 	on_timer_tick_animation_complete.emit();
 
 # Methods

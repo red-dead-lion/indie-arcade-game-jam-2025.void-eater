@@ -4,6 +4,8 @@ extends Node2D;
 # Settings
 @export var level_root: Node;
 @export var void_root: Node;
+@export var boxes_root: Node;
+@export var misc_root: Node;
 @export var room_scene: PackedScene;
 @export var void_scene: PackedScene;
 @export var size: Vector2;
@@ -48,13 +50,17 @@ func _ready()->void:
 # Methods
 func create_level_from_properties()->void:
 	generate_level(level_root, room_scene, void_root, void_scene, size, start_position);
+	$SpawnBoxTimer.start();
 
-func clear_level()->void:
+# Network
+@rpc("call_local", "reliable")
+func RPC_clear_level()->void:
 	for s in level_root.get_children():
 		s.queue_free();
 	for s in void_root.get_children():
 		s.queue_free();
-	
-	
-	
-	
+	for s in boxes_root.get_children():
+		s.queue_free();
+	for s in misc_root.get_children():
+		s.queue_free();
+	$SpawnBoxTimer.stop();

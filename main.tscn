@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://sqqqjuxqc0s0"]
+[gd_scene load_steps=36 format=3 uid="uid://sqqqjuxqc0s0"]
 
 [ext_resource type="Script" uid="uid://b3mieq3s0e6eo" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://c6qj00pv2p5fg" path="res://player/player.tscn" id="1_ig7tw"]
@@ -15,13 +15,124 @@
 [ext_resource type="Texture2D" uid="uid://b278kbq3tlywv" path="res://rooms/bg_planet.png" id="7_2cqfq"]
 [ext_resource type="Script" uid="uid://cdmmnhvqrv0oq" path="res://items/box/item_box_spawn_timer.gd" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://b76bpd6blsjr2" path="res://items/box/item_box.tscn" id="8_5vw27"]
+[ext_resource type="FontFile" uid="uid://dhlupo0vh6h7o" path="res://ui/HomeVideoBold-R90Dv.ttf" id="10_074og"]
+[ext_resource type="FontFile" uid="uid://dnr85yyeocj40" path="res://ui/HomeVideo-BLG6G.ttf" id="11_cegan"]
 [ext_resource type="PackedScene" uid="uid://b83o6b262s5y0" path="res://void/the_void.tscn" id="11_efxa6"]
 [ext_resource type="Script" uid="uid://db0m0q0t4434j" path="res://controllers/network/network_player_controller.gd" id="13_yaehf"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
+font = ExtResource("10_074og")
 font_size = 75
 
 [sub_resource type="LabelSettings" id="LabelSettings_kek77"]
+font = ExtResource("11_cegan")
+font_size = 26
+
+[sub_resource type="LabelSettings" id="LabelSettings_yaehf"]
+font = ExtResource("10_074og")
+font_size = 128
+
+[sub_resource type="Animation" id="Animation_82xsv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_cegan"]
+resource_name = "title_circle_animation"
+length = 12.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 12),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.2831855]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_82xsv"]
+_data = {
+&"RESET": SubResource("Animation_82xsv"),
+&"title_circle_animation": SubResource("Animation_cegan")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_getpj"]
+font = ExtResource("10_074og")
+font_size = 64
+font_color = Color(1, 0, 1, 1)
+
+[sub_resource type="Animation" id="Animation_ryguw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:label_settings:font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_getpj"]
+resource_name = "title_animation"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:label_settings:font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 4, 6, 8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.98039216, 0.8039216, 0.6156863, 1), Color(0.40392157, 0.21960784, 0.21568628, 1), Color(0.8039216, 0.36078432, 0.39607844, 1), Color(0, 0, 0, 1), Color(0.30980393, 0.16862746, 0.21568628, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ryguw"]
+_data = {
+&"RESET": SubResource("Animation_ryguw"),
+&"title_animation": SubResource("Animation_getpj")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_ryguw"]
+font = ExtResource("11_cegan")
+font_size = 64
+font_color = Color(1, 0, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cegan"]
+font = ExtResource("10_074og")
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
+font = ExtResource("11_cegan")
+font_size = 13
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_cegan"]
+default_font = ExtResource("11_cegan")
+
+[sub_resource type="LabelSettings" id="LabelSettings_d13ii"]
+font = ExtResource("10_074og")
 font_size = 20
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kek77"]
@@ -32,10 +143,12 @@ properties/1/path = NodePath("PlayersSpawner:killed_player_peer_ids")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("level_root", "void_root", "players_spawner", "rooms_spawner", "boxes_spawner", "misc_spawner")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("level_root", "void_root", "boxes_root", "misc_root", "players_spawner", "rooms_spawner", "boxes_spawner", "misc_spawner")]
 script = ExtResource("1_1bvp3")
 level_root = NodePath("RoomSpawner")
 void_root = NodePath("MiscSpawner")
+boxes_root = NodePath("BoxesSpawner")
+misc_root = NodePath("MiscSpawner")
 room_scene = ExtResource("3_h2yge")
 void_scene = ExtResource("11_efxa6")
 size = Vector2(6, 6)
@@ -169,17 +282,36 @@ layout_mode = 2
 size_flags_vertical = 4
 stretch_mode = 4
 
-[node name="ConnectUI" type="CenterContainer" parent="UI" node_paths=PackedStringArray("connection_feedback_label", "port_text_edit", "address_text_edit", "waiting_label", "settings_ui_container_node", "waiting_ui_container_node")]
+[node name="VictoryMessage" type="MarginContainer" parent="UI/GameUI"]
+visible = false
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -450.0
-offset_top = -902.0
-offset_right = -136.0
-offset_bottom = -409.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -657.0
+offset_top = -160.0
+offset_right = 653.0
+offset_bottom = 1497.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/GameUI/VictoryMessage"]
+layout_mode = 2
+text = "YOU WIN!"
+label_settings = SubResource("LabelSettings_yaehf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConnectUI" type="Control" parent="UI" node_paths=PackedStringArray("connection_feedback_label", "port_text_edit", "address_text_edit", "waiting_label", "settings_ui_container_node", "waiting_ui_container_node")]
+layout_mode = 1
+anchor_left = -0.019000001
+anchor_top = -0.071
+anchor_right = 1.016
+anchor_bottom = 0.887
+offset_left = 432.3
+offset_top = 128.084
+offset_right = -1013.2001
+offset_bottom = -1107.1481
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(3, 3)
@@ -191,22 +323,84 @@ waiting_label = NodePath("Waiting/Label")
 settings_ui_container_node = NodePath("Settings")
 waiting_ui_container_node = NodePath("Waiting")
 
-[node name="Settings" type="VBoxContainer" parent="UI/ConnectUI"]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="UI/ConnectUI/Settings"]
+[node name="Logo" type="TextureRect" parent="UI/ConnectUI"]
 texture_filter = 1
 custom_minimum_size = Vector2(256, 256)
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -138.66666
+offset_top = 42.666668
+offset_right = 117.33334
+offset_bottom = 298.66666
+grow_horizontal = 2
+pivot_offset = Vector2(128, 128)
 texture = ExtResource("6_efxa6")
 stretch_mode = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/ConnectUI/Logo"]
+libraries = {
+&"": SubResource("AnimationLibrary_82xsv")
+}
+autoplay = "title_circle_animation"
+speed_scale = 0.3
+
+[node name="GameTitle" type="Label" parent="UI/ConnectUI"]
+layout_mode = 0
+offset_left = -48.0
+offset_top = 138.66667
+offset_right = 336.0
+offset_bottom = 197.66667
+text = "VOID ARENA"
+label_settings = SubResource("LabelSettings_getpj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/ConnectUI/GameTitle"]
+libraries = {
+&"": SubResource("AnimationLibrary_ryguw")
+}
+autoplay = "title_animation"
+
+[node name="GameTitle2" type="Label" parent="UI/ConnectUI"]
+layout_mode = 0
+offset_left = -48.0
+offset_top = 138.66667
+offset_right = 336.0
+offset_bottom = 197.66667
+text = "VOID ARENA"
+label_settings = SubResource("LabelSettings_ryguw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/ConnectUI/GameTitle2"]
+libraries = {
+&"": SubResource("AnimationLibrary_ryguw")
+}
+autoplay = "title_animation"
+speed_scale = 0.5
+
+[node name="Settings" type="VBoxContainer" parent="UI/ConnectUI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -157.0
+offset_top = -198.0
+offset_right = 157.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/ConnectUI/Settings"]
+layout_mode = 2
 
 [node name="Titlecard" type="Label" parent="UI/ConnectUI/Settings"]
 layout_mode = 2
 text = "Enter Game Details"
+label_settings = SubResource("LabelSettings_cegan")
 
 [node name="ConnectionFeedback" type="Label" parent="UI/ConnectUI/Settings"]
 layout_mode = 2
+label_settings = SubResource("LabelSettings_82xsv")
 
 [node name="IpAddrContainer" type="HBoxContainer" parent="UI/ConnectUI/Settings"]
 layout_mode = 2
@@ -215,10 +409,12 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "IP Address"
+label_settings = SubResource("LabelSettings_cegan")
 
 [node name="TextEdit" type="TextEdit" parent="UI/ConnectUI/Settings/IpAddrContainer"]
 custom_minimum_size = Vector2(190, 35)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("11_cegan")
 text = "localhost"
 placeholder_text = "Enter IP Address"
 
@@ -229,10 +425,12 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "Port"
+label_settings = SubResource("LabelSettings_cegan")
 
 [node name="TextEdit" type="TextEdit" parent="UI/ConnectUI/Settings/PortContainer"]
 custom_minimum_size = Vector2(190, 35)
 layout_mode = 2
+theme = SubResource("Theme_cegan")
 text = "7777"
 placeholder_text = "Enter Port (1025 - 65535)"
 
@@ -243,31 +441,41 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "Player Count"
+label_settings = SubResource("LabelSettings_cegan")
 
 [node name="SpinBox" type="SpinBox" parent="UI/ConnectUI/Settings/PlayerCountContainer"]
 layout_mode = 2
+theme = SubResource("Theme_cegan")
 min_value = 2.0
 max_value = 4.0
 value = 2.0
 
 [node name="Host" type="Button" parent="UI/ConnectUI/Settings"]
 layout_mode = 2
+theme = SubResource("Theme_cegan")
 text = "Create Host Locally"
 
 [node name="Join" type="Button" parent="UI/ConnectUI/Settings"]
 layout_mode = 2
+theme = SubResource("Theme_cegan")
 text = "Attempt To Join"
 
 [node name="Waiting" type="VBoxContainer" parent="UI/ConnectUI"]
 visible = false
-layout_mode = 2
+layout_mode = 0
+offset_left = -80.0
+offset_top = 8.0
+offset_right = 388.0
+offset_bottom = 53.0
 
 [node name="Label" type="Label" parent="UI/ConnectUI/Waiting"]
 layout_mode = 2
 text = "Waiting for players to connect... (0/4)"
+label_settings = SubResource("LabelSettings_d13ii")
 
 [node name="CancelButton" type="Button" parent="UI/ConnectUI/Waiting"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("11_cegan")
 text = "Cancel"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

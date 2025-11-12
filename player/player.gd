@@ -52,7 +52,6 @@ func _enter_tree()->void:
 func _physics_process(delta: float) -> void:
 	if !is_multiplayer_authority():
 		return;
-		
 	handle_movement_input(delta);
 	if held_item != null:
 		held_item.use.call(self, delta);
@@ -60,6 +59,8 @@ func _physics_process(delta: float) -> void:
 		GameUIController.instance.held_item_qty_label.text = str(held_item.qty);
 		if held_item.qty <= 0:
 			remove_item();
+	if Input.is_action_just_pressed('ui_cancel'):
+		remove_player_from_game();
 	if input_enabled:
 		velocity += movement_impetus;
 		dampen_player_velocity();
@@ -84,17 +85,9 @@ func handle_is_out_of_bounds():
 		position.y < -200 or
 		position.y > 1800
 	):
-		print('OOB');
-		NetworkPlayersController.instance.RPC_add_killed_player_id.rpc(
-			multiplayer.get_unique_id()
-		);
-		queue_free();
+		remove_player_from_game();
 
 func handle_check_for_victory():
-	print(NetworkPlayersController
-			.instance
-			.killed_player_peer_ids
-			.size());
 	if (
 		NetworkPlayersController
 			.instance
@@ -106,20 +99,8 @@ func handle_check_for_victory():
 				multiplayer.get_unique_id()
 			)
 	):
-		print(NetworkPlayersController
-			.instance
-			.killed_player_peer_ids
-			.size());
-		print(multiplayer.get_peers().size());
-		print(NetworkPlayersController	
-			.instance
-			.killed_player_peer_ids.has(
-				multiplayer.get_unique_id()
-			))
-		print('VICTORY! For id ', multiplayer.get_unique_id());
+		remove_player_from_game();
 		NetworkController.instance.RPC_end_game_for_all.rpc();
-		queue_free();
-		Main.instance.clear_level();
 		
 func handle_interaction_with_other_player_bodies(n_minus_one_velocity: Vector2):
 	for n in get_slide_collision_count():
@@ -226,3 +207,12 @@ func remove_item():
 		return;
 	held_item = null;
 	rpc_controller.RPC_update_held_item_sprite.rpc('');
+
+func remove_player_from_game():
+	rpc_controller.RPC_set_destroy_player.rpc_id(
+		Main.SERVER_ID,
+		get_path()
+	);
+	NetworkPlayersController.instance.RPC_add_killed_player_id.rpc(
+		multiplayer.get_unique_id()
+	);

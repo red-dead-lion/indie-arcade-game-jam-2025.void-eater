@@ -21,6 +21,7 @@ func spawn_player(id: int)->void:
 		).global_position
 	);
 
-@rpc("any_peer", "call_local")
+@rpc("any_peer", "call_local", "reliable")
 func RPC_add_killed_player_id(id):
-	killed_player_peer_ids.append(id);
+	if multiplayer.is_server():
+		killed_player_peer_ids.append(id);

@@ -1,10 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://c13twowluqx04"]
+[gd_scene load_steps=15 format=3 uid="uid://c13twowluqx04"]
 
 [ext_resource type="Texture2D" uid="uid://c6b8tj26k7ug3" path="res://rooms/room/bg_tiles/bg_tile_1.tres" id="1_fqpd3"]
 [ext_resource type="Script" uid="uid://s581nou5c1bl" path="res://rooms/room/bg_tiles/bg_tile.gd" id="2_rtppx"]
 [ext_resource type="Texture2D" uid="uid://cdetv21e8cehf" path="res://rooms/room/bg_tiles/bg_tile_2.tres" id="3_rqhm4"]
 [ext_resource type="Texture2D" uid="uid://sam75bqptadv" path="res://rooms/room/bg_tiles/bg_tile_3.tres" id="4_lm80m"]
 [ext_resource type="Texture2D" uid="uid://dvcsy1hhtgxnu" path="res://rooms/room/bg_tiles/bg_tile_4.tres" id="5_g0qfi"]
+[ext_resource type="Texture2D" uid="uid://cbqodddna53pj" path="res://rooms/room/bg_tiles/bg_tile_5.tres" id="6_5p216"]
+[ext_resource type="Texture2D" uid="uid://bi3d4uv80ncx8" path="res://rooms/room/bg_tiles/bg_tile_6.tres" id="7_1cabw"]
+[ext_resource type="Texture2D" uid="uid://ds3je3r7b87yf" path="res://rooms/room/bg_tiles/bg_tile_7.tres" id="8_6s2ne"]
+[ext_resource type="Texture2D" uid="uid://eex7cxfkxrht" path="res://rooms/room/bg_tiles/bg_tile_8.tres" id="9_gaax6"]
+[ext_resource type="Texture2D" uid="uid://b2by8ca5w4c4f" path="res://rooms/room/bg_tiles/bg_tile_9.tres" id="10_0dp4v"]
+[ext_resource type="Texture2D" uid="uid://chsp5nfivqu8y" path="res://rooms/room/bg_tiles/bg_tile_10.tres" id="11_6s2ne"]
+[ext_resource type="Texture2D" uid="uid://dbh6cogx8cmkm" path="res://rooms/room/bg_tiles/bg_tile_11.tres" id="12_gaax6"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rtppx"]
 properties/0/path = NodePath(".:position")
@@ -19,7 +26,7 @@ scale = Vector2(2, 2)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("2_rtppx")
-tile_textures = Array[Texture]([ExtResource("1_fqpd3"), ExtResource("3_rqhm4"), ExtResource("4_lm80m"), ExtResource("5_g0qfi")])
+tile_textures = Array[Texture]([ExtResource("1_fqpd3"), ExtResource("3_rqhm4"), ExtResource("4_lm80m"), ExtResource("5_g0qfi"), ExtResource("6_5p216"), ExtResource("7_1cabw"), ExtResource("8_6s2ne"), ExtResource("9_gaax6"), ExtResource("10_0dp4v"), ExtResource("1_fqpd3"), ExtResource("3_rqhm4"), ExtResource("4_lm80m"), ExtResource("6_5p216"), ExtResource("11_6s2ne"), ExtResource("3_rqhm4"), ExtResource("12_gaax6"), ExtResource("5_g0qfi"), ExtResource("6_5p216"), ExtResource("10_0dp4v"), ExtResource("11_6s2ne"), ExtResource("12_gaax6")])
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_rtppx")
