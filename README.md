@@ -22,8 +22,8 @@ Crates will periodically drop into the arena conitainig several items. Use them 
 
 ### Items
 
-- <img width="16" height="16" alt="dynamite" src="https://github.com/user-attachments/assets/9d11f5c2-7e4f-413e-afc8-ffc1ae28e52b" /> Dynamite can be used to blow players away and also blow up tiles after a short delay
-- <img width="28" height="27" alt="ghost_mode" src="https://github.com/user-attachments/assets/3a6f8d1b-fc28-4361-9840-567a38136f35" /> When you enter ghost mode, you can pass through tiles and are not subject to the normal rules of physics.
-- <img width="16" height="16" alt="hookshot" src="https://github.com/user-attachments/assets/ee6d5e32-c49b-4a2d-8a79-1a9e0f55b80e" /> Use the hookshot to get around the level rapidly and cross over large areas that have been destroyed safely
-- <img width="15" height="10" alt="revolver" src="https://github.com/user-attachments/assets/7884b1c5-973a-4759-aa13-4c929ae78bc8" /> The revolver is a powerful gun with bullets that will bounce around the level. Be careful of recoil!
-- <img width="16" height="10" alt="uzi" src="https://github.com/user-attachments/assets/8c4f24f1-a3bb-4605-8899-cf4371230fea" /> The uzi is a rapid fireing gun, the bullets do not bounce but shoot a constant stream of bullets at enemies
+- <img width="32" height="32" alt="dynamite" src="https://github.com/user-attachments/assets/9d11f5c2-7e4f-413e-afc8-ffc1ae28e52b" /> Dynamite can be used to blow players away and also blow up tiles after a short delay
+- <img width="56" height="54" alt="ghost_mode" src="https://github.com/user-attachments/assets/3a6f8d1b-fc28-4361-9840-567a38136f35" /> When you enter ghost mode, you can pass through tiles and are not subject to the normal rules of physics.
+- <img width="32" height="32" alt="hookshot" src="https://github.com/user-attachments/assets/ee6d5e32-c49b-4a2d-8a79-1a9e0f55b80e" /> Use the hookshot to get around the level rapidly and cross over large areas that have been destroyed safely
+- <img width="30" height="20" alt="revolver" src="https://github.com/user-attachments/assets/7884b1c5-973a-4759-aa13-4c929ae78bc8" /> The revolver is a powerful gun with bullets that will bounce around the level. Be careful of recoil!
+- <img width="32" height="20" alt="uzi" src="https://github.com/user-attachments/assets/8c4f24f1-a3bb-4605-8899-cf4371230fea" /> The uzi is a rapid fireing gun, the bullets do not bounce but shoot a constant stream of bullets at enemies
