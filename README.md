@@ -1,6 +1,6 @@
 # Void Arena
 
-This is my first game made in Godot. Originally it was intended to be released for the indie arcade game jam 2025, however due to a combination of a house move, immigration to another country, and caring for my partner who was undergoing treatment for her cancer at the time, development was delayed and I was not able to meet the deadline!
+This is my first game made in Godot. Originally it was intended to be released for the indie arcade game jam 2025, however due to a combination of a house move, immigration to another country, and caring for my partner who was undergoing treatment for her cancer at the time, development was delayed and I was not able to meet the deadline :(
 
 But despite all the hardship however, it was fun to work on in particular this game was an interesting look into the ENet implemetation used in godot.
 
