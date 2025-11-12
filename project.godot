@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Void-Eater"
+config/name="Void-Arena"
 run/main_scene="uid://sqqqjuxqc0s0"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 
