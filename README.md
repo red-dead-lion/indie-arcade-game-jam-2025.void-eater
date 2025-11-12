@@ -6,7 +6,7 @@ But despite all the hardship however, it was fun to work on in particular this g
 
 As always, feel free to use the code however you wish, and a web build is availiable on on my itch.io page :)
 
-<img width="440" height="440" alt="image" src="https://github.com/user-attachments/assets/cde1b819-de33-468d-830a-7364aa5a944c" /> <img width="440" height="440" alt="image" src="https://github.com/user-attachments/assets/9ab8966f-e63d-4df2-b528-adbf976d25f6" /> 
+<img width="462" height="462" alt="image" src="https://github.com/user-attachments/assets/cde1b819-de33-468d-830a-7364aa5a944c" /> <img width="440" height="440" alt="image" src="https://github.com/user-attachments/assets/9ab8966f-e63d-4df2-b528-adbf976d25f6" /> 
 
 ## Manual
 
