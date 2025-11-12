@@ -4,7 +4,7 @@ This is my first game made in Godot. Originally it was intended to be released f
 
 But despite all the hardship however, it was fun to work on in particular this game was an interesting look into the ENet implemetation used in godot.
 
-As always, feel free to use the code however you wish, and a web build is availiable on on my itch.io page :)
+As always, feel free to use the code however you wish, and feel free to visit out my [itch.io](https://zombietfk.itch.io/void-arena) page :D
 
 <img width="440" height="440" alt="image" src="https://github.com/user-attachments/assets/cde1b819-de33-468d-830a-7364aa5a944c" /> <img width="440" height="440" alt="image" src="https://github.com/user-attachments/assets/9ab8966f-e63d-4df2-b528-adbf976d25f6" /> 
 
