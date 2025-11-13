@@ -27,7 +27,7 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide();
 
 # Network
-@rpc('any_peer')
+@rpc('any_peer', 'reliable')
 func RPC_remove_item_box():
 	if multiplayer.is_server():
 		queue_free();

@@ -61,12 +61,12 @@ func start_client()->bool:
 func disconnect_all()->void:
 	for n in multiplayer.get_peers():
 		multiplayer.multiplayer_peer.disconnect_peer(n);
-		for c in multiplayer.peer_connected.get_connections():
-			multiplayer.peer_connected.disconnect(c.callable);
-		for c in multiplayer.peer_disconnected.get_connections():
-			multiplayer.peer_disconnected.disconnect(c.callable);
-		multiplayer.multiplayer_peer.close();
-		multiplayer.multiplayer_peer = null
+	for c in multiplayer.peer_connected.get_connections():
+		multiplayer.peer_connected.disconnect(c.callable);
+	for c in multiplayer.peer_disconnected.get_connections():
+		multiplayer.peer_disconnected.disconnect(c.callable);
+	multiplayer.multiplayer_peer.close();
+	multiplayer.multiplayer_peer = null
 
 # Networking
 @rpc('any_peer', 'call_local', 'reliable')
@@ -84,4 +84,4 @@ func RPC_end_game_for_all():
 	GameUIController.instance.RPC_hide_game_ui.rpc();
 	if multiplayer.is_server():
 		Main.instance.RPC_clear_level.rpc_id(Main.SERVER_ID);
-		call_deferred('disconnect_all');
+		disconnect_all();

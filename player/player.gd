@@ -87,6 +87,8 @@ func handle_is_out_of_bounds():
 	):
 		remove_player_from_game();
 
+var is_game_won = false;
+
 func handle_check_for_victory():
 	if (
 		NetworkPlayersController
@@ -98,7 +100,12 @@ func handle_check_for_victory():
 			.killed_player_peer_ids.has(
 				multiplayer.get_unique_id()
 			)
+		and !is_game_won
 	):
+		is_game_won = true;
+		GameUIController.instance.show_victory_message();
+		await get_tree().create_timer(2.0).timeout;
+		GameUIController.instance.hide_victory_message();
 		remove_player_from_game();
 		NetworkController.instance.RPC_end_game_for_all.rpc();
 		

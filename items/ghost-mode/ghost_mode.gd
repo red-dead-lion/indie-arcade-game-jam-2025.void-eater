@@ -14,6 +14,7 @@ static func create():
 		ceili(DURATION),
 		func(player: Player, _delta: float):
 			player.collision_mask = 0;
+			player.collision_layer = 0;
 			player.input_enabled = false;
 			player.player_sprite.modulate = Color(1,1,1,0);
 			player.held_item_sprite.modulate = Color(1,1,1,0.5);
@@ -29,6 +30,7 @@ static func create():
 			ghost_mode_ref.timer -= _delta;
 			if(ghost_mode_ref.timer <= 0):
 				player.collision_mask = (1 << 0) | (1 << 1);
+				player.collision_layer = (1 << 0);
 				player.input_enabled = true;
 				player.player_sprite.modulate = Color(1,1,1,1);
 				player.held_item_sprite.modulate = Color(1,1,1,1);
